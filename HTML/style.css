@@ -1,0 +1,53 @@
+/* Reset dei margini e dei padding per il body */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'my_font', system-ui; /* Sostituisci con il tuo font preferito */
+    background-color: #f0f0f0; /* Colore di sfondo della pagina */
+}
+
+/* Creazione di una classe per le scritte grandi e centrali */
+.text-center {
+    text-align: center;
+}
+
+/* Stile per le scritte grandi */
+.title {
+    font-size: 70px; /* Dimensione del testo grande */
+    color: #2948D6; /* Colore del testo */
+}
+
+/* Font accattivante e decorazioni */
+.accent-font {
+    font-family: 'my_font', system-ui; /* Sostituisci con il tuo font accattivante preferito */
+    text-transform: uppercase; /* Trasforma il testo in maiuscolo */
+    letter-spacing: 2px; /* Spaziatura tra le lettere */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* Ombra del testo */
+    /* Altri stili accattivanti come colori, sfondi o animazioni possono essere aggiunti qui */
+}
+
+/* Stili di base per il container */
+.container {
+    width: 700px; /* Imposta la larghezza del container */
+    height: 700px; /* Imposta la larghezza del container */
+    margin: 0 auto; /* Centra il container orizzontalmente sulla pagina */
+}
+
+/* Stili per la griglia */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colonne con larghezza uguale */
+    grid-template-rows: repeat(3, 1fr); /* 3 righe con altezza uguale */
+    grid-gap: 2px; /* Spaziatura tra i bottoni */
+}
+
+/* Stili per i bottoni */
+button {
+    width: 100%; /* Larghezza del 100% per occupare la cella della griglia */
+    height: 100%; /* Altezza del bottone */
+    background-color: #3498db; /* Colore di sfondo del bottone */
+    color: #fff; /* Colore del testo del bottone */
+    font-size: 30px; /* Dimensione del testo del bottone */
+    border: black; /* Rimuovi il bordo del bottone */
+    cursor: pointer; /* Cambia il cursore al passaggio sopra il bottone */
+}

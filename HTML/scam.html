@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide Puzzle Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #puzzle-container {
+            width: 300px;
+            height: 300px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            overflow: hidden;
+        }
+
+        .puzzle-piece {
+            width: 100px;
+            height: 100px;
+            background-size: 300px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .empty-piece {
+            background-color: #f0f0f0;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+    <div id="puzzle-container"></div>
+    <script>
+        const puzzleContainer = document.getElementById('puzzle-container');
+        const gridSize = 3;
+        const puzzleSize = gridSize * gridSize;
+
+        const pieces = Array.from({ length: puzzleSize }, (_, index) => index);
+
+        // Shuffle the puzzle pieces, ensuring the bottom-right piece is empty
+        function shuffle(arr) {
+            for (let i = arr.length - 2; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+        }
+
+        shuffle(pieces);
+
+        // Create and display puzzle pieces
+        pieces.forEach((pieceIndex, index) => {
+            const piece = document.createElement('div');
+            piece.className = `puzzle-piece ${pieceIndex === puzzleSize - 1 ? 'empty-piece' : ''}`;
+            piece.style.backgroundImage = `url('img.jpg')`;
+            piece.style.backgroundPosition = `${(pieceIndex % gridSize) * -100}px ${(Math.floor(pieceIndex / gridSize) * -100)}px`;
+            piece.addEventListener('click', () => movePiece(index));
+            puzzleContainer.appendChild(piece);
+        });
+
+        function movePiece(pieceIndex) {
+            const emptyIndex = pieces.indexOf(puzzleSize - 1);
+            const pieceRow = Math.floor(pieceIndex / gridSize);
+            const pieceCol = pieceIndex % gridSize;
+            const emptyRow = Math.floor(emptyIndex / gridSize);
+            const emptyCol = emptyIndex % gridSize;
+
+            if (
+                (Math.abs(pieceRow - emptyRow) === 1 && pieceCol === emptyCol) ||
+                (Math.abs(pieceCol - emptyCol) === 1 && pieceRow === emptyRow)
+            ) {
+                [pieces[pieceIndex], pieces[emptyIndex]] = [pieces[emptyIndex], pieces[pieceIndex]];
+                updatePuzzle();
+            }
+        }
+
+        function updatePuzzle() {
+            puzzleContainer.innerHTML = '';
+            pieces.forEach((pieceIndex, index) => {
+                const piece = document.createElement('div');
+                piece.className = `puzzle-piece ${pieceIndex === puzzleSize - 1 ? 'empty-piece' : ''}`;
+                piece.style.backgroundImage = `url('img.jpg')`;
+                piece.style.backgroundPosition = `${(pieceIndex % gridSize) * -100}px ${(Math.floor(pieceIndex / gridSize) * -100)}px`;
+                piece.addEventListener('click', () => movePiece(index));
+                puzzleContainer.appendChild(piece);
+            });
+        }
+    </script>
+</body>
+</html>
