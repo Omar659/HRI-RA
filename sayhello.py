@@ -7,6 +7,6 @@ from pepper_cmd import *
 
 begin()
 
-pepper_cmd.robot.say('Hello')
+pepper_cmd.robot.dance()
 
 end()
