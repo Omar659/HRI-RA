@@ -1,0 +1,17 @@
+IMAGE
+<*,*,*,*>: img/good.png
+----
+TEXT
+<*,*,*,*>: Hi!
+----
+TTS
+<*,*,*,*>: Hi!
+----
+BUTTONS
+continue_button
+<*,*,it,*>: Continua
+<*,*,*,*>: Continue
+back
+<*,*,it,*>: Indietro
+<*,*,*,*>: Back
+----

@@ -1,0 +1,19 @@
+IMAGE
+<*, *, *, *>:  img/sium.jpg
+----
+TEXT
+<*,*,it,*>: Bravooo
+<*,*,*,*>: Goood
+----
+TTS
+<*,*,it,*>: Ben Fatto
+<*,*,*,*>: Well Done
+----
+BUTTONS
+exit
+<*,*,it,*>: Esci
+<*,*,*,*>: Exit
+back
+<*,*,it,*>: Indietro
+<*,*,*,*>: Back
+----
