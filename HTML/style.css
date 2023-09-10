@@ -1,53 +1,134 @@
-/* Reset dei margini e dei padding per il body */
+@import url('https://fonts.googleapis.com/css?family=Holtwood+One+SC');
+
 body {
     margin: 0;
     padding: 0;
-    font-family: 'my_font', system-ui; /* Sostituisci con il tuo font preferito */
-    background-color: #f0f0f0; /* Colore di sfondo della pagina */
+    font-family: 'my_font', system-ui;
+    background-color: #f0f0f0;
+    background-image: url('./images/backgrounds/background.jpg');
+    background-size: cover;
 }
 
-/* Creazione di una classe per le scritte grandi e centrali */
 .text-center {
     text-align: center;
 }
 
-/* Stile per le scritte grandi */
 .title {
-    font-size: 70px; /* Dimensione del testo grande */
-    color: #2948D6; /* Colore del testo */
+    font-family: "Holtwood One SC", serif;
+    font-weight: bold;
+    text-decoration: underline;
+    text-decoration-style: double;
+    font-variant: small-caps;
+    text-align: center;
+    font-size: 50px;
+    letter-spacing: 2px;
+    color: rgb(255, 132, 0);
+    text-shadow: rgb(0, 0, 0) 2px 2px 2px;
 }
 
-/* Font accattivante e decorazioni */
-.accent-font {
-    font-family: 'my_font', system-ui; /* Sostituisci con il tuo font accattivante preferito */
-    text-transform: uppercase; /* Trasforma il testo in maiuscolo */
-    letter-spacing: 2px; /* Spaziatura tra le lettere */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* Ombra del testo */
-    /* Altri stili accattivanti come colori, sfondi o animazioni possono essere aggiunti qui */
-}
-
-/* Stili di base per il container */
-.container {
-    width: 700px; /* Imposta la larghezza del container */
-    height: 700px; /* Imposta la larghezza del container */
-    margin: 0 auto; /* Centra il container orizzontalmente sulla pagina */
-}
-
-/* Stili per la griglia */
-.grid {
+.game_box {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 colonne con larghezza uguale */
-    grid-template-rows: repeat(3, 1fr); /* 3 righe con altezza uguale */
-    grid-gap: 2px; /* Spaziatura tra i bottoni */
+    grid-template-columns: repeat(var(--cols), 1fr);
+    grid-template-rows: repeat(var(--rows), 1fr);
+    grid-gap: 1px;
+    text-align: center;
+    vertical-align: middle;
+    width: calc(var(--cols)*80px);
+    height: calc(var(--rows)*80px);
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    box-sizing: border-box;
 }
 
-/* Stili per i bottoni */
-button {
-    width: 100%; /* Larghezza del 100% per occupare la cella della griglia */
-    height: 100%; /* Altezza del bottone */
-    background-color: #3498db; /* Colore di sfondo del bottone */
-    color: #fff; /* Colore del testo del bottone */
-    font-size: 30px; /* Dimensione del testo del bottone */
-    border: black; /* Rimuovi il bordo del bottone */
-    cursor: pointer; /* Cambia il cursore al passaggio sopra il bottone */
+.cell {
+    width: auto;
+    height: auto;
+    background-color: #3498db;
+    color: #fafdfd;
+    -webkit-text-stroke: 1.4px #3f484a;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bolder;
+    font-size: 20px;
+    border-bottom: 3px solid #3f484a;
+    border-right: 3px solid #3f484a;
+    border-left: 1px solid #3f484a;
+    border-top: 1px solid #3f484a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    text-align: center;
+    background-repeat: no-repeat;
+}
+
+.empty-cell {
+    background-color: #00000000;
+    cursor: default;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    grid-gap: 3px;
+    text-align: center;
+    vertical-align: middle;
+    width: 600px;
+    margin: 0 auto;
+    padding-bottom: 15px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    box-sizing: border-box;
+    background-image: url("images/backgrounds/stats_background.jpg");
+}
+
+
+.stats-title {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    grid-gap: 3px;
+    text-align: center;
+    vertical-align: middle;
+    width: auto;
+    margin: 0 auto;
+    padding-top: 15px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    box-sizing: border-box;
+    font-family: Fantasy;
+    font-weight: bold;
+    text-align: center;
+    font-size: 28px;
+    color: #fafdfd;
+    -webkit-text-stroke: 0.5px #3f484a;
+    text-decoration: underline;
+    border-top: 2px solid #3f484a;
+    /* text-shadow: rgb(0, 0, 0) 2px 2px 2px; */
+    background-image: url("images/backgrounds/stats_background.jpg");
+}
+
+.stats-detail {
+    width: auto;
+    height: auto;
+    font-family: Fantasy;
+    font-weight: bold;
+    text-align: center;
+    font-size: 28px;
+    color: #fafdfd;
+    -webkit-text-stroke: 0.5px #3f484a;
+    /* text-shadow: rgb(0, 0, 0) 2px 2px 2px; */
+}
+.all-stats-container {
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    width: 600px;
+    border-bottom: 2px solid #3f484a;
+    border-right: 2px solid #3f484a;
+    border-left: 2px solid #3f484a;
 }

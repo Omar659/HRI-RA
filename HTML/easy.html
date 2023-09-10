@@ -1,33 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slide Puzzle Game - Easy</title>
     <link rel="stylesheet" href="style.css"> <!-- Collega il tuo file CSS esterno -->
-    <style>
-        body {
-          background-image: url('./background.jpg');
-          background-size: cover; /* opzionale, per adattare l'immagine alle dimensioni del viewport */
-        }
-    </style>
 </head>
 <body>
-    <div class="text-center">
-        <h1 class="title accent-font">Slide game - EASY</h1>
+    <div class="text-center"></div>
+    <div class="game_box">
+        <!-- <button title="0">0</button>
+        <button title="1">1</button>
+        <button title="2">2</button>
+        <button title="3">3</button>
+
+        <button title="4">4</button>
+        <button title="5">5</button>
+        <button title="6">6</button>
+        <button title="7">7</button>
+        
+        <button title="8">8</button>
+        <button title="9">9</button>
+        <button title="10">10</button>
+        <button title="-"> </button> -->
     </div>
-    <div class="container">
-        <div class="grid">
-            <button>0</button>
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>4</button>
-            <button>5</button>
-            <button>6</button>
-            <button>7</button>
-            <button> </button>
+    <br>
+    <div class="all-stats-container">
+        <div class="stats-title">
+            GAME
+        </div>
+        <div class="stats-container" id="stats-game">
+            <div class="stats-detail" id="timer-game">
+                Time: 00:00
+            </div>
+            <div class="stats-detail" id="moves-game">
+                Moves: 3
+            </div>
+        </div>
+        <div class="stats-title">
+            RECORD
+        </div>
+        <div class="stats-container" id="stats-record">
+            <div class="stats-detail" id="timer-record">
+                Time: 00:00
+            </div>
+            <div class="stats-detail" id="moves-record">
+                Moves: 1000
+            </div>
         </div>
     </div>
+    <script src="create_game.js"></script>
 </body>
 </html>

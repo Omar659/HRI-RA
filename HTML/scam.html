@@ -1,97 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slide Puzzle Game</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        #puzzle-container {
+        /* Stile del contenitore del gioco */
+        .gioco-del-15 {
             width: 300px;
             height: 300px;
+            border: 2px solid #000;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 5px;
-            overflow: hidden;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 5px; /* Spazio tra le caselle */
+            align-self: center;
         }
 
-        .puzzle-piece {
-            width: 100px;
-            height: 100px;
-            background-size: 300px;
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out;
-        }
-
-        .empty-piece {
-            background-color: #f0f0f0;
-            cursor: default;
+        /* Stile delle caselle */
+        .casella {
+            width: calc(90%); /* 25% della larghezza del contenitore meno il margine tra le caselle */
+            height: calc(90%); /* 25% dell'altezza del contenitore meno il margine tra le caselle */
+            background-color: #3498db;
+            border: 2px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
         }
     </style>
 </head>
 <body>
-    <div id="puzzle-container"></div>
-    <script>
-        const puzzleContainer = document.getElementById('puzzle-container');
-        const gridSize = 3;
-        const puzzleSize = gridSize * gridSize;
-
-        const pieces = Array.from({ length: puzzleSize }, (_, index) => index);
-
-        // Shuffle the puzzle pieces, ensuring the bottom-right piece is empty
-        function shuffle(arr) {
-            for (let i = arr.length - 2; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-        }
-
-        shuffle(pieces);
-
-        // Create and display puzzle pieces
-        pieces.forEach((pieceIndex, index) => {
-            const piece = document.createElement('div');
-            piece.className = `puzzle-piece ${pieceIndex === puzzleSize - 1 ? 'empty-piece' : ''}`;
-            piece.style.backgroundImage = `url('img.jpg')`;
-            piece.style.backgroundPosition = `${(pieceIndex % gridSize) * -100}px ${(Math.floor(pieceIndex / gridSize) * -100)}px`;
-            piece.addEventListener('click', () => movePiece(index));
-            puzzleContainer.appendChild(piece);
-        });
-
-        function movePiece(pieceIndex) {
-            const emptyIndex = pieces.indexOf(puzzleSize - 1);
-            const pieceRow = Math.floor(pieceIndex / gridSize);
-            const pieceCol = pieceIndex % gridSize;
-            const emptyRow = Math.floor(emptyIndex / gridSize);
-            const emptyCol = emptyIndex % gridSize;
-
-            if (
-                (Math.abs(pieceRow - emptyRow) === 1 && pieceCol === emptyCol) ||
-                (Math.abs(pieceCol - emptyCol) === 1 && pieceRow === emptyRow)
-            ) {
-                [pieces[pieceIndex], pieces[emptyIndex]] = [pieces[emptyIndex], pieces[pieceIndex]];
-                updatePuzzle();
-            }
-        }
-
-        function updatePuzzle() {
-            puzzleContainer.innerHTML = '';
-            pieces.forEach((pieceIndex, index) => {
-                const piece = document.createElement('div');
-                piece.className = `puzzle-piece ${pieceIndex === puzzleSize - 1 ? 'empty-piece' : ''}`;
-                piece.style.backgroundImage = `url('img.jpg')`;
-                piece.style.backgroundPosition = `${(pieceIndex % gridSize) * -100}px ${(Math.floor(pieceIndex / gridSize) * -100)}px`;
-                piece.addEventListener('click', () => movePiece(index));
-                puzzleContainer.appendChild(piece);
-            });
-        }
-    </script>
+    <div class="gioco-del-15">
+        <!-- Caselle numerate -->
+        <div class="casella">1</div>
+        <div class="casella">2</div>
+        <div class="casella">3</div>
+        <div class="casella">4</div>
+        <div class="casella">5</div>
+        <div class="casella">6</div>
+        <div class="casella">7</div>
+        <div class="casella">8</div>
+        <div class="casella">9</div>
+        <div class="casella">10</div>
+        <div class="casella">11</div>
+        <div class="casella">12</div>
+        <div class="casella">13</div>
+        <div class="casella">14</div>
+        <div class="casella">15</div>
+        <div class="casella"></div> <!-- Casella vuota -->
+    </div>
 </body>
 </html>
