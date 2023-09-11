@@ -1,7 +1,7 @@
 var tiles;
 var bx;
 var by;
-var difficoult;
+var difficult;
 var image_name;
 var record_moves;
 var record_time;
@@ -28,7 +28,7 @@ var moves_counter;
 const jsonContent = {
     "image_name": "./../images/tiles/tiles_1b.png",
     // "image_name": "empty",
-    "difficoult": "easy"
+    "difficult": "easy"
 };
 tiles = [
     ["5", "0", "4"], 
@@ -59,7 +59,7 @@ by = 1;
 // ];
 // bx = 1;
 // by = 0;
-difficoult = jsonContent.difficoult;
+difficult = jsonContent.difficult;
 image_name = jsonContent.image_name;
 if (image_name == "empty") {
     image_name = "./../images/tiles/tiles_default.png"
@@ -70,7 +70,7 @@ record_time = "05:23";
 
 
 
-if (difficoult == "easy"){
+if (difficult == "easy"){
     rows = 3;
     cols = 3;
     pad_l = "19px";
@@ -78,7 +78,7 @@ if (difficoult == "easy"){
     pad_t = "19px";
     pad_b = "27px";
     img_src = "./../images/backgrounds/easy_hard_slide_tile_background.png";
-} else if (difficoult == "medium"){
+} else if (difficult == "medium"){
     rows = 3;
     cols = 4;
     pad_l = "23px";
@@ -124,7 +124,7 @@ game_box.style.padding = pad_t + " " + pad_r + " " + pad_b + " " + pad_l ;
 
 // Title set
 title = document.querySelector('.text-center');
-title.innerHTML = '<h1 class="title">Slide game - ' + difficoult.toLocaleUpperCase() + '</h1>';
+title.innerHTML = '<h1 class="title">Slide game - ' + difficult.toLocaleUpperCase() + '</h1>';
 
 // Record set
 time_record = document.getElementById('timer-record');
