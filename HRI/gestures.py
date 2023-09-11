@@ -40,18 +40,25 @@ class Gesture:
         return
     
     def gestureSearching(self):
-        for i in range(1):
-            jointNames = ["HeadYaw", "HeadPitch"]
-            angles = [0.5, -0.07]
-            times  = [2.0, 2.0]
-            isAbsolute = True
-            self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
+        pepper_cmd.robot.headPose(0.5, -0.07, 2.0)
+        
+        pepper_cmd.robot.headPose(-0.5, -0.07, 2.0)
 
-            jointNames = ["HeadYaw", "HeadPitch"]
-            angles = [-0.5, -0.07]
-            times  = [2.0, 2.0]
-            isAbsolute = True
-            self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
+        pepper_cmd.robot.headPose(0, -0.2, 2.0)
+    
+    def gestureAnalyzing(self):
+     
+        pepper_cmd.robot.headPose(0, -0.5, 2.0)
+        
+        pepper_cmd.robot.headPose(0, 0.5, 2.0)
+
+        #set to normal
+        pepper_cmd.robot.headPose(0.0, -0.2, 2.0)
+            # jointNames = ["HeadYaw", "HeadPitch"]
+            # angles = [-0.5, -0.07]
+            # times  = [2.0, 2.0]
+            # isAbsolute = True
+            # self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
 
         return
 

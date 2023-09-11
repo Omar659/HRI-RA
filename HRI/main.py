@@ -5,15 +5,19 @@ from gestures import Gesture
 from pepper_commands import *
 import os
 import qi
+import os
+import subprocess
 import sys
 import random
 import operator
 from cd import *
+import webbrowser
+sys.path.append("./tablet")
 #from database import Database
 from numpy.random import choice
-
 tablet = "./tablet/"
 scripts = "scripts/"
+
 
 global session
 global index
@@ -204,12 +208,11 @@ def handleLastInput(lastInput):
         gesture.doGesture = False
         index += 1    
 
-
-def lauch_application(app):
+def launch_application(app):
     with cd(os.path.join(app, scripts)):
         os.system("python demo.py --user "+name)
-    return
 
+    return
 
 def main(session):
     stop_flag = False
@@ -229,12 +232,12 @@ def main(session):
     #usando l'arcotangente e far poi ruotare il robot di quell'angolo alpha
     #motion.forward(min_distance, sonar)
 
-    chat.say("Searching for humans..."+" "*5)
+    chat.say("Searching for humans..."+" "*10)
     
     gesture.gestureSearching()
     time.sleep(2)
 
-
+    chat.say("Human Found!"+" "*5)
     distances = sonar.get_distances()
     print("Distances: ", distances)
     min_distance, id = motion.selectMinDistance(distances) #id is the person id
@@ -244,19 +247,22 @@ def main(session):
     sonar.robot_position = tuple(map(operator.sub, sonar.humans_positions[id], (0.5, 0)))
     print("Robot position", sonar.robot_position)
     pepper_cmd.robot.normalPosture()
-    chat.say("Hello! I'm Pepper.\nI'm here to inform and help you.\nYou can talk with me or interact by clicking the tablet."+" "*5)
-    gesture.doHello()
-    time.sleep(2)
 
-    
+    chat.say("Scanning human..."+" "*10)
+    gesture.gestureAnalyzing()
+    chat.say("Human Scanned!"+" "*10)
+
+    chat.say("Hello! I'm Pepper.\nI'm here to play with you."+" "*5)
+    gesture.doHello()
+    time.sleep(2)  
+    chat.say("You can talk with me or interact by clicking the tablet."+ " "*10) 
+
+    chat.say("Let us know each other"+" "*10)
+    database.create_db()
+    database.detect_user()
+    chat
 
     return 0
-
-def launch_application(tablet):
-
-    with cd(os.path.join(tablet)):
-        os.system("firefox index.html")
-    return
 
 
 if __name__ == "__main__":
@@ -285,14 +291,16 @@ if __name__ == "__main__":
     touch = Touch()
     vision = Vision()
     gesture = Gesture(True, vision)
+    
 
     #Chat
     chat = Dialogue() 
     pepper_cmd.robot.normalPosture()
     
     # Database
-    #database = Database()
-
-    main(session)
+    database = Database(filename="registered_users", timeout=10)
+    pepper_cmd.robot.beh_service = pepper_cmd.robot.session.service("ALBehaviorManager")
+    pepper_cmd.robot.dance()
+    #main(session)
 
 end()
