@@ -1,0 +1,15 @@
+IMAGE
+<*, *, *, *>:  img/sliding_puzzle.jpg
+----
+TEXT
+<*,*,*,*>: Slide Puzzle Tutorial
+----
+TTS
+<*,*,*,*>: Well Done
+----
+BUTTONS
+youtube
+<*,*,*,*>: Youtube Video
+interactive
+<*,*,*,*>: Interactive
+----

@@ -92,7 +92,7 @@ class Database:
             if is_new:
                 self.register_user(data, name)
                        
-        return is_new, name
+        return name
     
     def register_user(self, data, name):
                 

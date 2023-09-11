@@ -1,0 +1,15 @@
+IMAGE
+<*,*,*,*>:
+----
+TEXT
+<*,*,*,*>: Do you want a tutorial before starting the game?
+----
+TTS
+<*,*,*,*>: Hi!
+----
+BUTTONS
+tutorial
+<*,*,*,*>: Yes
+no
+<*,*,*,*>: No
+----

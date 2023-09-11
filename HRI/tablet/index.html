@@ -2,15 +2,24 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Welcome</title>
+  <title>Tutorial</title>
 
   <script src="qaws.js"></script>
 
+  
+
   <style>
+    @import url('https://fonts.googleapis.com/css?family=Holtwood+One+SC');
+
     body {
-      background-color: #fff;
-      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      font-family: "Holtwood One SC", serif;
+      background-color: #f0f0f0;
+      background-image: url('./img/background.png');
+      background-size: cover;
     }
+
     h1 {
       font-weight: normal;
       font-size: 300%;
@@ -38,14 +47,15 @@
 
     <!-- image -->
     <p>
-    <div align='center'> <img height=300 id='image_default' src="./img/sium.jpg" alt="No image"/> </div>
+    <div align='center'> <img height=300 id='image_default' src="" alt=""/> </div>
     </p>
 
     <!-- text -->
 
     <p>
     <h1>
-    <div align='center' id='text_default'>Welcome to MARIO's tablet</div>
+    <div align='center' id='text_default'>Slide puzzle</div>
+    <div align='center' id='text_default'>Do you want a brief tutorial before starting?</div>
     </h1>
     </p>
 
@@ -54,6 +64,7 @@
     <p>
       <div align='center' id='buttons'>
         <!-- input type="button" id="hello" value="Hello" onclick="hello()" -->
+       
       </div>
     </p>
 

@@ -210,7 +210,7 @@ def handleLastInput(lastInput):
 
 def launch_application(app):
     with cd(os.path.join(app, scripts)):
-        os.system("python demo.py --user "+name)
+        os.system("python game.py --user "+name)
 
     return
 
@@ -259,8 +259,8 @@ def main(session):
 
     chat.say("Let us know each other"+" "*10)
     database.create_db()
-    database.detect_user()
-    chat
+    name = database.detect_user()
+    
 
     return 0
 
@@ -299,8 +299,6 @@ if __name__ == "__main__":
     
     # Database
     database = Database(filename="registered_users", timeout=10)
-    pepper_cmd.robot.beh_service = pepper_cmd.robot.session.service("ALBehaviorManager")
-    pepper_cmd.robot.dance()
     #main(session)
 
 end()

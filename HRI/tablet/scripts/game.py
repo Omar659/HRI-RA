@@ -4,6 +4,7 @@ import os
 import random
 import argparse
 
+
 global user
 
 try:
@@ -26,17 +27,12 @@ from ws_client import *
 def i1():
 
 
-    esecuzione = os.popen("firefox ./../index.html")
-    risultato = esecuzione.read()
+    #esecuzione = os.popen("firefox ./../index.html")
+    #risultato = esecuzione.read()
 
     im.init()
 
-    lan = im.ask('language')
-
-    if lan == "it":
-        im.setProfile(['*','*','it','*'])
-
-    q = 'prova'
+    q = 'start'
     a = im.ask(q)
     # while a != "exit":
     #     # if a == "meteo":
@@ -98,9 +94,9 @@ def i1():
 
     #     #                 elif a == "back":
     #     #                     try_again = False
-    if a == "continue_button":
+    if a == "tutorial":
         
-        a = im.ask('ciao')
+        a = im.ask('tutorial')
     
     elif a == 'back':
         a  = im.ask('prova')
