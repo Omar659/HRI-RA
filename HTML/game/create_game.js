@@ -1,48 +1,10 @@
-// da riempire con json
-const jsonContent = {
-    "image_name": "images/img1.png",
-    // "image_name": "empty",
-    "difficoult": "easy"
-};
-var tiles = [
-    ["5", "0", "4"], 
-    ["1", "-", "7"],
-    ["3", "2", "6"]
-];
-var bx = 1;
-var by = 1;
-// var tiles = [
-//     ["0", "1", "2"], 
-//     ["3", "4", "5"],
-//     ["6", "-", "7"]
-// ];
-// var bx = 2;
-// var by = 1;
-// var tiles = [
-//     ["0", "7", "-", "10"], 
-//     ["8", "1", "6", "3"],
-//     ["5", "4", "2", "9"]
-// ];
-// var bx = 0;
-// var by = 2;
-// var tiles = [
-//     ["0", "1", "2", "3"], 
-//     ["-", "4", "10", "6"],
-//     ["9", "5", "14", "7"],
-//     ["8", "12", "13", "11"]
-// ];
-// var bx = 1;
-// var by = 0;
-const difficoult = jsonContent.difficoult;
-var image_name = jsonContent.image_name;
-if (image_name == "empty") {
-    image_name = "images/backgrounds/cells_background.jpg"
-}
-var record_moves = "37";
-var record_time = "05:23";
-// da riempire con json
-
-
+var tiles;
+var bx;
+var by;
+var difficoult;
+var image_name;
+var record_moves;
+var record_time;
 var rows;
 var cols;
 var pad_l;
@@ -50,6 +12,64 @@ var pad_r;
 var pad_t;
 var pad_b;
 var img_src;
+var tiles_dim;
+var grid_gap;
+var game_box;
+var title;
+var time_record;
+var moves_record;
+var timer_game;
+var seconds;
+var minutes;
+var timer;
+var moves_counter;
+
+// da riempire con json
+const jsonContent = {
+    "image_name": "./../images/tiles/tiles_1b.png",
+    // "image_name": "empty",
+    "difficoult": "easy"
+};
+tiles = [
+    ["5", "0", "4"], 
+    ["1", "-", "7"],
+    ["3", "2", "6"]
+];
+bx = 1;
+by = 1;
+// tiles = [
+//     ["0", "1", "2"], 
+//     ["3", "4", "5"],
+//     ["6", "-", "7"]
+// ];
+// bx = 2;
+// by = 1;
+// tiles = [
+//     ["0", "7", "-", "10"], 
+//     ["8", "1", "6", "3"],
+//     ["5", "4", "2", "9"]
+// ];
+// bx = 0;
+// by = 2;
+// tiles = [
+//     ["0", "1", "2", "3"], 
+//     ["-", "4", "10", "6"],
+//     ["9", "5", "14", "7"],
+//     ["8", "12", "13", "11"]
+// ];
+// bx = 1;
+// by = 0;
+difficoult = jsonContent.difficoult;
+image_name = jsonContent.image_name;
+if (image_name == "empty") {
+    image_name = "./../images/tiles/tiles_default.png"
+}
+record_moves = "37";
+record_time = "05:23";
+// da riempire con json
+
+
+
 if (difficoult == "easy"){
     rows = 3;
     cols = 3;
@@ -57,7 +77,7 @@ if (difficoult == "easy"){
     pad_r = "27px";
     pad_t = "19px";
     pad_b = "27px";
-    img_src = "images/backgrounds/slide_tile_background_eh.png";
+    img_src = "./../images/backgrounds/easy_hard_slide_tile_background.png";
 } else if (difficoult == "medium"){
     rows = 3;
     cols = 4;
@@ -65,7 +85,7 @@ if (difficoult == "easy"){
     pad_r = "37px";
     pad_t = "18px";
     pad_b = "27px";
-    img_src = "images/backgrounds/slide_tile_background_m.png";
+    img_src = "./../images/backgrounds/medium_slide_tile_background.png";
 } else {
     rows = 4;
     cols = 4;
@@ -73,11 +93,11 @@ if (difficoult == "easy"){
     pad_r = "36px";
     pad_t = "24px";
     pad_b = "36px";
-    img_src = "images/backgrounds/slide_tile_background_eh.png";
+    img_src = "./../images/backgrounds/easy_hard_slide_tile_background.png";
 }
 // For image resize
-var tiles_dim = 80;
-var grid_gap = 1;
+tiles_dim = 80;
+grid_gap = 1;
 
 // Goal
 goal_tiles = [];
@@ -96,29 +116,29 @@ for (let i = 0; i < rows; i++) {
 }
 
 // Background of game set
-var game_box = document.querySelector('.game_box');
+game_box = document.querySelector('.game_box');
 game_box.style.backgroundImage = "url(" + img_src + ")";
 game_box.style.setProperty('--rows', rows);
 game_box.style.setProperty('--cols', cols);
 game_box.style.padding = pad_t + " " + pad_r + " " + pad_b + " " + pad_l ;
 
 // Title set
-var title = document.querySelector('.text-center');
+title = document.querySelector('.text-center');
 title.innerHTML = '<h1 class="title">Slide game - ' + difficoult.toLocaleUpperCase() + '</h1>';
 
 // Record set
-var time_record = document.getElementById('timer-record');
+time_record = document.getElementById('timer-record');
 time_record.innerHTML = "Time: " + record_time;
-var moves_record = document.getElementById('moves-record');
+moves_record = document.getElementById('moves-record');
 moves_record.innerHTML = "Moves: " + record_moves;
 
 // Timer
-var timer_game = document.getElementById('timer-game');
-var seconds = 0;
-var minutes = 0;
-var timer = setInterval(update_timer, 1000);
+timer_game = document.getElementById('timer-game');
+seconds = 0;
+minutes = 0;
+timer = setInterval(update_timer, 1000);
 
-var moves_counter = 0
+moves_counter = 0
 
 function is_goal(my_configuration, goal) {
     if (

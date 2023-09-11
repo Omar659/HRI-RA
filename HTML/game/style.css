@@ -5,7 +5,7 @@ body {
     padding: 0;
     font-family: 'my_font', system-ui;
     background-color: #f0f0f0;
-    background-image: url('./images/backgrounds/background.jpg');
+    background-image: url('./../images/backgrounds/background.png');
     background-size: cover;
 }
 
@@ -82,7 +82,7 @@ body {
     background-size: cover;
     background-position: center;
     box-sizing: border-box;
-    background-image: url("images/backgrounds/stats_background.jpg");
+    background-image: url("./../images/backgrounds/stats_background.png");
 }
 
 
@@ -100,27 +100,27 @@ body {
     background-size: cover;
     background-position: center;
     box-sizing: border-box;
-    font-family: Fantasy;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: bold;
     text-align: center;
     font-size: 28px;
     color: #fafdfd;
-    -webkit-text-stroke: 0.5px #3f484a;
+    -webkit-text-stroke: 1px #3f484a;
     text-decoration: underline;
     border-top: 2px solid #3f484a;
     /* text-shadow: rgb(0, 0, 0) 2px 2px 2px; */
-    background-image: url("images/backgrounds/stats_background.jpg");
+    background-image: url("./../images/backgrounds/stats_background.png");
 }
 
 .stats-detail {
     width: auto;
     height: auto;
-    font-family: Fantasy;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: bold;
     text-align: center;
     font-size: 28px;
     color: #fafdfd;
-    -webkit-text-stroke: 0.5px #3f484a;
+    -webkit-text-stroke: 1px #3f484a;
     /* text-shadow: rgb(0, 0, 0) 2px 2px 2px; */
 }
 .all-stats-container {

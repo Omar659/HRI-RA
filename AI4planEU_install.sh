@@ -21,3 +21,4 @@ git clone https://github.com/aiplan4eu/up-tamer
 pip install up-tamer/
 
 pip install flask
+pip install flask_restful
