@@ -5,7 +5,7 @@ body {
     padding: 0;
     font-family: 'my_font', system-ui;
     background-color: #f0f0f0;
-    background-image: url('./../images/backgrounds/background.png');
+    background-image: url('./images/backgrounds/background.png');
     background-size: cover;
 }
 
@@ -36,10 +36,15 @@ body {
     width: calc(var(--cols)*80px);
     height: calc(var(--rows)*80px);
     margin: 0 auto;
+    background-image: url("./images/backgrounds/easy_hard_slide_tile_background.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     box-sizing: border-box;
+    padding-left: 19px;
+    padding-right: 27px;
+    padding-top: 19px;
+    padding-bottom: 27px;
 }
 
 .cell {
@@ -61,6 +66,29 @@ body {
     cursor: default;
     text-align: center;
     background-repeat: no-repeat;
+    background-image: url("./images/tiles/tiles_defualt.png");
+}
+
+.clickable-cell {
+    width: auto;
+    height: auto;
+    background-color: #3498db;
+    color: #fafdfd;
+    -webkit-text-stroke: 1.4px #3f484a;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bolder;
+    font-size: 20px;
+    border-bottom: 3px solid #8AEB4F;
+    border-right: 3px solid #8AEB4F;
+    border-left: 1px solid #8AEB4F;
+    border-top: 1px solid #8AEB4F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-image: url("./images/tiles/tiles_defualt.png");
 }
 
 .empty-cell {
@@ -82,7 +110,7 @@ body {
     background-size: cover;
     background-position: center;
     box-sizing: border-box;
-    background-image: url("./../images/backgrounds/stats_background.png");
+    background-image: url("./images/backgrounds/stats_background.png");
 }
 
 
@@ -109,7 +137,7 @@ body {
     text-decoration: underline;
     border-top: 2px solid #3f484a;
     /* text-shadow: rgb(0, 0, 0) 2px 2px 2px; */
-    background-image: url("./../images/backgrounds/stats_background.png");
+    background-image: url("./images/backgrounds/stats_background.png");
 }
 
 .stats-detail {

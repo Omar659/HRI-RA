@@ -134,11 +134,7 @@ class Slide_tile {
                         !this.is_goal()
                     ) {
                         // if 
-                            tile.style.cursor = "pointer"
-                            tile.style.borderBottom = "3px solid #8AEB4F"
-                            tile.style.borderRight = "3px solid #8AEB4F"
-                            tile.style.borderLeft = "1px solid #8AEB4F"
-                            tile.style.borderTop = "1px solid #8AEB4F"
+                            tile.classList.add("clickable-cell");
                             var slide_tile = this;
                             tile.addEventListener('click', function () {
                                 slide_tile.update_tiles(i, j);
@@ -224,92 +220,6 @@ class Slide_tile {
             "moves_counter: " + this.moves_counter
     }
 }
-
-
-class ApiClient {
-    constructor(baseURL) {
-        this.baseURL = baseURL;
-    }
-
-    async call(method, endpoint, data = null, params = null) {
-        const url = `${this.baseURL}${endpoint}${params ? `?${new URLSearchParams(params).toString()}` : ''}`;
-        console.log(url)
-        const options = {
-            method,
-            headers: {
-                'Content-Type': 'application/json',
-                "Access-Control-Allow-Origin": this.baseURL
-            },
-        };
-
-        if (data) {
-            options.body = JSON.stringify(data);
-        }
-
-        try {
-            const response = await fetch(url, options);
-            const responseData = await response.json();
-
-            if (!response.ok) {
-                throw new Error(responseData.message || 'Errore nella chiamata API');
-            }
-
-            return responseData;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    async get(endpoint, params) {
-        return await this.call('GET', endpoint, null, params);
-    }
-
-    async post(endpoint, data, params) {
-        return await this.call('POST', endpoint, data, params);
-    }
-
-    async put(endpoint, data, params) {
-        return await this.call('PUT', endpoint, data, params);
-    }
-
-    async delete(endpoint, params) {
-        return await this.call('DELETE', endpoint, null, params);
-    }
-}
-
-
-class Timer {
-    constructor(slide_tile) {
-        // Timer
-        this.slide_tile = slide_tile
-    }
-
-    start_timer() {
-        this.timer = setInterval(this.update_timer, 1000, this.slide_tile);
-    }
-
-    stop_timer() {
-        clearInterval(this.timer);
-    }
-
-    update_timer(slide_tile) {
-        slide_tile.seconds++;
-        if (slide_tile.seconds === 60) {
-            slide_tile.seconds = 0;
-            slide_tile.minutes++;
-        }
-        const formattedSeconds = String(slide_tile.seconds).padStart(2, '0');
-        const formattedMinutes = String(slide_tile.minutes).padStart(2, '0');
-        slide_tile.timer_game.textContent = `Time: ${formattedMinutes}:${formattedSeconds}`;
-    }
-
-    toString() {
-        const formattedSeconds = String(this.seconds).padStart(2, '0');
-        const formattedMinutes = String(this.minutes).padStart(2, '0');
-        return `Time: ${formattedMinutes}:${formattedSeconds}`
-    }
-}
-
 
 async function main() {
 
