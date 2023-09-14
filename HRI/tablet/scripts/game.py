@@ -34,7 +34,7 @@ def i1():
 
     q = 'start'
     a = im.ask(q)
-    # while a != "exit":
+    while a != "exit":
     #     # if a == "meteo":
     #     #     while a != "back":
     #     #         q = "choose-" + str(random.choice(["sunny", "cloudy", "snow", "stormy", "foggy", "rainy", "windy"]))
@@ -94,12 +94,17 @@ def i1():
 
     #     #                 elif a == "back":
     #     #                     try_again = False
-    if a == "tutorial":
+        if a == 'tutorial':
+            
+            a = im.ask('tutorial')
+            while a != 'back':
+                if a == 'youtube':
+                    a = im.ask('youtube')
+                elif a == 'interactive':
+                    a = im.ask('interactive')
         
-        a = im.ask('tutorial')
-    
-    elif a == 'back':
-        a  = im.ask('prova')
+        elif a == 'no':
+            a  = im.ask('game')
 
     im.execute('goodbye')
     

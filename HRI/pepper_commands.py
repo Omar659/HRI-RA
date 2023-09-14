@@ -23,6 +23,9 @@ from pepper_cmd import *
 # self.asr_service = self.session.service("ALSpeechRecognition")
 # self.touch_service = self.session.service("ALTouch")
 
+fakeASRkey = 'FakeRobot/ASR'
+fakeASRevent = 'FakeRobot/ASRevent'
+fakeASRtimekey = 'FakeRobot/ASRtime'
 #begin()
 
 class Configure():
@@ -31,27 +34,9 @@ class Configure():
         pepper_cmd.robot.tts_service.setParameter("speed", speed)
 
 
-class Dialogue:
-
-    def __init__(self, speed = 1.0):
-        Configure(speed = speed)
-
-    def say(self, sentence, require_answer = False, sleeping_time = 0.0):
-        pepper_cmd.robot.say(sentence)
-        if require_answer:
-            return self.listen(timeout = 30)
-        if sleeping_time:
-            time.sleep(sleeping_time)
-
-    def listen(self, vocabulary = ['simone', 'omar', 'cristiano', 'iocchi', 'yes', 'no'], timeout = 15):
-        answer = pepper_cmd.robot.asr(vocabulary = vocabulary, timeout = timeout)
-        while not answer:
-            answer = self.say(sentence = "Sorry, I did not hear you, repeat please.", require_answer = True)
-        return answer
-    
 class Database:
     def __init__(self, filename, timeout=30):
-        Configure()
+
         self.file = filename+".json"
         self.timeout = timeout
         self.chat = Dialogue()
@@ -114,12 +99,6 @@ class Database:
             with open(self.file, 'w') as f:
                 data[name]["Max_level"] = result
                 json.dump(data, f)
-
-
-
-
-
-
 
 
 class Touch:

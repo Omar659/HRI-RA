@@ -39,6 +39,79 @@ class Gesture:
 
         return
     
+    def movetileRight(self):
+        isAbsolute = True
+        # move posture
+        jointNames = ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw", "RHand"]
+        jointValues = [1.57, -0.33, 1.75, 1.23, -0.1, 0.70]
+        times = [0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
+        # Angoli delle articolazioni per alzare il braccio destro in alto
+        self.ALMotion.angleInterpolation(jointNames, jointValues, times, isAbsolute)
+        
+        # # robot hand grasps cars
+        # self.ALMotion.angleInterpolation("RHand", 0.52, 0.3, isAbsolute)
+        
+        # # arm that slides 
+        # jointNames = ["RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw"]
+        jointNames = ["RElbowRoll", "RElbowYaw", "RShoulderRoll", "RWristYaw"]
+        jointValues = [1.38, 1.23, -0.25, -0]
+        times = [0.6, 0.6, 0.6, 0.6]
+        self.ALMotion.angleInterpolation(jointNames, jointValues, times, isAbsolute)
+    
+    def movetileLeft(self):
+        isAbsolute = True
+        # move posture
+        jointNames = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll", "LWristYaw", "LHand"]
+        jointValues = [1.57, 0.33, -1.75, -1.23, 0.1, 0.70]
+        times = [0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
+        # Angoli delle articolazioni per alzare il braccio destro in alto
+        self.ALMotion.angleInterpolation(jointNames, jointValues, times, isAbsolute)
+        
+        # # robot hand grasps cars
+        # self.ALMotion.angleInterpolation("RHand", 0.52, 0.3, isAbsolute)
+        
+        # # arm that slides 
+        # jointNames = ["RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw"]
+        jointNames = ["LElbowRoll", "LElbowYaw", "LShoulderRoll", "LWristYaw"]
+        jointValues = [-1.38, -1.23, -0.25, -0]
+        times = [0.6, 0.6, 0.6, 0.6]
+        self.ALMotion.angleInterpolation(jointNames, jointValues, times, isAbsolute)
+        
+    def movetileUp(self):
+        isAbsolute = True
+        # move posture
+        jointNames = ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw", "RHand"]
+        jointValues = [1.57, -0.20, 1.75, 1.23, -0.1, 0.70]
+        times = [0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
+        # Angoli delle articolazioni per alzare il braccio destro in alto
+        self.ALMotion.angleInterpolation(jointNames, jointValues, times, isAbsolute)
+        
+        # # robot hand grasps cars
+        # self.ALMotion.angleInterpolation("RHand", 0.52, 0.3, isAbsolute)
+        
+        # # arm that slides 
+        # jointNames = ["RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw"]
+        jointNames = ["RShoulderPitch",  "RElbowYaw", "RWristYaw"]
+        jointValues = [0.2, 1.50, 1.16]
+        times = [0.6, 0.6, 0.6, 0.6]
+        self.ALMotion.angleInterpolation(jointNames, jointValues, times, isAbsolute)
+
+    def movetileDown(self):
+        isAbsolute = True
+        # move posture
+        jointNames = ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw", "RHand"]
+        jointValues = [1.0, -0.26, 1.75, 1.23, -0.1, 0.70]
+        times = [0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
+        
+        self.ALMotion.angleInterpolation(jointNames, jointValues, times, isAbsolute)
+        
+        # # arm that slides 
+        # jointNames = ["RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw"]
+        jointNames = ["RShoulderPitch", "RElbowYaw", "RWristYaw", "RElbowRoll", "RHand"]
+        jointValues = [1.50, 1.50, -1.16, 0.4, 0.70]
+        times = [0.6, 0.6, 0.6, 0.6, 0.6]
+        self.ALMotion.angleInterpolation(jointNames, jointValues, times, isAbsolute)
+
     def gestureSearching(self):
         pepper_cmd.robot.headPose(0.5, -0.07, 2.0)
         
@@ -77,6 +150,20 @@ class Gesture:
             isAbsolute = True
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
 
+        return
+    
+    def doNo(self):
+
+        # pepper shakes his head
+        # gradi = 22.0 --> rad = 0.38
+        self.ALMotion.angleInterpolation(["HeadYaw", "HeadPitch"], [0.30, 0.08], 0.4, True)
+        
+        # gradi = -22.0 --> rad = -0.38
+        self.ALMotion.angleInterpolation("HeadYaw", -0.40, 0.5, True)
+
+        # gradi = 22.0 --> rad = 0.38
+        self.ALMotion.angleInterpolation("HeadYaw", 0.40, 0.5, True)
+        pepper_cmd.robot.normalPosture()
         return
 
 

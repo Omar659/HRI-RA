@@ -1,6 +1,7 @@
 from __future__ import division
 
 import argparse
+from re import T
 from gestures import Gesture
 from pepper_commands import *
 import os
@@ -8,11 +9,19 @@ import qi
 import os
 import subprocess
 import sys
+
+sys.path.append("./utils")
+sys.path.append("./../utils")
+
+sys.path.append("./")
+sys.path.append("./../")
+
 import random
 import operator
 from cd import *
+from chat import *  #from utils
 import webbrowser
-sys.path.append("./tablet")
+
 #from database import Database
 from numpy.random import choice
 tablet = "./tablet/"
@@ -299,6 +308,27 @@ if __name__ == "__main__":
     
     # Database
     database = Database(filename="registered_users", timeout=10)
+
+    #Sounds
+    audio_player = session.service("ALAudioPlayer")
+    
+
+    audio_player.playFile("/home/simone/playground/HRI-RA/HRI/sounds/rock1.wav", _async=True)
+    # database.create_db()
+    # database.detect_user()
+    
+    # gesture.movetileRight()
+    # pepper_cmd.robot.normalPosture()
+    # time.sleep(1.0)
+    # gesture.movetileLeft()
+    # pepper_cmd.robot.normalPosture()
+    # time.sleep(1.0)
+    # gesture.movetileUp()
+    # pepper_cmd.robot.normalPosture()
+    # time.sleep(1.0)
+    # gesture.movetileDown()
+    #launch_application(tablet)
+    gesture.doNo()
     #main(session)
 
 end()
