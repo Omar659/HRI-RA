@@ -25,15 +25,16 @@ class Server_user(Resource):
     def post(self):
         self.name = request.args.get("name")
         json_path = request.args.get("json_path")
-        self.survey = request.form.get("survey")
-        print(request.args)
+        self.survey = request.json
         print(self.survey)
+        print(self.name)
         if self.req == POST_SURVEY:
             with open("./../HRI/registered_users.json", 'r') as f:
                 data = json.load(f)
             data[self.name]["Survey"] = self.survey
             with open("./../HRI/registered_users.json", 'w') as f:
                 json.dump(data, f)
+            return {"message": "User preferences modified", "error": False}
         return {"message": "POST request failed", "error": True}
 
     def get(self):
@@ -49,7 +50,7 @@ class Server_user(Resource):
         if self.req == GET_USER:
             with open("./../HRI/actual_user.json", 'r') as f:
                 data = json.load(f)
-            return {"message": "User returned", "error": False, "response": data["user"]}
+            return {"message": "User returned", "error": False, "response": data}
         
         return {"message": "GET request failed", "error": True}
 

@@ -41,36 +41,38 @@ async function main() {
     ]
 
     
+    let responseData
 
-    const name = api.get('/user', queryParams)
-       .then(data => console.log(data))
+    await api.get('/user', queryParams)
+       .then(data => {responseData = data;})
        .catch(error => console.error(error));
 
+    const name = responseData["response"]
     document.getElementById("myForm").addEventListener("submit", function (e) {
         e.preventDefault();
 
         
-
+        
         var formData = new FormData(document.getElementById("myForm"));
 
         entries = Object.fromEntries(formData)
         // output as an object
         console.log(entries);
 
-        var dict = {}
+        var dict = {};
 
         // ...or iterate through the name-value pairs
         for (var pair of formData.entries()) {
             dict[pair[0]] = pair[1]
             //console.log(pair[0] + ": " + pair[1]);
-        }
+        };
 
         const querySurvey = [
             ["req", POST_SURVEY],
             ["name", name],
             ["json_path", "./../../../registered_user.json"]
             
-        ]
+        ];
 
         api.post('/user', dict, querySurvey)
             .then(data => console.log(data))
