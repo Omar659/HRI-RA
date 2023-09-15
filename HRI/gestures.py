@@ -4,6 +4,12 @@ sys.path.append(os.getenv('PEPPER_TOOLS_HOME')+'/cmd_server')
 
 import pepper_cmd
 from pepper_cmd import *
+from math import *
+
+sys.path.append("./utils")
+sys.path.append("./../utils")
+
+from chat import *
 
       
 class Gesture:
@@ -14,6 +20,7 @@ class Gesture:
         self.tts_service = pepper_cmd.robot.tts_service
         self.typeImage = typeImage
         self.favourite = favourite
+        self.chat = Dialogue()
 
 
     def doHello(self):
@@ -156,6 +163,7 @@ class Gesture:
 
         # pepper shakes his head
         # gradi = 22.0 --> rad = 0.38
+        self.chat.say("Wrong Move!"+ " "*5)
         self.ALMotion.angleInterpolation(["HeadYaw", "HeadPitch"], [0.30, 0.08], 0.4, True)
         
         # gradi = -22.0 --> rad = -0.38
@@ -188,7 +196,7 @@ class Gesture:
 
         loops = 0
 
-        while self.doGesture:
+        while loops!=10:
             
             jointNames = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw","LElbowRoll", 
                       "LWristYaw", "LHand", "RShoulderPitch", "RShoulderRoll", 
@@ -226,210 +234,112 @@ class Gesture:
             isAbsolute = True
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
         
-            if loops == 4:
-                self.messageVision(self.vision, self.tts_service, self.typeImage, "rock")
             loops+=1
 
+    def getThinkingPose(self, timeout):
+        for i in range(5):
+            HeadYaw = radians(0)
+            HeadPitch = radians(-11.4)
+            LShoulderPitch = radians(-50.0)
+            LShoulderRoll = radians(10.0)
+            LElbowYaw = radians(-40)
+            LElbowRoll = radians(-85)
+            LWristYaw = radians(-60.0)
+            RShoulderPitch = radians(81.3)
+            RShoulderRoll = radians(-33.1)
+            RElbowYaw = radians(32.4)
+            RElbowRoll = radians(70.4)
+            RWristYaw = radians(21.4)
+            LHand = 0.5
+            RHand = 0.98
+            HipRoll = radians(0)
+            HipPitch = radians(-6.8)
+            KneePitch = radians(-0.1)
 
-    def doJazz(self):
-        jointNames = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw","LElbowRoll", 
-                      "LWristYaw", "LHand", "RShoulderPitch", "RShoulderRoll", 
-                      "RElbowYaw","RElbowRoll", "RWristYaw", "RHand", 
-                      "HipRoll", "HipPitch", "KneePitch", "HeadPitch"]
+            jointValues = [HeadYaw, HeadPitch,
+                LShoulderPitch, LShoulderRoll, LElbowYaw, LElbowRoll, LWristYaw,
+                RShoulderPitch, RShoulderRoll, RElbowYaw, RElbowRoll, RWristYaw,
+                LHand, RHand, HipRoll, HipPitch, KneePitch]
+            
+            jointNames = ["HeadYaw", "HeadPitch",
+                    "LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll", "LWristYaw",
+                    "RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw",
+                    "LHand", "RHand", "HipRoll", "HipPitch", "KneePitch"]
+            
+            self.ALMotion.angleInterpolation(jointNames, jointValues, 1.0, True)
 
-        angles = [1.20, 0.008, -0.65, -1.20, 
-                 -0.05, 0.30, 0.33, -0.19,
-                 0.40, 1.36, 0.99, 0.60,
-                 -0.22, -0.26, -0.14, 0.05]
+         
+    def doWin(self):
+        HeadYaw = radians(0)
+        HeadPitch = radians(-11.4)
+        LShoulderPitch = radians(36)
+        LShoulderRoll = radians(7.8)
+        LElbowYaw = radians(-90.3)
+        LElbowRoll = radians(-70.1)
+        LWristYaw = radians(-101.4)
+        RShoulderPitch = radians(37.1)
+        RShoulderRoll = radians(-8.6)
+        RElbowYaw = radians(92.2)
+        RElbowRoll = radians(70.4)
+        RWristYaw = radians(96.1)
+        LHand = 0.04
+        RHand = 0.03
+        HipRoll = radians(0.1)
+        HipPitch = radians(-0.5)
+        KneePitch = radians(-0.4)
 
-        times = [1.0, 1.0, 1.0, 1.0, 
-                 1.0, 1.0, 1.0, 1.0, 
-                 1.0, 1.0, 1.0, 1.0,
-                 1.0, 1.0, 1.0, 1.0 ]
+        jointValues = [HeadYaw, HeadPitch,
+                LShoulderPitch, LShoulderRoll, LElbowYaw, LElbowRoll, LWristYaw,
+                RShoulderPitch, RShoulderRoll, RElbowYaw, RElbowRoll, RWristYaw,
+                LHand, RHand, HipRoll, HipPitch, KneePitch]
         
-        isAbsolute = True
-        self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
+        jointNames = ["HeadYaw", "HeadPitch",
+                    "LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll", "LWristYaw",
+                    "RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw",
+                    "LHand", "RHand", "HipRoll", "HipPitch", "KneePitch"]
+            
+        self.ALMotion.angleInterpolation(jointNames, jointValues, 1.0, True)
 
-        loops = 0
+        LShoulderPitch = radians(80)
+        LShoulderRoll = radians(7.8)
+        LElbowYaw = radians(-90.3)
+        LElbowRoll = radians(-89.1)
+        LWristYaw = radians(-101.4)
+        RShoulderPitch = radians(80)
+        RShoulderRoll = radians(-7.8)
+        RElbowYaw = radians(92.2)
+        RElbowRoll = radians(89)
+        RWristYaw = radians(96.1)
+        LHand = 0.04
+        RHand = 0.03
+        HipRoll = radians(0.1)
+        HipPitch = radians(-0.5)
+        KneePitch = radians(-0.4)
+
+        jointValues = [HeadYaw, HeadPitch,
+                LShoulderPitch, LShoulderRoll, LElbowYaw, LElbowRoll, LWristYaw,
+                RShoulderPitch, RShoulderRoll, RElbowYaw, RElbowRoll, RWristYaw,
+                LHand, RHand, HipRoll, HipPitch, KneePitch]
         
-        while self.doGesture:
-            jointNames = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw","LElbowRoll", 
-                      "LWristYaw", "LHand", "RShoulderPitch", "RShoulderRoll", 
-                      "RElbowYaw","RElbowRoll", "RWristYaw", "RHand", 
-                      "HipRoll", "HipPitch", "KneePitch", "HeadPitch"]
-
-            angles = [1.20, 0.008, -0.65, -1.20, 
-                    -0.05, 0.30, 0.33, -0.19,
-                    0.40, 1.36, 0.99, 0.60,
-                    0.22, 0.26, 0.05, 0.05]
-
-            times = [1.0, 1.0, 1.0, 1.0, 
-                    1.0, 1.0, 1.0, 1.0, 
-                    1.0, 1.0, 1.0, 1.0,
-                    1.0, 1.0, 1.0, 1.0 ]
+        self.ALMotion.angleInterpolation(jointNames, jointValues, 0.4, True)
         
-            isAbsolute = True
-            self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
+        LShoulderPitch = radians(36)
+        LShoulderRoll = radians(7.8)
+        LElbowYaw = radians(-90.3)
+        LElbowRoll = radians(-80.1)
+        LWristYaw = radians(-101.4)
+        RShoulderPitch = radians(37.1)
+        RShoulderRoll = radians(-8.6)
+        RElbowYaw = radians(92.2)
+        RElbowRoll = radians(80.4)
+        RWristYaw = radians(96.1)
 
-            jointNames = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw","LElbowRoll", 
-                      "LWristYaw", "LHand", "RShoulderPitch", "RShoulderRoll", 
-                      "RElbowYaw","RElbowRoll", "RWristYaw", "RHand", 
-                      "HipRoll", "HipPitch", "KneePitch", "HeadPitch"]
+        jointValues = [HeadYaw, HeadPitch,
+                LShoulderPitch, LShoulderRoll, LElbowYaw, LElbowRoll, LWristYaw,
+                RShoulderPitch, RShoulderRoll, RElbowYaw, RElbowRoll, RWristYaw,
+                LHand, RHand, HipRoll, HipPitch, KneePitch]
 
-            angles = [1.20, 0.008, -0.65, -1.20, 
-                    -0.05, 0.30, 0.33, -0.19,
-                    0.40, 1.36, 0.99, 0.60,
-                    -0.12, -0.26, -0.14, 0.05]
-
-            times = [1.0, 1.0, 1.0, 1.0, 
-                    1.0, 1.0, 1.0, 1.0, 
-                    1.0, 1.0, 1.0, 1.0,
-                    1.0, 1.0, 1.0, 1.0 ]
-            
-            isAbsolute = True
-            self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
-
-            if loops == 2:
-                self.messageVision(self.vision, self.tts_service, self.typeImage, "jazz")
-            loops+=1
-
-    
-    def doClassical(self):
-        
-        jointNames = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw","LElbowRoll", 
-                      "LWristYaw", "LHand", "RShoulderPitch", "RShoulderRoll", 
-                      "RElbowYaw","RElbowRoll", "RWristYaw", "RHand", 
-                      "HipRoll", "HipPitch", "KneePitch", "HeadPitch"]
-
-        angles = [0.85, 0.92, -2.07, -0.85, 
-                -1.29, 0.43, -0.05, -0.01,
-                -0.38, 0.71, 0.99, 0.60,
-                0.2, -0.26, -0.14, 0.05]
-
-        times = [1.0, 1.0, 1.0, 1.0, 
-                1.0, 1.0, 1.0, 1.0, 
-                1.0, 1.0, 1.0, 1.0,
-                1.0, 1.0, 1.0, 1.0 ]
-              
-        
-        isAbsolute = True
-        self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
-
-        loops = 0
-
-        while self.doGesture:
-            jointNames = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw","LElbowRoll", 
-                      "LWristYaw", "LHand", "RShoulderPitch", "RShoulderRoll", 
-                      "RElbowYaw","RElbowRoll", "RWristYaw", "RHand", 
-                      "HipRoll", "HipPitch", "KneePitch", "HeadPitch"]
-
-            angles = [0.85, 0.92, -2.07, -0.85, 
-                    -1.29, 0.43, -0.05, -0.01,
-                    0, 0.71, 0.99, 0.60,
-                    0.2, -0.26, -0.14, 0.05]
-
-            times = [1.0, 1.0, 1.0, 1.0, 
-                    1.0, 1.0, 1.0, 1.0, 
-                    1.0, 1.0, 1.0, 1.0,
-                    1.0, 1.0, 1.0, 1.0 ]
-                
-            
-            isAbsolute = True
-            self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
-
-            jointNames = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw","LElbowRoll", 
-                      "LWristYaw", "LHand", "RShoulderPitch", "RShoulderRoll", 
-                      "RElbowYaw","RElbowRoll", "RWristYaw", "RHand", 
-                      "HipRoll", "HipPitch", "KneePitch", "HeadPitch"]
-
-            angles = [0.85, 0.92, -2.07, -0.85, 
-                    -1.29, 0.43, -0.05, -0.01,
-                    -0.38, 0.71, 0.99, 0.60,
-                    0.2, -0.26, -0.14, 0.05]
-
-            times = [1.0, 1.0, 1.0, 1.0, 
-                    1.0, 1.0, 1.0, 1.0, 
-                    1.0, 1.0, 1.0, 1.0,
-                    1.0, 1.0, 1.0, 1.0 ]
-                
-            
-            isAbsolute = True
-            self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
-
-            if loops == 2:
-                self.messageVision(self.vision, self.tts_service, self.typeImage, "classical")
-            loops+=1
-
-    
-    def doPop(self):
-        jointNames = ["RShoulderPitch", "RElbowRoll", "LShoulderPitch", "LElbowRoll"]
-
-        angles = [0.64, 1.55, 0.64, -1.55]
-
-        times = [1.0, 1.0, 1.0, 1.0]
-              
-        
-        isAbsolute = True
-        self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
-
-        loops = 0
-
-        while self.doGesture:
-            jointNames = ["RShoulderPitch", "RElbowRoll", "LShoulderPitch", "LElbowRoll", "HipRoll"]
-            
-            angles = [0.34, 1.25, 1, -1.25, 0.15]
-            
-            times = [1.0, 1.0, 1.0, 1.0, 1.0]
-                
-            
-            isAbsolute = True
-            self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
-
-            jointNames = ["RShoulderPitch", "RElbowRoll", "LShoulderPitch", "LElbowRoll", "HipRoll"]
-            
-            angles = [1, 1.85, 0.34, -1.85, 0.15]
-            
-            times = [1.0, 1.0, 1.0, 1.0, 1.0]
-                
-            
-            isAbsolute = True
-            self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
-
-
-            angles = [0.34, 1.25, 1, -1.25, -0.15]
-            
-            times = [1.0, 1.0, 1.0, 1.0, 1.0]
-                
-            
-            isAbsolute = True
-            self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
-
-            jointNames = ["RShoulderPitch", "RElbowRoll", "LShoulderPitch", "LElbowRoll", "HipRoll"]
-            
-            angles = [1, 1.85, 0.34, -1.85, -0.15]
-            
-            times = [1.0, 1.0, 1.0, 1.0, 1.0]
-                
-            
-            isAbsolute = True
-            self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
-
-            if loops == 1:
-                self.messageVision(self.vision, self.tts_service, self.typeImage, "pop")
-            loops+=1
-
-    
-    def messageVision(self, vision, tts_service, imageType, current_music):
-        prediction = vision.cnnForEmotionRecognition(imageType)
-
-        if (imageType == "sadImage" or imageType == "neutralImage") and current_music == self.favourite:
-            tts_service.say("I see that you no longer like this music that you really liked in the past. Tell me stop if you want to change."+" "*5, _async=True)
-        elif prediction == "Happy" or prediction == "Surprise":
-            tts_service.say("I see your smile! I'm happy that you like the music!"+" "*5, _async=True)
-        elif prediction == "Neutral" or prediction == "Sad":
-            tts_service.say("It seems you don't like this song... Tell me stop if you want to change it."+" "*5, _async=True)
-
-        
+        self.ALMotion.angleInterpolation(jointNames, jointValues, 0.4, True)
 
         return
     

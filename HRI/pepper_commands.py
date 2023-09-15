@@ -8,6 +8,10 @@ import os, sys
 import csv
 import json 
 import pickle
+sys.path.append("./utils")
+sys.path.append("./../utils")
+
+from chat import *
 
 sys.path.append(os.getenv('PEPPER_TOOLS_HOME')+'/cmd_server')
 
@@ -52,9 +56,16 @@ class Database:
     
     def name_user(self):
         name = self.chat.say("What is your name?"+" "*5, require_answer=True)
+        self.save_user(name)
         print("Name is "+ name)
         #self.chat.say("Perfect! Nice to meet you {}".format(name)+ " "*5)
         return name
+    
+    def save_user(self, name):
+
+        with open("actual_user.json", 'w') as f:
+            json.dump({"user": name}, f)
+
 
     def detect_user(self, register=True, is_new=False):
         data = {}

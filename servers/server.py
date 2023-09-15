@@ -7,6 +7,7 @@ import sys
 # To import servers
 from server_planner import Server_planner
 from server_chat import Server_chat
+from server_user import Server_user
 
 import logging
 log = logging.getLogger('werkzeug')
@@ -18,6 +19,7 @@ CORS(app)
 api = Api(app)
 api.add_resource(Server_planner, "/planner")
 api.add_resource(Server_chat, "/chat")
+api.add_resource(Server_user, "/user")
 
 if __name__ == '__main__':
     os.system('clear')

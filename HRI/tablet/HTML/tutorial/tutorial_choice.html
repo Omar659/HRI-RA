@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide Puzzle Game</title>
+    <link rel="stylesheet" href="./../style.css"> 
+
+    <script src="qaws.js"></script>
+
+  </head>
+  <body>
+    <!-- status -->
+    <!-- <div align='right' id='status'> <font color='red'>NOT CONNECTED</font> </div>-->
+
+    <br>
+
+    <div class="text-center">
+      <h1 class="title">Slide Puzzle - Tutorial</h1>
+    </div>
+
+    <!-- image-->
+    <div align="center" id="yt">
+    <iframe width="700" height="400" src="https://www.youtube.com/embed/NXRIrP1k4dE" title="How To Solve a 4x4 Sliding Puzzle (Easily and in under a minute!)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div> 
+
+    <!-- text -->
+    <br>
+    <br>
+
+    <p>
+      <div class="text-center"> 
+        <h1 class="questionnaire-form">
+          Do you want an interactive tutorial of the game?
+        </h1>
+      </div>
+    </p>
+
+    <br>
+    <br>
+
+    <!-- buttons -->
+  
+    <p>
+      <div align="center" id='buttons'>
+        
+          <input type="button" id="bt-tut1" value="Yes" class="button-tutorial" style="margin-right:100px" onclick="go_to_tutorial()">
+        
+        
+          <input type="button" id="bt-tut2" value="Go to Game" class="button-tutorial" style="margin-left:100px" onclick="go_to_game()">
+      
+      </div>
+    </p>
+
+  <!-- ****** SCRIPTS ****** -->
+
+  <script>
+
+    var ip=window.location.hostname;
+    if (ip=='')
+        ip='127.0.0.1';
+    var port = 9100;
+
+    console.log("Trying connection...")
+    wsrobot_init(ip,port);
+
+    function hello() {
+        console.log("runnig interaction...");
+        codews.send("pepp.robot.say('hello')\n");
+    }
+
+    function go_to_tutorial(){
+      window.location.href='./tutorial.html';
+    }
+
+    function go_to_game(){
+      window.location.href='./../game/game.html';
+    }
+
+  </script>
+
+  </body>
+</html>

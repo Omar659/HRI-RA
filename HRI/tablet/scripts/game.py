@@ -32,6 +32,9 @@ def i1():
 
     im.init()
 
+    im.robot.say("hello")
+
+
     q = 'start'
     a = im.ask(q)
     while a != "exit":

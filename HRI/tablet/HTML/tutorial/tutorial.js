@@ -214,7 +214,14 @@ class Tutorial {
             var c8 = document.getElementById('c8');
             c8.classList.add("empty-cell")
 
+            
+
             this.timer.stop_timer();
+
+            document.getElementById('gg').style.visibility='visible';
+
+            
+            
         }
     }
 

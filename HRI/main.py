@@ -313,9 +313,9 @@ if __name__ == "__main__":
     audio_player = session.service("ALAudioPlayer")
     
 
-    audio_player.playFile("/home/simone/playground/HRI-RA/HRI/sounds/rock1.wav", _async=True)
-    # database.create_db()
-    # database.detect_user()
+    #audio_player.playFile("/home/simone/playground/HRI-RA/HRI/sounds/rock1.wav", _async=True)
+    database.create_db()
+    database.detect_user()
     
     # gesture.movetileRight()
     # pepper_cmd.robot.normalPosture()
@@ -328,7 +328,11 @@ if __name__ == "__main__":
     # time.sleep(1.0)
     # gesture.movetileDown()
     #launch_application(tablet)
-    gesture.doNo()
+    #gesture.doNo()
+    # gesture.doWin()
+    # gesture.doRock()
+   
+    #gesture.getThinkingPose()
     #main(session)
 
 end()

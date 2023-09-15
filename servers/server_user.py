@@ -7,6 +7,7 @@ from inputimeout import inputimeout
 
 from flask import request
 from flask_restful import Resource
+import json
 
 '''
     POST (CREATE) create a resourse. 
@@ -15,18 +16,28 @@ from flask_restful import Resource
     DELETE remove a resourse.
 '''
 
-class Server_chat(Resource):
+class Server_user(Resource):
     def __init__(self):
         self.req = request.args.get("req") # Mandatory
-        self.sentence = request.args.get("sentence") #sentence from pepper
+        self.name = " " #sentence from pepper
+        self.survey = {}
 
     def post(self):
+        self.name = request.args.get("name")
+        json_path = request.args.get("json_path")
+        self.survey = request.form.get("survey")
+        print(request.args)
+        print(self.survey)
+        if self.req == POST_SURVEY:
+            with open("./../HRI/registered_users.json", 'r') as f:
+                data = json.load(f)
+            data[self.name]["Survey"] = self.survey
+            with open("./../HRI/registered_users.json", 'w') as f:
+                json.dump(data, f)
         return {"message": "POST request failed", "error": True}
 
     def get(self):
-        if self.req == GET_JSON:
-            nome = input("scrivi qualcosa per prova: ")
-            return {"message": "JSON file returned", "error": False, "response": nome}
+        
         if self.req == GET_ANS:
             print("Pepper says: ", self.sentence)
             try:
@@ -34,9 +45,11 @@ class Server_chat(Resource):
             except Exception:
                 return {"message": str(Exception), "error": True}
             return {"message": "Answer returned", "error": False, "response": nome}
-        if self.req == GET_MSG:
-            print("Pepper says: ", self.sentence)
-            return {"message": "Pepper message returned", "error": False}
+    
+        if self.req == GET_USER:
+            with open("./../HRI/actual_user.json", 'r') as f:
+                data = json.load(f)
+            return {"message": "User returned", "error": False, "response": data["user"]}
         
         return {"message": "GET request failed", "error": True}
 
