@@ -20,6 +20,7 @@ class Slide_tile {
         this.difficult = this.game_status.difficult
         this.image_name = this.game_status.image_name
         this.user_turn = this.game_status.user_turn
+        this.user_moves = this.game_status.user_moves
         this.plan = this.game_status.plan
         this.record_moves = this.game_status.record_moves
         this.record_time = this.game_status.record_time
@@ -100,9 +101,12 @@ class Slide_tile {
 
         // Actual moves
         this.moves_counter = 0;
+        this.n_user_moves = 0;
+        this.n_robot_moves = 0;
+        this.user_moves_list = [];
     }
 
-    update_UI() {
+    async update_UI() {
         var moves_record = document.getElementById('moves-game');
         moves_record.innerHTML = "Moves: " + this.moves_counter;
         for (let i = 0; i < this.rows; i++) {
@@ -129,46 +133,120 @@ class Slide_tile {
                             ((j == this.by - 1 || j == this.by + 1) && i == this.bx)) &&
                         !this.is_goal()
                     ) {
-                        // if 
+                        if (this.user_turn) {
                             tile.classList.add("clickable-cell");
                             var slide_tile = this;
-                            tile.addEventListener('click', function () {
-                                slide_tile.update_tiles(i, j);
+                            tile.addEventListener('click', async function () {
+                                slide_tile.n_user_moves++;
+                                await slide_tile.update_tiles(i, j);
                             });
-                        // else
-                            
+                        }
                     }
                 }
                 this.game_box.appendChild(tile);
             }
         };
+
+        if (!this.user_turn && !this.is_goal() && this.n_robot_moves < ROBOT_MOVES) {
+            console.log("robot turn")
+            var move = this.robot_moves[this.n_robot_moves]
+            await new Promise(r => setTimeout(r, 2000));
+            var idx_i = 0;
+            var idx_j = 0;
+            if (move == "Left") {
+                idx_i = this.bx
+                idx_j = this.by + 1
+            }
+            if (move == "Right") {
+                idx_i = this.bx
+                idx_j = this.by - 1
+            }
+            if (move == "Up") {
+                idx_i = this.bx + 1
+                idx_j = this.by
+            }
+            if (move == "Down") {
+                idx_i = this.bx - 1
+                idx_j = this.by
+            }
+            console.log(idx_i, idx_j, this.bx, this.by)
+            this.n_robot_moves++;
+            this.update_tiles(idx_i, idx_j)
+        }
         if (this.is_goal()) {
             // setta l'ultima vittoria
+            document.getElementById("btn_continue").style.visibility = "visible"
             this.timer.stop_timer();
         }
     }
 
-    update_tiles(i, j) {
-        // qui probabilmente devo salvare le mie mosse
-        
-        // i j
-        // 0 0
+    async update_tiles(i, j) {
+        this.moves_counter++;
+        // switch 
 
-        // bx by
-        // 0  1
-        // right
-        
+        if (this.user_turn) {
+            if (i == this.bx && j == this.by + 1) {
+                this.user_moves_list.push("Left")
+            } else if (i == this.bx && j == this.by - 1) {
+                this.user_moves_list.push("Right")
+            } else if (i == this.bx + 1 && j == this.by) {
+                this.user_moves_list.push("Up")
+            } else if (i == this.bx - 1 && j == this.by) {
+                this.user_moves_list.push("Down")
+            } else {
+                console.log(i, j, this.bx, this.by)
+            }
+        }
+
+
         var tmp = this.tiles[i][j];
         this.tiles[i][j] = "-";
         this.tiles[this.bx][this.by] = tmp;
         this.bx = i;
         this.by = j;
+
+        if (this.n_user_moves == USER_MOVES) {
+            this.user_turn = false
+            this.n_robot_moves = 0
+            this.n_user_moves = 0
+            var dict = {
+                "user_turn": false,
+                "plan": this.plan,
+                "user_moves": this.user_moves_list,
+                "tiles": this.tiles,
+                "bx": this.bx,
+                "by": this.by
+            };
+            var query = [
+                ["req", PUT_GAME_STATUS],
+
+            ];
+            await this.api_client.put("/planner", dict, query)
+                .then(data => console.log(data))
+                .catch(error => console.error(error));
+
+            var query = [
+                ["req", GET_ROBOT_MOVES]
+            ];
+            let get_robot_moves;
+            await this.api_client.get("/planner", query)
+                .then(data => {
+                    get_robot_moves = data.response;
+                    console.log(data);
+                })
+                .catch(error => console.error(error));
+            this.robot_moves = get_robot_moves.robot_moves
+            this.plan = get_robot_moves.new_plan
+        } 
+        if (this.n_robot_moves == ROBOT_MOVES) {
+            this.user_turn = true
+            this.n_robot_moves = 0
+            this.n_user_moves = 0
+            this.plan = this.plan.slice(ROBOT_MOVES)
+            // update json user_turn = False
+        }
+        console.log(this.toString())
         this.game_box.innerHTML = '';
-
-        
-
-        this.moves_counter++;
-        // if (nmosse)
         this.update_UI();
     }
 
@@ -194,27 +272,34 @@ class Slide_tile {
             "tiles: " + this.tiles + "\n" +
             "bx: " + this.bx + "\n" +
             "by: " + this.by + "\n" +
-            "difficult: " + this.difficult + "\n" +
+            // "difficult: " + this.difficult + "\n" +
             "image_name: " + this.image_name + "\n" +
             "record_moves: " + this.record_moves + "\n" +
             "record_time: " + this.record_time + "\n" +
-            "rows: " + this.rows + "\n" +
-            "cols: " + this.cols + "\n" +
-            "pad_l: " + this.pad_l + "\n" +
-            "pad_r: " + this.pad_r + "\n" +
-            "pad_t: " + this.pad_t + "\n" +
-            "pad_b: " + this.pad_b + "\n" +
+            // "rows: " + this.rows + "\n" +
+            // "cols: " + this.cols + "\n" +
+            // "pad_l: " + this.pad_l + "\n" +
+            // "pad_r: " + this.pad_r + "\n" +
+            // "pad_t: " + this.pad_t + "\n" +
+            // "pad_b: " + this.pad_b + "\n" +
             "img_src: " + this.img_src + "\n" +
-            "tiles_dim: " + this.tiles_dim + "\n" +
-            "grid_gap: " + this.grid_gap + "\n" +
-            "game_box: " + this.game_box + "\n" +
-            "title: " + this.title + "\n" +
-            "time_record: " + this.time_record + "\n" +
-            "moves_record: " + this.moves_record + "\n" +
-            "seconds: " + this.seconds + "\n" +
-            "minutes: " + this.minutes + "\n" +
-            "timer: " + this.timer.toString() + "\n" +
-            "moves_counter: " + this.moves_counter
+            // "tiles_dim: " + this.tiles_dim + "\n" +
+            // "grid_gap: " + this.grid_gap + "\n" +
+            // "game_box: " + this.game_box + "\n" +
+            // "title: " + this.title + "\n" +
+            "user_turn: " + this.user_turn + "\n" +
+            "plan: " + this.plan + "\n" +
+            "user_moves" + this.user_moves + "\n" +
+            // "time_record: " + this.time_record + "\n" +
+            // "moves_record: " + this.moves_record + "\n" +
+            // "seconds: " + this.seconds + "\n" +
+            // "minutes: " + this.minutes + "\n" +
+            // "timer: " + this.timer.toString() + "\n" +
+            "moves_counter: " + this.moves_counter + "\n" +
+            "n_user_moves: " + this.n_user_moves + "\n" +
+            "n_robot_moves: " + this.n_robot_moves + "\n" +
+            "user_moves_list: " + this.user_moves_list + "\n" +
+            "robot_moves: " + this.robot_moves
     }
 }
 
@@ -229,7 +314,7 @@ async function main() {
     slide_tile.update_UI()
 
     console.log(slide_tile.toString())
-    
+
     // listener {
     //     leggi il File
     //     se è true

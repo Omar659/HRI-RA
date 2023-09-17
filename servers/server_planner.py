@@ -3,7 +3,7 @@ import sys
 sys.path.append('./')
 sys.path.append('./..')
 from utils.config import *
-from utils.planner import *
+from RA.planner import *
 
 from flask import request
 from flask_restful import Resource
@@ -38,8 +38,11 @@ class Server_planner(Resource):
                 user_info = json.load(file_json)
             record_moves = user_info[user]["Games"][difficult]["record_moves"]
             record_time = user_info[user]["Games"][difficult]["record_time"]
-            slide_tile_pddl = Slide_tile_PDDL(difficult=difficult, optimal_plan=True, verbose=True)
+            slide_tile_pddl = Slide_tile_PDDL(difficult=difficult, optimal_plan=True, verbose=False)
             tiles = slide_tile_pddl.slide_tile.return_tiles()
+            plan = []
+            for action in slide_tile_pddl.plan.actions:
+                plan.append(str(action).split("(")[0].split(" ")[1])
             data = {
                 "image_name": "./../images/tiles/" + image_name,
                 "difficult": difficult,
@@ -47,7 +50,8 @@ class Server_planner(Resource):
                 "bx": slide_tile_pddl.slide_tile.b_x,
                 "by": slide_tile_pddl.slide_tile.b_y,
                 "user_turn": True,
-                "plan": slide_tile_pddl.plan,
+                "plan": plan,
+                "user_moves": [],
                 "record_moves": record_moves,
                 "record_time": record_time
 
@@ -64,9 +68,51 @@ class Server_planner(Resource):
             with open(self.json_path, 'r') as file_json:
                 data = json.load(file_json)
             return {"message": "JSON file returned", "error": False, "response": data}
+
+        if self.req == GET_ROBOT_MOVES:
+            with open("./data/game_status.json", 'r') as file_json:
+                data = json.load(file_json)
+            difficult = data["difficult"]
+            slide_tile_pddl = Slide_tile_PDDL(difficult=difficult, optimal_plan=True, verbose=False)
+            slide_tile_pddl.slide_tile.generate_tiles_from_mat(data["tiles"], data["bx"], data["by"])
+            slide_tile_pddl.create_problem()
+            slide_tile_pddl.solve_problem()
+            new_actions = [str(action).split("(")[0].split(" ")[1] for action in slide_tile_pddl.plan.actions]
+            old_actions = data["plan"]
+            user_moves = data["user_moves"]
+            new_plan = new_actions
+            if old_actions[:USER_MOVES] == user_moves:
+                print("mosse migliori") # possibile
+                if len(new_actions) < len(old_actions) - USER_MOVES:
+                    new_plan = new_actions
+                    print("Grazie alle tue mosse mi sono venute in mente nuove idee!")
+                else:
+                    print("Grazie alle tue mosse mi sono venute in mente nuove idee brutte! Continuo il piano precedente!")
+                    new_plan = old_actions[USER_MOVES:]
+            else:
+                if len(new_actions) < len(old_actions) - USER_MOVES:
+                    if len(old_actions) - len(new_actions) > USER_MOVES:
+                        print("Hai fatto delle mosse migliori di quelle che pensavo io stesso!")
+                    else:
+                        print("Mosse buone ma non le migliori") # possibile
+                else:
+                    print("Pessime mosse") # possibile
+            '''
+            creo il json con robot moves e l'interazione del robot con l'utente in base alle mosse fatte
+            '''
+            robot_moves = new_plan if len(new_plan) < ROBOT_MOVES else new_plan[:ROBOT_MOVES]
+            return {"message": "GET request succeed", "error": False, "response": {"new_plan": new_plan, "robot_moves": robot_moves}}
         return {"message": "GET request failed", "error": True}
 
     def put(self):
+        if self.req == PUT_GAME_STATUS:
+            with open("./data/game_status.json", 'r') as file_json:
+                data = json.load(file_json)
+            for key, value in request.json.items():
+                data[key] = value
+            with open("./data/game_status.json", 'w') as f:
+                json.dump(data, f)
+            return {"message": "PUT request succeed", "error": False}
         return {"message": "PUT request failed", "error": True}
 
     def delet(self):

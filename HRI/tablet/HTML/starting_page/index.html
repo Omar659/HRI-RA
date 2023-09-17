@@ -59,6 +59,7 @@
   <!-- ****** SCRIPTS ****** -->
 
   <script src="./../javascript_utils/api_call.js"></script>
+  <script src="./../javascript_utils/config.js"></script>
   <script>
 
     var ip = window.location.hostname;
@@ -87,11 +88,11 @@
       }; // difficoltà da prendere da html
 
 
-      const querySurvey = [
+      const query = [
         ["req", POST_GAME_STATUS]
       ];
 
-      await api.post('/planner', dict, querySurvey)
+      await api.post('/planner', dict, query)
         .then(data => console.log(data))
         .catch(error => console.error(error));
       window.location.href = './../game/game.html'

@@ -1,6 +1,8 @@
 #!/bin/bash
 
-pip install --pre -U unified-planning
+# pip install --pre -U unified-planning
+pip install unified-planning
+pip install unified-planning[fast-downward]
 
 rm -rf up-pyperplan
 git clone https://github.com/aiplan4eu/up-pyperplan

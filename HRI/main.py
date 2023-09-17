@@ -317,6 +317,17 @@ if __name__ == "__main__":
     database.create_db()
     database.detect_user()
     
+
+    '''
+    loop finché non si vince
+        legge il json con informazioni sulle mosse utente e mosse robot
+        se legge che c'è empty
+            non fa nulla
+        altrimenti
+            fa il contenuto (ottime mosse, mosse peggiori ecc...)
+            prende le mosse
+            le esegue una ad una con le gesture
+    '''
     # gesture.movetileRight()
     # pepper_cmd.robot.normalPosture()
     # time.sleep(1.0)
@@ -327,8 +338,8 @@ if __name__ == "__main__":
     # pepper_cmd.robot.normalPosture()
     # time.sleep(1.0)
     # gesture.movetileDown()
-    #launch_application(tablet)
-    #gesture.doNo()
+    # launch_application(tablet)
+    # gesture.doNo()
     # gesture.doWin()
     # gesture.doRock()
    

@@ -1,9 +1,7 @@
 from unified_planning.shortcuts import *
 from unified_planning.engines import PlanGenerationResultStatus
-import numpy as np
 import random
 import copy
-import timeit
 import sys
 sys.path.append('./')
 sys.path.append('./utils')
@@ -33,6 +31,26 @@ class Slide_tile():
                 row.append(c)
             tiles.append(row)
         return tiles, i, j
+
+    def return_tiles(self):
+        tiles = []
+        for i in range(self.n_row):
+            row = []
+            for j in range(self.n_col):
+                row.append(self.tiles[i][j].n)
+            tiles.append(row)
+        return tiles
+
+    def generate_tiles_from_mat(self, mat, bx, by):
+        self.tiles = []
+        self.b_x = bx
+        self.b_y = by
+        for i in range(self.n_row):
+            row = []
+            for j in range(self.n_col):
+                c = Slide_tile_cell(str(mat[i][j]))
+                row.append(c)
+            self.tiles.append(row)
 
     def shuffle(self, n_moves=100):
         for i in range(n_moves):
@@ -86,8 +104,6 @@ class Slide_tile():
 
     def __repr__(self):
         return self.__str__()
-
-s = Slide_tile(3, 3, 0)
 
 class Slide_tile_PDDL():
     def __init__(self, difficult="easy", optimal_plan = False, verbose = True):
@@ -352,7 +368,79 @@ class Slide_tile_PDDL():
             else:
                 print("Verbose setted to False")
 
-# s.check_plan()
+class Play():
+    def __init__(self, difficult, user_moves=3, robot_moves=3, optimal_plan=True, verbose=False):
+        self.user_moves = user_moves
+        self.robot_moves = robot_moves
+        self.slide_tile_pddl = Slide_tile_PDDL(difficult=difficult, optimal_plan=optimal_plan, verbose=verbose)
+        self.actions = self.slide_tile_pddl.plan.actions
 
-if __name__=="__main__":
-    s = Slide_tile_PDDL("easy", optimal_plan=True)
+    def robot_move(self):
+        print("ROBOT")
+        print(self.slide_tile_pddl.slide_tile)
+        actions = self.actions if len(self.actions) <= self.robot_moves else self.actions[:self.robot_moves]
+        for action in actions:
+            move = str(action).split("(")[0].split(" ")[1]
+            if move == "Up":
+                self.slide_tile_pddl.slide_tile.move_up()
+            elif move == "Down":
+                self.slide_tile_pddl.slide_tile.move_down()
+            elif move == "Right":
+                self.slide_tile_pddl.slide_tile.move_right()
+            else:
+                self.slide_tile_pddl.slide_tile.move_left()
+            print(move)
+            print(self.slide_tile_pddl.slide_tile)
+        print("prima", len(self.actions), self.actions)
+        self.actions = self.actions[self.robot_moves:] if len(self.actions) > self.robot_moves else []
+        print("dopo", len(self.actions), self.actions)
+        print()
+        return self.actions == []
+
+    def user_move(self, moves_list):
+        print("USER")
+        for move in moves_list:
+            if move == "Up":
+                self.slide_tile_pddl.slide_tile.move_up()
+            elif move == "Down":
+                self.slide_tile_pddl.slide_tile.move_down()
+            elif move == "Right":
+                self.slide_tile_pddl.slide_tile.move_right()
+            else:
+                self.slide_tile_pddl.slide_tile.move_left()
+            print(move)
+            print(self.slide_tile_pddl.slide_tile)
+        print("prima", len(self.actions), self.actions)
+        actions = self.actions if len(self.actions) <= self.user_moves else self.actions[:self.user_moves]
+        actions = [str(action).split("(")[0].split(" ")[1] for action in actions]
+        if actions == moves_list:
+            print("Ottima mosse!")
+            self.actions = copy.deepcopy(self.actions[self.user_moves:] if len(self.actions) > self.user_moves else [])
+            len_old_plan = len(self.actions)
+            new_actions = self.__replan()
+            len_new_plan = len(new_actions)
+            if len_new_plan < len_old_plan:
+                self.actions = new_actions
+                print("Grazie alle tue mosse mi sono venute in mente nuove idee!")
+            else:
+                print("Grazie alle tue mosse mi sono venute in mente nuove idee brutte! Continuo il piano precedente!")
+        else:
+            len_old_plan = len(self.actions)
+            self.actions = self.__replan()
+            len_new_plan = len(self.actions)
+            if len_new_plan < len_old_plan:
+                if len_old_plan - len_new_plan > self.robot_moves:
+                    print("Hai fatto delle mosse migliori di quelle che pensavo io stesso!")
+                else:
+                    print("Mosse buone ma non le migliori")
+            else:
+                print("Pessime mosse")
+        print("dopo", len(self.actions), self.actions)
+        print()
+        return self.actions == []
+
+    def __replan(self):
+        self.slide_tile_pddl.create_problem()
+        self.slide_tile_pddl.solve_problem()
+        return self.slide_tile_pddl.plan.actions
+
