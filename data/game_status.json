@@ -1,1 +1,1 @@
-{"image_name": "./../images/tiles/tiles_1b.png", "difficult": "easy", "tiles": [["5", "0", "4"], ["1", "-", "7"], ["3", "2", "6"]], "bx": 1, "by": 1, "record_moves": "37", "record_time": "05.23"}
+{"image_name": "./../images/tiles/tiles_0a.png", "difficult": "easy", "tiles": [["0", "3", "2"], ["7", "1", "6"], ["5", "4", "-"]], "bx": 2, "by": 2, "user_turn": true, "plan": null, "record_moves": 0, "record_time": "--:--"}

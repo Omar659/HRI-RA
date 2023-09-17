@@ -1,6 +1,6 @@
-const URL_BASE = "http://0.0.0.0:8080"
-const GET_USER = "get_user"
-const POST_SURVEY = "post_survey"
+// const URL_BASE = "http://0.0.0.0:8080"
+// const GET_USER = "get_user"
+// const POST_SURVEY = "post_survey"
 
 // class Slide_tile {
 //     constructor(api_client) {
@@ -37,7 +37,7 @@ async function main() {
     const api = new ApiClient(URL_BASE);
     const queryParams = [
         ["req", GET_USER],
-        ["json_path", "./../../../actual_user.json"]
+        ["json_path", "./../../../../data/actual_user.json"]
     ]
 
     
@@ -69,8 +69,8 @@ async function main() {
 
         const querySurvey = [
             ["req", POST_SURVEY],
-            ["name", name],
-            ["json_path", "./../../../registered_user.json"]
+            ["name", name["user"]],
+            ["json_path", "./../../../../data/registered_user.json"]
             
         ];
 

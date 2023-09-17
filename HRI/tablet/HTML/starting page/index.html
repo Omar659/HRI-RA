@@ -1,84 +1,104 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slide Puzzle Game</title>
-    <link rel="stylesheet" href="./../style.css"> 
 
-    <script src="qaws.js"></script>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slide Puzzle Game</title>
+  <link rel="stylesheet" href="./../style.css">
 
-  </head>
-  <body>
-    <!-- status -->
-    <!-- <div align='right' id='status'> <font color='red'>NOT CONNECTED</font> </div>-->
+  <script src="qaws.js"></script>
 
-    <br>
+</head>
 
-    <div class="text-center">
-      <h1 class="title">Slide Puzzle Game</h1>
-    </div>
+<body>
+  <!-- status -->
+  <!-- <div align='right' id='status'> <font color='red'>NOT CONNECTED</font> </div>-->
 
-    <!-- image
+  <br>
+
+  <div class="text-center">
+    <h1 class="title">Slide Puzzle Game</h1>
+  </div>
+
+  <!-- image
     <p>
     <div align='center'> <img height=300 id='image_default' src="" alt=""/> </div>
     </p> -->
 
-    <!-- text -->
-    <br>
-    <br>
+  <!-- text -->
+  <br>
+  <br>
 
-    <p>
-      <div class="text-center"> 
-        <h1 class="questionnaire-form">
-          Do you want a brief tutorial before starting?
-        </h1>
-      </div>
-    </p>
+  <p>
+  <div class="text-center">
+    <h1 class="questionnaire-form">
+      Do you want a brief tutorial before starting?
+    </h1>
+  </div>
+  </p>
 
-    <br>
-    <br>
+  <br>
+  <br>
 
-    <!-- buttons -->
-  
-    <p>
-      <div align="center" id='buttons'>
-        
-          <input type="button" id="b" value="Yes" class="button-form2" style="margin-right:100px" onclick="go_to_tutorial_choice()">
-        
-        
-          <input type="button" id="b1" value="Go to Game" class="button-form2" style="margin-left:100px" onclick="go_to_game()">
-      
-      </div>
-    </p>
+  <!-- buttons -->
+
+  <p>
+  <div align="center" id='buttons'>
+
+    <input type="button" id="b" value="Yes" class="button-form2" style="margin-right:100px"
+      onclick="go_to_tutorial_choice()">
+
+
+    <input type="button" id="b1" value="Go to Game" class="button-form2" style="margin-left:100px"
+      onclick="go_to_game()">
+
+  </div>
+  </p>
 
   <!-- ****** SCRIPTS ****** -->
 
+  <script src="./../javascript_utils/api_call.js"></script>
   <script>
 
-    var ip=window.location.hostname;
-    if (ip=='')
-        ip='127.0.0.1';
+    var ip = window.location.hostname;
+    if (ip == '')
+      ip = '127.0.0.1';
     var port = 9100;
 
     console.log("Trying connection...")
-    wsrobot_init(ip,port);
+    wsrobot_init(ip, port);
 
     function hello() {
-        console.log("runnig interaction...");
-        codews.send("pepp.robot.say('hello')\n");
+      console.log("runnig interaction...");
+      codews.send("pepp.robot.say('hello')\n");
     }
 
-    function go_to_tutorial_choice(){
-      window.location.href='./../tutorial/tutorial_choice.html';
+    function go_to_tutorial_choice() {
+      window.location.href = './../tutorial/tutorial_choice.html';
     }
 
-    function go_to_game(){
-      window.location.href='./../game/game.html'
+    async function go_to_game() {
+      var api = new ApiClient(URL_BASE)
+      // scegli difficoltà
+
+      var dict = {
+        "difficult": "easy"
+      }; // difficoltà da prendere da html
+
+
+      const querySurvey = [
+        ["req", POST_GAME_STATUS]
+      ];
+
+      await api.post('/planner', dict, querySurvey)
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+      window.location.href = './../game/game.html'
     }
 
   </script>
 
-  </body>
-</html>
+</body>
 
+</html>

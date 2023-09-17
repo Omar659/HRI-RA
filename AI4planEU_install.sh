@@ -23,3 +23,4 @@ pip install up-tamer/
 pip install flask
 pip install flask_restful
 pip install flask_cors
+pip install inputimeout

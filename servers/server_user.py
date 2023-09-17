@@ -29,10 +29,10 @@ class Server_user(Resource):
         print(self.survey)
         print(self.name)
         if self.req == POST_SURVEY:
-            with open("./../HRI/registered_users.json", 'r') as f:
+            with open("./data/registered_users.json", 'r') as f:
                 data = json.load(f)
             data[self.name]["Survey"] = self.survey
-            with open("./../HRI/registered_users.json", 'w') as f:
+            with open("./data/registered_users.json", 'w') as f:
                 json.dump(data, f)
             return {"message": "User preferences modified", "error": False}
         return {"message": "POST request failed", "error": True}
@@ -48,7 +48,7 @@ class Server_user(Resource):
             return {"message": "Answer returned", "error": False, "response": nome}
     
         if self.req == GET_USER:
-            with open("./../HRI/actual_user.json", 'r') as f:
+            with open("./data/actual_user.json", 'r') as f:
                 data = json.load(f)
             return {"message": "User returned", "error": False, "response": data}
         

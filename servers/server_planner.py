@@ -3,10 +3,13 @@ import sys
 sys.path.append('./')
 sys.path.append('./..')
 from utils.config import *
+from utils.planner import *
 
 from flask import request
 from flask_restful import Resource
 import json
+import os
+import random
 
 '''
     POST (CREATE) create a resourse. 
@@ -21,6 +24,37 @@ class Server_planner(Resource):
         self.json_path = request.args.get("json_path")
 
     def post(self):
+        if self.req == POST_GAME_STATUS:
+            difficult = request.json["difficult"]
+            image_names_root = "./HRI/tablet/HTML/images/tiles/"
+            image_names = os.listdir(image_names_root)
+            image_name = random.choice(image_names)
+            if difficult.lower() not in ["easy", "medium", "hard"]:
+                {"message": "Difficult not present", "error": True}
+
+            with open("./data/actual_user.json", 'r') as file_json:
+                user = json.load(file_json)["user"]
+            with open("./data/registered_users.json", 'r') as file_json:
+                user_info = json.load(file_json)
+            record_moves = user_info[user]["Games"][difficult]["record_moves"]
+            record_time = user_info[user]["Games"][difficult]["record_time"]
+            slide_tile_pddl = Slide_tile_PDDL(difficult=difficult, optimal_plan=True, verbose=True)
+            tiles = slide_tile_pddl.slide_tile.return_tiles()
+            data = {
+                "image_name": "./../images/tiles/" + image_name,
+                "difficult": difficult,
+                "tiles": tiles,
+                "bx": slide_tile_pddl.slide_tile.b_x,
+                "by": slide_tile_pddl.slide_tile.b_y,
+                "user_turn": True,
+                "plan": slide_tile_pddl.plan,
+                "record_moves": record_moves,
+                "record_time": record_time
+
+            }
+            with open("./data/game_status.json", 'w') as f:
+                json.dump(data, f)
+            return {"message": "POST request succeed", "error": False}
         return {"message": "POST request failed", "error": True}
 
     def get(self):

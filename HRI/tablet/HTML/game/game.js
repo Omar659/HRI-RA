@@ -1,6 +1,3 @@
-const URL_BASE = "http://0.0.0.0:8080"
-const GET_JSON = "get0"
-
 class Slide_tile {
     constructor(api_client) {
         this.api_client = api_client
@@ -22,9 +19,8 @@ class Slide_tile {
         this.by = this.game_status.by
         this.difficult = this.game_status.difficult
         this.image_name = this.game_status.image_name
-        if (this.image_name == "empty") {
-            this.image_name = "./../images/tiles/tiles_default.png"
-        }
+        this.user_turn = this.game_status.user_turn
+        this.plan = this.game_status.plan
         this.record_moves = this.game_status.record_moves
         this.record_time = this.game_status.record_time
     }
@@ -147,6 +143,7 @@ class Slide_tile {
             }
         };
         if (this.is_goal()) {
+            // setta l'ultima vittoria
             this.timer.stop_timer();
         }
     }

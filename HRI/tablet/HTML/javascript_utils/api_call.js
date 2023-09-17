@@ -1,3 +1,11 @@
+const URL_BASE = "http://0.0.0.0:8080"
+
+const GET_JSON = "get_json"
+const GET_USER = "get_user"
+
+const POST_SURVEY = "post_survey"
+const POST_GAME_STATUS = "post_game_status"
+
 class ApiClient {
     constructor(baseURL) {
         this.baseURL = baseURL;

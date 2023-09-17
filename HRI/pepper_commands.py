@@ -41,7 +41,7 @@ class Configure():
 class Database:
     def __init__(self, filename, timeout=30):
 
-        self.file = filename+".json"
+        self.file = "./data/" + filename + ".json"
         self.timeout = timeout
         self.chat = Dialogue()
         #self.items = {} #a dictionary where the name is the key and the value will the user data
@@ -63,7 +63,7 @@ class Database:
     
     def save_user(self, name):
 
-        with open("actual_user.json", 'w') as f:
+        with open("./data/actual_user.json", 'w') as f:
             json.dump({"user": name}, f)
 
 
@@ -95,7 +95,26 @@ class Database:
         if os.path.exists(self.file):
             with open(self.file, 'w') as f:
                 
-                data[name] = {"Max_level":0} #create an entry with user data
+                data[name] = {
+                    "Games": {
+                        "easy": {
+                            "record_moves": 0,
+                            "record_time": "--:--",
+                            "num_games_won": 0
+                        },
+                        "medium": {
+                            "record_moves": 0,
+                            "record_time": "--:--",
+                            "num_games_won": 0
+                        },
+                        "hard": {
+                            "record_moves": 0,
+                            "record_time": "--:--",
+                            "num_games_won": 0
+                        },
+                        "last_difficulty": "easy"
+                    },
+                } #create an entry with user data
                 
                 json.dump(data, f)
                 #pickle.dump(data)
