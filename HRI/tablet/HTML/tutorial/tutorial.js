@@ -1,6 +1,3 @@
-const URL_BASE = "http://0.0.0.0:8080"
-const GET_JSON = "get0"
-
 class Tutorial {
     constructor(api_client) {
         this.api_client = api_client
@@ -250,21 +247,6 @@ async function main() {
     tutorial.update_UI()
 
     console.log(tutorial.toString())
-
-    // listener {
-    //     leggi il File
-    //     se è true
-    //         aggiorna variabile
-    //         update_UI
-    // }
-    // const queryParams = [
-    //     ["req", GET_JSON],
-    //     ["json_path", "./data/game_status.json"]
-    // ]
-
-    // api.get('/planner', queryParams)
-    //     .then(data => console.log(data))
-    //     .catch(error => console.error(error));
 }
 
 main()

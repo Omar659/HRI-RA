@@ -44,6 +44,7 @@ class Database:
         self.file = "./data/" + filename + ".json"
         self.timeout = timeout
         self.chat = Dialogue()
+        self.is_new = False
         #self.items = {} #a dictionary where the name is the key and the value will the user data
         
     def create_db(self):
@@ -74,7 +75,7 @@ class Database:
             json.dump({"user": name}, f)
 
 
-    def detect_user(self, register=True, is_new=False):
+    def detect_user(self):
         data = {}
 
         if os.path.exists(self.file):
@@ -90,11 +91,10 @@ class Database:
                 else:
                     print("{} not exists in the database".format(name))
                     self.chat.say("Nice to meet you {}!".format(name)+ " "*8)
-                    is_new = True
+                    self.is_new = True
             
-            if is_new:
-                self.register_user(data, name)
-                       
+            if self.is_new:
+                self.register_user(data, name)    
         return name
     
     def register_user(self, data, name):

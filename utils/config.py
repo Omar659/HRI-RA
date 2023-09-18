@@ -8,6 +8,8 @@ PUT_WIN = "put_win"
 
 GET_ANS = "get_answer"
 GET_MSG = "get_say"
+GET_MULTI = "get_multi"
+GET_HTML = "get_html"
 
 GET_USER = "get_user"
 POST_SURVEY = "post_survey"

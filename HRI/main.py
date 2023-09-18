@@ -10,11 +10,16 @@ import os
 import subprocess
 import sys
 
+import threading
+
 sys.path.append("./utils")
 sys.path.append("./../utils")
 
 sys.path.append("./")
 sys.path.append("./../")
+
+from api_call import *
+from config import *
 
 import random
 import operator
@@ -28,27 +33,26 @@ tablet = "./tablet/"
 scripts = "scripts/"
 
 
-global session
-global index
-global database
-index = 1
+# global session
+# global index
+# global database
+# index = 1
 
-global ALDialog
-global topic_name
-global topic_path
-global doGesture
-global name
+# global ALDialog
+# global topic_name
+# global topic_path
+# global doGesture
+# global name
 
 
-doGesture = True
-name = ""
+# doGesture = True
+# name = ""
 
 begin()
 
-def launch_application(app):
-    with cd(os.path.join(app, scripts)):
-        os.system("python game.py --user "+name)
-
+def launch_application(page):
+    api = API_call(URL, "chat")
+    api.call("get", TIMEOUT, ("req", GET_HTML), ("page", page))
     return
 
 def connection():
@@ -57,17 +61,16 @@ def connection():
                         help="Robot's IP address. If on a robot or a local Naoqi - use '127.0.0.1' (this is the default value).")
     parser.add_argument("--port", type=int, default=9559,
                         help="port number, the default value is OK in most cases")
-    session = pepper_cmd.robot.session
+    # session = pepper_cmd.robot.session
 
+def init_values():
+    # Starting position
+    robot_position = (0,0)
 
-def main(session):
-    connection()
-   
-
-    # Gestures, Vision and Sensors
-    touch = Touch()
+    # CLASSES
+    # Gestures
     gesture = Gesture(True)
-    #Chat
+    # Chat
     chat = Dialogue() 
     # Motion
     motion = Motion()
@@ -76,49 +79,46 @@ def main(session):
     sonar.set_sonar()    
     # Database
     database = Database(filename="registered_users", timeout=10)
+    return robot_position, gesture, chat, motion, sonar, database
 
-    # Get ALDialog service    
-    robot_position = (0,0)
-
-
-    pepper_cmd.robot.normalPosture()
-
-    chat.say("Searching for humans...")
+def approach(chat, gesture, sonar, motion, database):
+    # pepper_cmd.robot.normalPosture()
+    # chat.say("Searching for humans...")
     
-    gesture.gestureSearching()
-    time.sleep(2)
+    # gesture.gestureSearching()
+    # time.sleep(2)
 
-    chat.say("Human Found!")
-    distances = sonar.get_distances()
-    print("Distances: ", distances)
-    min_distance, id = motion.selectMinDistance(distances) #id is the person id
-    print("Min distance: ", min_distance)
-    motion.forward(sonar, min_distance)
-    print("Robot position", sonar.robot_position)
-    sonar.robot_position = tuple(map(operator.sub, sonar.humans_positions[id], (0.5, 0)))
-    print("Robot position", sonar.robot_position)
-    pepper_cmd.robot.normalPosture()
+    # chat.say("Human Found!")
+    # distances = sonar.get_distances()
+    # print("Distances: ", distances)
+    # min_distance, id = motion.selectMinDistance(distances) #id is the person id
+    # print("Min distance: ", min_distance)
+    # motion.forward(sonar, min_distance)
+    # print("Robot position", sonar.robot_position)
+    # sonar.robot_position = tuple(map(operator.sub, sonar.humans_positions[id], (0.5, 0)))
+    # print("Robot position", sonar.robot_position)
+    # pepper_cmd.robot.normalPosture()
 
-    chat.say("Scanning human...")
-    gesture.gestureAnalyzing()
-    chat.say("Human Scanned!")
+    # chat.say("Scanning human...")
+    # gesture.gestureAnalyzing()
+    # chat.say("Human Scanned!")
 
-    chat.say("Hello! I'm Pepper.\nI'm here to play with you.")
-    gesture.doHello()
-    time.sleep(2)  
-    chat.say("You can talk with me or interact by clicking the tablet.") 
+    # chat.say("Hello! I'm Pepper.\nI'm here to play with you.")
+    # gesture.doHello()
+    # time.sleep(2)  
+    # chat.say("You can talk with me or interact by clicking the tablet.") 
 
     chat.say("Let us know each other")
     database.create_db()
-    name = database.detect_user()
+    user_name = database.detect_user()
 
+    answer = chat.say("Do you want to play with me?", True, ["yes", "no"])
+    if answer == "yes":
+        return user_name
+    else:
+        return None
 
-    
-    
-
-    database.create_db()
-    database.detect_user()
-    
+def game(gesture):
     # Interaction with the game
     while True:
         time.sleep(0.1)
@@ -154,12 +154,76 @@ def main(session):
                         "interaction": ""
                     }, f)
 
+
+def main():
+    # Connect pepper
+    connection()
+
+    # Initialize values
+    robot_position, gesture, chat, motion, sonar, database = init_values()
+   
+    # The robot start moving searching for a human and ask him what is his/her name
+    user_name = approach(chat, gesture, sonar, motion, database)
+    if user_name is None:
+        bye_thread = threading.Thread(target=chat.say, args=("Ok, sorry to have bothered you.",))
+        bye_thread.start()
+        gesture.doHello()
+        pepper_cmd.robot.normalPosture()
+        return 0
+
+    # The rotbot through some questions, select the difficulty
+    # Se non ti conosce
+    if database.is_new:
+        answer = chat.say("Do you like puzzle games?", True, ["yes", "no"])
+        if answer == "yes":
+            yes_thread = threading.Thread(target=chat.say, args=("Perfect!",))
+            yes_thread.start()
+            gesture.doRock(2)
+            pepper_cmd.robot.normalPosture()
+        else:
+            no_thread = threading.Thread(target=chat.say, args=("Hmm... maybe, I'll try to change your mind.",))
+            no_thread.start()
+            gesture.getThinkingPose(False)
+            pepper_cmd.robot.normalPosture()
+        answer = chat.say("Do you know Slide Puzzle game?", True, ["yes", "no"])
+        if answer == "yes":
+            launch_application("./HRI/tablet/HTML/starting_page/select_difficulty.html")
+            chat.say("These are the difficulties. You can start a game at any of these, but I suggest you to start with the easy mode.")
+        else:
+            launch_application("./HRI/tablet/HTML/starting_page/tutorial.html")
+            chat.say("The goal of the game is to sort the tiles in ascending order.")
+            chat.say("Highlighted in green are the tiles you can move.")
+            chat.say("At the bottom there is the elapsed time and the current number of moves and their records")
+            chat.say("The purpose of the tutorial is to explain the rules to you, so you act on your own. In a normal game we will alternate between four of your moves and two of mine")
+        return 0
+    # Se ti conosce
+    else:
+        launch_application("./HRI/tablet/HTML/starting_page/select_difficulty.html")
+        with open("./data/registered_users.json", 'r') as f:
+            registered_users = json.load(f)
+        
+        chat.say("These are the difficulties. You can start a game at any of these, but I suggest you to start with the easy mode.")
+        # pagina difficolta
+
+    launch_application()
+
+    game(gesture)
+
+    # TASTO CONTINUA DA RISOLVERE
+
+    # Piaciuto il gioco?
+    # Risposta qualsiasi
+    # Vuoi fare un altra partita?
+        # si -> pagina difficolta
+        # no -> pagina questionario (Puoi aiutarmi a capire cosa pensi di me e del gioco compilando questo breve questionario sulla tua esperienza)
+ 
+    # ciao   
+
     return 0
 
 
 if __name__ == "__main__":
-    main(session)
-
+    main()
 end()
 
 

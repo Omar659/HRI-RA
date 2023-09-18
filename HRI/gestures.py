@@ -206,7 +206,7 @@ class Gesture:
         return
 
 
-    def doRock(self):
+    def doRock(self, reps = 5):
         jointNames = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw","LElbowRoll", 
                       "LWristYaw", "LHand", "RShoulderPitch", "RShoulderRoll", 
                       "RElbowYaw","RElbowRoll", "RWristYaw", "RHand", 
@@ -227,7 +227,7 @@ class Gesture:
 
         loops = 0
 
-        while loops!=10:
+        while loops!=reps:
             
             jointNames = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw","LElbowRoll", 
                       "LWristYaw", "LHand", "RShoulderPitch", "RShoulderRoll", 
@@ -267,9 +267,10 @@ class Gesture:
         
             loops+=1
 
-    def getThinkingPose(self):
-        neutral_thread = threading.Thread(target=self.chat.say, args=(random.choice(self.neutral_sentence),))
-        neutral_thread.start()
+    def getThinkingPose(self, game=True):
+        if game:
+            neutral_thread = threading.Thread(target=self.chat.say, args=(random.choice(self.neutral_sentence),))
+            neutral_thread.start()
         for _ in range(5):
             HeadYaw = radians(0)
             HeadPitch = radians(-11.4)
