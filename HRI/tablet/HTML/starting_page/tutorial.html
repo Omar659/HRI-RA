@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slide Puzzle Game - TUTORIAL</title>
     <link rel="stylesheet" href="./../style.css"> 
+
+    <script src="./../javascript_utils/config.js"></script>
+    <script src="./../javascript_utils/timer.js"></script>
+    <script src="./../javascript_utils/api_call.js"></script>
+    <script src="./../javascript_utils/go_to_game.js"></script>
+
 </head>
 
 <body>
@@ -54,15 +60,11 @@
     <br>
     <br>
 
-    <div  align="center" id="game-div">
 
-        <input type="button" id="gg" style="visibility: hidden;" class="button-form2" value="Go to Game" onclick="go_to_game()">
+    <div  align="center" id="game-div">
+        <input type="button" id="gg" style="visibility: hidden;" class="button-form2" value="Go to Game" onclick="go_to_game('easy')">
     </div>
-    <script src="./../javascript_utils/config.js"></script>
-    <script src="./../javascript_utils/timer.js"></script>
-    <script src="./../javascript_utils/api_call.js"></script>
     <script src="tutorial.js"></script>
-    <script>function go_to_game(){window.location.href='./../game/game.html';}</script>
 </body>
 
 </html>

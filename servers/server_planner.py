@@ -57,7 +57,7 @@ class Server_planner(Resource):
 
             }
             with open("./data/game_status.json", 'w') as f:
-                json.dump(data, f)
+                json.dump(data, f, indent=4)
             return {"message": "POST request succeed", "error": False}
         return {"message": "POST request failed", "error": True}
 
@@ -97,7 +97,7 @@ class Server_planner(Resource):
                 "interaction": interaction
             }
             with open("./data/game_pepper_interaction.json", 'w') as f:
-                json.dump(gesture, f)
+                json.dump(gesture, f, indent=4)
             return {"message": "GET request succeed", "error": False, "response": {"new_plan": new_plan, "robot_moves": robot_moves, "interaction": interaction}}
         return {"message": "GET request failed", "error": True}
 
@@ -108,7 +108,7 @@ class Server_planner(Resource):
             for key, value in request.json.items():
                 data[key] = value
             with open("./data/game_status.json", 'w') as f:
-                json.dump(data, f)
+                json.dump(data, f, indent=4)
             return {"message": "PUT request succeed", "error": False}
         if self.req == PUT_WIN:
             with open("./data/game_pepper_interaction.json", 'r') as f:
@@ -142,9 +142,9 @@ class Server_planner(Resource):
                 registered_users[actual_user]["Games"][win_difficult]["record_time"] = ":".join([str(win_minutes).zfill(2), str(win_seconds).zfill(2)])
 
             with open("./data/game_pepper_interaction.json", 'w') as f:
-                json.dump(game_pepper_interaction, f)
+                json.dump(game_pepper_interaction, f, indent=4)
             with open("./data/registered_users.json", 'w') as f:
-                json.dump(registered_users, f)            
+                json.dump(registered_users, f, indent=4)            
             return {"message": "PUT request succeed", "error": False}
         return {"message": "PUT request failed", "error": True}
 

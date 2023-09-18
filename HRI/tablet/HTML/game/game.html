@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slide Puzzle Game</title>
     <link rel="stylesheet" href="./../style.css">
+
+    <script src="./../javascript_utils/timer.js"></script>
+    <script src="./../javascript_utils/api_call.js"></script>
+    <script src="./../javascript_utils/config.js"></script>
 </head>
 
 <body>
@@ -52,22 +56,17 @@
         </div>
     </div>
     <br>
-    
+
     <div id="win-overlay" class="overlay">
         <div class="container-win">
-            <div class="text-center"><h1 class="title">We won!</h1></div>
-            <div align="center">
-                <input type="button" class="button-tutorial" value="Continue" style="visibility: hidden;" id="btn_continue"
-                    onclick="location.href = './../starting_page/index.html'">
+            <div class="text-center">
+                <h1 class="title">We won!</h1>
             </div>
         </div>
     </div>
-
-
-    <script src="./../javascript_utils/timer.js"></script>
-    <script src="./../javascript_utils/api_call.js"></script>
-    <script src="./../javascript_utils/config.js"></script>
     <script src="game.js"></script>
+
+
 </body>
 
 </html>

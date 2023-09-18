@@ -32,10 +32,10 @@ fakeASRevent = 'FakeRobot/ASRevent'
 fakeASRtimekey = 'FakeRobot/ASRtime'
 #begin()
 
-class Configure():
-    def __init__(self, alive = True, speed = 50):
-        pepper_cmd.robot.setAlive(alive)
-        pepper_cmd.robot.tts_service.setParameter("speed", speed)
+# class Configure():
+#     def __init__(self, alive = True, speed = 50):
+#         pepper_cmd.robot.setAlive(alive)
+#         pepper_cmd.robot.tts_service.setParameter("speed", speed)
 
 
 class Database:
@@ -52,14 +52,14 @@ class Database:
             with open(self.file, 'w') as f:
                 # writer = csv.DictWriter(f, delimiter=",", fieldnames=header)
                 # writer.writeheader()
-                json.dump({}, f)
+                json.dump({}, f, indent=4)
                 #pickle.dump(self.items, f)
         with open("./data/game_pepper_interaction.json", 'w') as f:
             json.dump({
                 "win": False,
                 "robot_moves": [],
                 "interaction": ""
-            }, f)
+            }, f, indent=4)
 
     
     def name_user(self):
@@ -72,7 +72,7 @@ class Database:
     def save_user(self, name):
 
         with open("./data/actual_user.json", 'w') as f:
-            json.dump({"user": name}, f)
+            json.dump({"user": name}, f, indent=4)
 
 
     def detect_user(self):
@@ -87,14 +87,15 @@ class Database:
                 #data = pickle.load(f)
                 if name in data.keys(): #already registered user 
                     print("{} exists in the database".format(name))
-                    self.chat.say("Glad to see you again {}!".format(name)+ " "*8)
+                    self.chat.say("Glad to see you again {}!".format(name))
                 else:
                     print("{} not exists in the database".format(name))
-                    self.chat.say("Nice to meet you {}!".format(name)+ " "*8)
+                    self.chat.say("Nice to meet you {}!".format(name))
                     self.is_new = True
             
             if self.is_new:
-                self.register_user(data, name)    
+                self.register_user(data, name)
+                       
         return name
     
     def register_user(self, data, name):
@@ -121,9 +122,10 @@ class Database:
                         },
                         "last_difficulty": "easy"
                     },
+                    "Survey": {}
                 } #create an entry with user data
                 
-                json.dump(data, f)
+                json.dump(data, f, indent=4)
                 #pickle.dump(data)
         else:
             print("No Database has been created")
@@ -135,7 +137,7 @@ class Database:
             
             with open(self.file, 'w') as f:
                 data[name]["Max_level"] = result
-                json.dump(data, f)
+                json.dump(data, f, indent=4)
 
 
 class Touch:

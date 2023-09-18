@@ -216,9 +216,27 @@ class Slide_tile {
                 .then(data => console.log(data))
                 .catch(error => console.error(error));
 
-            await new Promise(r => setTimeout(r, 5700));
-            
-            document.getElementById("btn_continue").style.visibility = "visible"
+            while (true){
+                await new Promise(r => setTimeout(r, 200));
+                const queryParams = [
+                    ["req", GET_JSON],
+                    ["json_path", "./data/end_game.json"]
+                ]
+                let state;
+                await this.api_client.get('/planner', queryParams)
+                    .then(data => {
+                        state = data.response.state;
+                    })
+                    .catch(error => console.error(error));
+                console.log(state)
+                if (state == "new_game") {
+                    document.location.href = './../starting_page/select_difficulty.html';
+                    break;
+                } else if (state == "questionnaire") {
+                    document.location.href = './../survey/questionnaire.html';
+                    break
+                }
+            }
         }
     }
 

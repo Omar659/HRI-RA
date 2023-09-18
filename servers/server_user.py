@@ -26,14 +26,12 @@ class Server_user(Resource):
         self.name = request.args.get("name")
         json_path = request.args.get("json_path")
         self.survey = request.json
-        print(self.survey)
-        print(self.name)
         if self.req == POST_SURVEY:
             with open("./data/registered_users.json", 'r') as f:
                 data = json.load(f)
             data[self.name]["Survey"] = self.survey
             with open("./data/registered_users.json", 'w') as f:
-                json.dump(data, f)
+                json.dump(data, f, indent=4)
             return {"message": "User preferences modified", "error": False}
         return {"message": "POST request failed", "error": True}
 
