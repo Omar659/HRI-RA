@@ -22,16 +22,14 @@ class Dialogue:
     def __init__(self):
         self.api = API_call(URL, "chat")
 
-    def say(self, sentence, require_answer = False, sleeping_time = 0.0):
-        pepper_cmd.robot.say(sentence)
+    def say(self, sentence, require_answer = False):
+        pepper_cmd.robot.say(sentence + " "*15)
 
         if require_answer:
             return self.listen(sentence)
         else:
             self.api.call('get',  TIMEOUT, ['req', GET_MSG], ['sentence',sentence]) #pepper sentence
 
-        if sleeping_time:
-            time.sleep(sleeping_time)
 
     def listen(self, sentence):
         try:

@@ -13,7 +13,7 @@ class Slide_tile_cell():
         self.other = other
 
 class Slide_tile():
-    def __init__(self, n_row, n_col, n_moves=100):
+    def __init__(self, n_row, n_col, n_moves=1):
         self.n_row = n_row
         self.n_col = n_col
         self.tiles, self.b_x, self.b_y = self.__generate_tiles()
@@ -52,17 +52,17 @@ class Slide_tile():
                 row.append(c)
             self.tiles.append(row)
 
-    def shuffle(self, n_moves=100):
-        for i in range(n_moves):
-            r = random.randint(0,3)
-            if r == 0:
-                self.move_up()
-            if r == 1:
-                self.move_down()
-            if r == 2:
-                self.move_right()
-            if r == 3:
-                self.move_left()
+    def shuffle(self, n_moves=1):
+        # for i in range(n_moves):
+            # r = random.randint(0,3)
+            # if r == 0:
+            #     self.move_up()
+            # if r == 1:
+        self.move_down()
+            # if r == 2:
+            #     self.move_right()
+            # if r == 3:
+            #     self.move_left()
         return
 
     def move_down(self):

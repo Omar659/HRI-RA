@@ -52,10 +52,18 @@
         </div>
     </div>
     <br>
-    <div align="center">
-        <input type="button" class="button-tutorial" value="Continue" style="visibility: hidden;" id="btn_continue"
-            onclick="location.href = './../starting_page/index.html'">
+    
+    <div id="win-overlay" class="overlay">
+        <div class="container-win">
+            <div class="text-center"><h1 class="title">We won!</h1></div>
+            <div align="center">
+                <input type="button" class="button-tutorial" value="Continue" style="visibility: hidden;" id="btn_continue"
+                    onclick="location.href = './../starting_page/index.html'">
+            </div>
+        </div>
     </div>
+
+
     <script src="./../javascript_utils/timer.js"></script>
     <script src="./../javascript_utils/api_call.js"></script>
     <script src="./../javascript_utils/config.js"></script>

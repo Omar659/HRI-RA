@@ -57,5 +57,5 @@ class Server_user(Resource):
     def put(self):
         return {"message": "PUT request failed", "error": True}
 
-    def delet(self):
+    def delete(self):
         return {"message": "DELETE request failed", "error": True}

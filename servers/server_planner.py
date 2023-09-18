@@ -32,10 +32,10 @@ class Server_planner(Resource):
             if difficult.lower() not in ["easy", "medium", "hard"]:
                 {"message": "Difficult not present", "error": True}
 
-            with open("./data/actual_user.json", 'r') as file_json:
-                user = json.load(file_json)["user"]
-            with open("./data/registered_users.json", 'r') as file_json:
-                user_info = json.load(file_json)
+            with open("./data/actual_user.json", 'r') as f:
+                user = json.load(f)["user"]
+            with open("./data/registered_users.json", 'r') as f:
+                user_info = json.load(f)
             record_moves = user_info[user]["Games"][difficult]["record_moves"]
             record_time = user_info[user]["Games"][difficult]["record_time"]
             slide_tile_pddl = Slide_tile_PDDL(difficult=difficult, optimal_plan=True, verbose=False)
@@ -65,13 +65,13 @@ class Server_planner(Resource):
         if self.req == GET_JSON:
             if self.json_path == None:
                 return {"message": "Missing the json path", "error": True}
-            with open(self.json_path, 'r') as file_json:
-                data = json.load(file_json)
+            with open(self.json_path, 'r') as f:
+                data = json.load(f)
             return {"message": "JSON file returned", "error": False, "response": data}
 
         if self.req == GET_ROBOT_MOVES:
-            with open("./data/game_status.json", 'r') as file_json:
-                data = json.load(file_json)
+            with open("./data/game_status.json", 'r') as f:
+                data = json.load(f)
             difficult = data["difficult"]
             slide_tile_pddl = Slide_tile_PDDL(difficult=difficult, optimal_plan=True, verbose=False)
             slide_tile_pddl.slide_tile.generate_tiles_from_mat(data["tiles"], data["bx"], data["by"])
@@ -81,95 +81,72 @@ class Server_planner(Resource):
             old_actions = data["plan"]
             user_moves = data["user_moves"]
             new_plan = new_actions
+            interaction = "neutral"
             if old_actions[:USER_MOVES] == user_moves:
-                print("mosse migliori") # possibile
+                interaction = "good"
                 if len(new_actions) < len(old_actions) - USER_MOVES:
                     new_plan = new_actions
-                    print("Grazie alle tue mosse mi sono venute in mente nuove idee!")
                 else:
-                    print("Grazie alle tue mosse mi sono venute in mente nuove idee brutte! Continuo il piano precedente!")
                     new_plan = old_actions[USER_MOVES:]
-            else:
-                if len(new_actions) < len(old_actions) - USER_MOVES:
-                    if len(old_actions) - len(new_actions) > USER_MOVES:
-                        print("Hai fatto delle mosse migliori di quelle che pensavo io stesso!")
-                    else:
-                        print("Mosse buone ma non le migliori") # possibile
-                else:
-                    print("Pessime mosse") # possibile
-            '''
-            creo il json con robot moves e l'interazione del robot con l'utente in base alle mosse fatte
-            '''
+            elif len(new_actions) >= len(old_actions):
+                interaction = "bad"
             robot_moves = new_plan if len(new_plan) < ROBOT_MOVES else new_plan[:ROBOT_MOVES]
-            return {"message": "GET request succeed", "error": False, "response": {"new_plan": new_plan, "robot_moves": robot_moves}}
+            gesture = {
+                "win": False,
+                "robot_moves": robot_moves,
+                "interaction": interaction
+            }
+            with open("./data/game_pepper_interaction.json", 'w') as f:
+                json.dump(gesture, f)
+            return {"message": "GET request succeed", "error": False, "response": {"new_plan": new_plan, "robot_moves": robot_moves, "interaction": interaction}}
         return {"message": "GET request failed", "error": True}
 
     def put(self):
         if self.req == PUT_GAME_STATUS:
-            with open("./data/game_status.json", 'r') as file_json:
-                data = json.load(file_json)
+            with open("./data/game_status.json", 'r') as f:
+                data = json.load(f)
             for key, value in request.json.items():
                 data[key] = value
             with open("./data/game_status.json", 'w') as f:
                 json.dump(data, f)
             return {"message": "PUT request succeed", "error": False}
+        if self.req == PUT_WIN:
+            with open("./data/game_pepper_interaction.json", 'r') as f:
+                game_pepper_interaction = json.load(f)
+            with open("./data/registered_users.json", 'r') as f:
+                registered_users = json.load(f)
+            with open("./data/actual_user.json", 'r') as f:
+                actual_user = json.load(f)["user"]
+
+            game_pepper_interaction["win"] = True
+                
+            win_info = request.json
+            win_difficult = win_info["difficult"].lower()
+            win_victory_time = win_info["victory_time"].split(":")
+            win_victory_moves = win_info["victory_moves"]
+
+            registered_users[actual_user]["Games"][win_difficult]["num_games_won"] += 1
+            registered_users[actual_user]["Games"]["last_difficulty"] = win_difficult
+
+            if registered_users[actual_user]["Games"][win_difficult]["record_moves"] == "-":
+                registered_users[actual_user]["Games"][win_difficult]["record_moves"] = int(win_victory_moves)
+            elif int(registered_users[actual_user]["Games"][win_difficult]["record_moves"]) > int(win_victory_moves):
+                registered_users[actual_user]["Games"][win_difficult]["record_moves"] = int(win_victory_moves)
+
+            record_time = registered_users[actual_user]["Games"][win_difficult]["record_time"].split(":")
+            record_minutes = 999 if record_time[0] == "--" else int(record_time[0])
+            record_seconds = 59 if record_time[1] == "--" else int(record_time[1])
+            win_minutes = int(win_victory_time[0])
+            win_seconds = int(win_victory_time[1])
+            if (record_minutes > win_minutes) or (record_minutes == win_minutes and record_seconds > win_seconds):
+                registered_users[actual_user]["Games"][win_difficult]["record_time"] = ":".join([str(win_minutes).zfill(2), str(win_seconds).zfill(2)])
+
+            with open("./data/game_pepper_interaction.json", 'w') as f:
+                json.dump(game_pepper_interaction, f)
+            with open("./data/registered_users.json", 'w') as f:
+                json.dump(registered_users, f)            
+            return {"message": "PUT request succeed", "error": False}
         return {"message": "PUT request failed", "error": True}
 
-    def delet(self):
+    def delete(self):
         return {"message": "DELETE request failed", "error": True}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# #Flask
-# app = Flask(__name__)
-# api = Api(app)
-# api.add_resource(Server_planner, "/planner")
-# api.add_resource(Server_chat, "/chat")
-
-# if __name__ == '__main__':
-#     print("Starting api...")
-#     app.run(host="0.0.0.0", port="8080")
-
-
-# server_planner = Flask("")
-
-# # VANNO RIVISTE #
-# @server_planner.route("/left")
-# def left(self):
-#     return "left"
-
-# @server_planner.route("/right")
-# def right():
-#     return {"move":"right", "altro":3}
-# # VANNO RIVISTE #
-
-# @server_planner.route("/read_json")
-# def read_json():
-#     language = request.args.get('language')
-#     print(path)
-#     # with open(path, 'r') as json_file:
-#     #     return json.load(json_file)
-
-
-# Qui definisco le classi (o forse le importo e le definisco in ./RA)
-
-# if __name__ == "__main__":
-#     # Qui creo le varie classi che saranno leggibili da server
-#     server_planner.run(host="0.0.0.0",port=8080)

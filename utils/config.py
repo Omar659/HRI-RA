@@ -4,6 +4,7 @@ GET_JSON = "get_json"
 GET_ROBOT_MOVES = "get_robot_moves"
 POST_GAME_STATUS = "post_game_status"
 PUT_GAME_STATUS = "put_game_status"
+PUT_WIN = "put_win"
 
 GET_ANS = "get_answer"
 GET_MSG = "get_say"

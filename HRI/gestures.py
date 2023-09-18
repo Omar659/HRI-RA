@@ -10,17 +10,46 @@ sys.path.append("./utils")
 sys.path.append("./../utils")
 
 from chat import *
+import random
+import threading
 
       
 class Gesture:
-    def __init__(self, doGesture, vision, typeImage = "happyImage", favourite=None):
+    def __init__(self, doGesture, typeImage = "happyImage", favourite=None):
         self.ALMotion = pepper_cmd.robot.motion_service
         self.doGesture = doGesture
-        self.vision = vision
         self.tts_service = pepper_cmd.robot.tts_service
         self.typeImage = typeImage
         self.favourite = favourite
         self.chat = Dialogue()
+        self.yes_sentence = [
+            "Wow, what brilliant moves!",
+            "You couldn't have done better.",
+            "These moves are incredible!",
+            "Very good!",
+            "Simply amazing!",
+            "There is nothing to say but 'perfect'.",
+            "Great moves!"
+        ]
+        self.no_sentence = [
+            "Not an optimal choice.",
+            "I think you could have considered better alternatives.",
+            "Perhaps you should have planned this move differently.",
+            "It was not the most strategic move you could make.",
+            "This move might not be your best."
+        ]
+        self.neutral_sentence = [
+            "Hmm...",
+            "Hmm... I see.",
+            "Let me think...",
+            "Okay okay..."
+        ]
+        self.win_sentence = [
+            "We won!",
+            "A wonderful victory! We are champions!",
+            "Victory!",
+            "Well done! We won!"
+        ]
 
 
     def doHello(self):
@@ -42,8 +71,6 @@ class Gesture:
             times  = [0.8, 0.8, 0.8]
             isAbsolute = True
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
-
-
         return
     
     def movetileRight(self):
@@ -144,7 +171,10 @@ class Gesture:
 
 
     def doYes(self):
-        for i in range(2):
+        yes_thread = threading.Thread(target=self.chat.say, args=(random.choice(self.yes_sentence),))
+        yes_thread.start()
+        # self.chat.say(random.choice(self.yes_sentence))
+        for _ in range(2):
             jointNames = ["HeadPitch"]
             angles = [-0.3]
             times  = [1.0]
@@ -163,7 +193,8 @@ class Gesture:
 
         # pepper shakes his head
         # gradi = 22.0 --> rad = 0.38
-        self.chat.say("Wrong Move!"+ " "*5)
+        no_thread = threading.Thread(target=self.chat.say, args=(random.choice(self.no_sentence),))
+        no_thread.start()
         self.ALMotion.angleInterpolation(["HeadYaw", "HeadPitch"], [0.30, 0.08], 0.4, True)
         
         # gradi = -22.0 --> rad = -0.38
@@ -171,7 +202,7 @@ class Gesture:
 
         # gradi = 22.0 --> rad = 0.38
         self.ALMotion.angleInterpolation("HeadYaw", 0.40, 0.5, True)
-        pepper_cmd.robot.normalPosture()
+        # pepper_cmd.robot.normalPosture()
         return
 
 
@@ -236,8 +267,10 @@ class Gesture:
         
             loops+=1
 
-    def getThinkingPose(self, timeout):
-        for i in range(5):
+    def getThinkingPose(self):
+        neutral_thread = threading.Thread(target=self.chat.say, args=(random.choice(self.neutral_sentence),))
+        neutral_thread.start()
+        for _ in range(5):
             HeadYaw = radians(0)
             HeadPitch = radians(-11.4)
             LShoulderPitch = radians(-50.0)
@@ -270,6 +303,8 @@ class Gesture:
 
          
     def doWin(self):
+        win_thread = threading.Thread(target=self.chat.say, args=(random.choice(self.win_sentence),))
+        win_thread.start()
         HeadYaw = radians(0)
         HeadPitch = radians(-11.4)
         LShoulderPitch = radians(36)

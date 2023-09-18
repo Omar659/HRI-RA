@@ -53,6 +53,13 @@ class Database:
                 # writer.writeheader()
                 json.dump({}, f)
                 #pickle.dump(self.items, f)
+        with open("./data/game_pepper_interaction.json", 'w') as f:
+            json.dump({
+                "win": False,
+                "robot_moves": [],
+                "interaction": ""
+            }, f)
+
     
     def name_user(self):
         name = self.chat.say("What is your name?"+" "*5, require_answer=True)
@@ -98,17 +105,17 @@ class Database:
                 data[name] = {
                     "Games": {
                         "easy": {
-                            "record_moves": 0,
+                            "record_moves": "-",
                             "record_time": "--:--",
                             "num_games_won": 0
                         },
                         "medium": {
-                            "record_moves": 0,
+                            "record_moves": "-",
                             "record_time": "--:--",
                             "num_games_won": 0
                         },
                         "hard": {
-                            "record_moves": 0,
+                            "record_moves": "-",
                             "record_time": "--:--",
                             "num_games_won": 0
                         },

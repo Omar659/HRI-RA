@@ -8,6 +8,7 @@ const POST_SURVEY = "post_survey"
 const POST_GAME_STATUS = "post_game_status"
 
 const PUT_GAME_STATUS = "put_game_status"
+const PUT_WIN = "put_win"
 
 const ROBOT_MOVES = 2
 const USER_MOVES = 4

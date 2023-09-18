@@ -1,1 +1,1 @@
-{"simone": {"Games": {"medium": {"num_games_won": 0, "record_moves": 0, "record_time": "--:--"}, "hard": {"num_games_won": 0, "record_moves": 0, "record_time": "--:--"}, "easy": {"num_games_won": 0, "record_moves": 0, "record_time": "--:--"}, "last_difficulty": "easy"}}}
+{"Omar": {"Games": {"medium": {"num_games_won": 0, "record_moves": "-", "record_time": "--:--"}, "hard": {"num_games_won": 0, "record_moves": "-", "record_time": "--:--"}, "easy": {"num_games_won": 3, "record_moves": 3, "record_time": "00:04"}, "last_difficulty": "easy"}}}

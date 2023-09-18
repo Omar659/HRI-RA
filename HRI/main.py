@@ -45,208 +45,50 @@ name = ""
 
 begin()
 
-def getTypeImage(index):
-    
-    counter_class = database.patients[name]["music"][index][0]
-    counter_tot = 0
-    for i in range(len(database.patients[name]["music"])):
-        counter_tot += database.patients[name]["music"][i][0]
-
-    weight_happy = counter_class/counter_tot if counter_tot!=0 else 0
-
-    if weight_happy != 0:
-        return choice(["happyImage", "neutralImage", "sadImage", "surpriseImage"], 1, p=[weight_happy/2, (1-weight_happy)/2, (1-weight_happy)/2, weight_happy/2])[0]
-    else:
-        return choice(["happyImage", "neutralImage", "sadImage", "surpriseImage"], 1)[0]
-
-    
-
-def handleLastAnswer(lastAnswer):
-    global name
-    global topic_name
-
-    audio_player_service = session.service("ALAudioPlayer")
-    selected_index = str(random.choice([1,2,3]))
-
-    if "start" in lastAnswer:
-        lauch_application(tablet)
-    elif "bye" in lastAnswer:
-        gesture.doHello()
-    elif "Hi" in lastAnswer:
-        name = lastAnswer.split()[1].lower()
-        if name.lower() not in database.patients:
-            database.addPatient(name.lower())
-            tts_service.say("Nice to meet you!\nDo you want to use the tablet?"+" "*5, _async=True)
-        else:
-
-            if max(database.patients[name]["music"])[0] > 0:
-                favourite_music_genre = max(database.patients[name]["music"])[1]
-
-                ALDialog.unsubscribe('pepper_assistant')
-                ALDialog.deactivateTopic(topic_name)
-                ALDialog.unloadTopic(topic_name)  
-
-                if favourite_music_genre == "rock":
-                    topic_path = project_path + "/topicFiles/main_rock.top"
-                elif favourite_music_genre == "pop":
-                    topic_path = project_path + "/topicFiles/main_pop.top"
-                elif favourite_music_genre == "classical":
-                    topic_path = project_path + "/topicFiles/main_classical.top"
-                elif favourite_music_genre == "jazz":
-                    topic_path = project_path + "/topicFiles/main_jazz.top"
-
-                # Loading the topic given by the user (absolute path is required)
-                topf_path = topic_path.decode('utf-8')
-                topic_name = ALDialog.loadTopic(topf_path.encode('utf-8'))
-
-                # Activate loaded topic
-                ALDialog.activateTopic(topic_name)
-
-                # Start dialog
-                ALDialog.subscribe('pepper_music_profiled')
-
-            tts_service.say("Welcome back!\nDo you want to use the tablet?"+" "*5, _async=True)
-    
-    elif "play Classical music ! !" in lastAnswer:
-        audio_player_service.playFile(project_path+"/tablet/sounds/classical/classical"+"1"+".wav", _async=True)
-        database.patients[name]["music"][0] = (database.patients[name]["music"][0][0]+1, database.patients[name]["music"][0][1])
-
-        gesture.typeImage = getTypeImage(0)
-
-        gesture.doGesture = True
-        gesture.favourite = "classical"
-        gesture.doClassical()
-
-    elif "play Pop music ! !" in lastAnswer:
-        audio_player_service.playFile(project_path+"/tablet/sounds/pop/pop"+"3"+".wav", _async=True)
-        database.patients[name]["music"][1] = (database.patients[name]["music"][1][0]+1, database.patients[name]["music"][1][1])
-
-
-        gesture.typeImage = getTypeImage(1) 
-
-        gesture.doGesture = True
-        gesture.favourite = "pop"
-        gesture.doPop()
-
-    elif "play Rock music ! !" in lastAnswer:
-        audio_player_service.playFile(project_path+"/tablet/sounds/rock/rock"+"1"+".wav", _async=True)
-        database.patients[name]["music"][2] = (database.patients[name]["music"][2][0]+1, database.patients[name]["music"][2][1])
-
-        gesture.typeImage = getTypeImage(2)
-
-        gesture.doGesture = True
-        gesture.favourite = "rock"
-        gesture.doRock()
-
-    elif "play Jazz music ! !" in lastAnswer:
-        audio_player_service.playFile(project_path+"/tablet/sounds/jazz/jazz"+"3"+".wav", _async=True)
-        database.patients[name]["music"][3] = (database.patients[name]["music"][3][0]+1, database.patients[name]["music"][3][1])
-
-        gesture.typeImage = getTypeImage(3)
-
-        gesture.doGesture = True
-        gesture.favourite = "jazz"
-        gesture.doJazz()
-        
-            
-
-
-def handleLastInput(lastInput):
-    global audio_player_service
-    global name
-    global doGesture
-    global index
-
-    audio_player_service = session.service("ALAudioPlayer")
-    selected_index = str(random.choice([1,2,3]))
-
-    if "classical" in lastInput.lower():
-        audio_player_service.playFile(project_path +"/tablet/sounds/classical/classical"+"1"+".wav", _async=True)
-
-        gesture.typeImage = getTypeImage(0)
-        
-        if max(database.patients[name]["music"])[0] > 0:
-            gesture.favourite = max(database.patients[name]["music"])[1]
-
-        database.patients[name]["music"][0] = (database.patients[name]["music"][0][0]+1, database.patients[name]["music"][0][1])
-        print(database.patients[name]["music"][0])
-        gesture.doGesture = True
-        gesture.doClassical()
-    
-    elif "pop" in lastInput.lower():
-        audio_player_service.playFile(project_path +"/tablet/sounds/pop/pop"+"3"+".wav", _async=True)
-
-        gesture.typeImage = getTypeImage(1)
-        
-        if max(database.patients[name]["music"])[0] > 0:
-            gesture.favourite = max(database.patients[name]["music"])[1]
-
-        database.patients[name]["music"][1] = (database.patients[name]["music"][1][0]+1, database.patients[name]["music"][1][1])
-        print(database.patients[name]["music"][1])
-        gesture.doGesture = True
-        gesture.doPop()
-
-    elif "rock" in lastInput.lower():
-        audio_player_service.playFile(project_path+"/tablet/sounds/rock/rock"+"3"+".wav", _async=True)
-
-        gesture.typeImage = getTypeImage(2)
-        
-        if max(database.patients[name]["music"])[0] > 0:
-            gesture.favourite = max(database.patients[name]["music"])[1]
-
-        database.patients[name]["music"][2] = (database.patients[name]["music"][2][0]+1, database.patients[name]["music"][2][1])
-        gesture.doGesture = True
-        gesture.doRock()
-
-    elif "jazz" in lastInput.lower():
-        audio_player_service.playFile(project_path + "/tablet/sounds/jazz/jazz"+"3"+".wav", _async=True)
-
-        gesture.typeImage = getTypeImage(3)
-        
-        if max(database.patients[name]["music"])[0] > 0:
-            gesture.favourite = max(database.patients[name]["music"])[1]
-
-        database.patients[name]["music"][3] = (database.patients[name]["music"][3][0]+1, database.patients[name]["music"][3][1])
-        gesture.doGesture = True
-        gesture.doJazz()
-    
-
-    elif "stop" in lastInput.lower():
-        for i in range(1000):
-            audio_player_service.stop(i)
-        gesture.doGesture = False
-        index += 1    
-
 def launch_application(app):
     with cd(os.path.join(app, scripts)):
         os.system("python game.py --user "+name)
 
     return
 
+def connection():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--ip", type=str, default="127.0.0.1",
+                        help="Robot's IP address. If on a robot or a local Naoqi - use '127.0.0.1' (this is the default value).")
+    parser.add_argument("--port", type=int, default=9559,
+                        help="port number, the default value is OK in most cases")
+    session = pepper_cmd.robot.session
+
+
 def main(session):
-    stop_flag = False
+    connection()
+   
 
-    # Get ALDialog service
-    
-    robot_position = (0,0)
-
-    # Sonar
-    sonar = Sonar(robot_position)
-    sonar.set_sonar()
-
+    # Gestures, Vision and Sensors
+    touch = Touch()
+    gesture = Gesture(True)
+    #Chat
+    chat = Dialogue() 
     # Motion
     motion = Motion()
-    #min_distance = motion.selectMinDistance(humans_positions) -> prendo la distanza minima tra quelle nel sonar (per il momento solo humans frontali)
-    #possiamo fare anche che l'umano sta in diagonale rispetto al robot, questo richiederebbe di calcolare l'angolo alpha tra il robot e l'umano 
-    #usando l'arcotangente e far poi ruotare il robot di quell'angolo alpha
-    #motion.forward(min_distance, sonar)
+    # Sonar
+    sonar = Sonar(robot_position)
+    sonar.set_sonar()    
+    # Database
+    database = Database(filename="registered_users", timeout=10)
 
-    chat.say("Searching for humans..."+" "*10)
+    # Get ALDialog service    
+    robot_position = (0,0)
+
+
+    pepper_cmd.robot.normalPosture()
+
+    chat.say("Searching for humans...")
     
     gesture.gestureSearching()
     time.sleep(2)
 
-    chat.say("Human Found!"+" "*5)
+    chat.say("Human Found!")
     distances = sonar.get_distances()
     print("Distances: ", distances)
     min_distance, id = motion.selectMinDistance(distances) #id is the person id
@@ -257,34 +99,71 @@ def main(session):
     print("Robot position", sonar.robot_position)
     pepper_cmd.robot.normalPosture()
 
-    chat.say("Scanning human..."+" "*10)
+    chat.say("Scanning human...")
     gesture.gestureAnalyzing()
-    chat.say("Human Scanned!"+" "*10)
+    chat.say("Human Scanned!")
 
-    chat.say("Hello! I'm Pepper.\nI'm here to play with you."+" "*5)
+    chat.say("Hello! I'm Pepper.\nI'm here to play with you.")
     gesture.doHello()
     time.sleep(2)  
-    chat.say("You can talk with me or interact by clicking the tablet."+ " "*10) 
+    chat.say("You can talk with me or interact by clicking the tablet.") 
 
-    chat.say("Let us know each other"+" "*10)
+    chat.say("Let us know each other")
     database.create_db()
     name = database.detect_user()
+
+
     
+    
+
+    database.create_db()
+    database.detect_user()
+    
+    # Interaction with the game
+    while True:
+        time.sleep(0.1)
+        if os.path.exists("./data/game_pepper_interaction.json"):
+            with open("./data/game_pepper_interaction.json", 'r') as f:
+                interaction = json.load(f)
+            if interaction["win"]:
+                gesture.doWin()
+                pepper_cmd.robot.normalPosture()
+                break
+            if interaction["robot_moves"] != []:
+                if interaction["interaction"] == "neutral":
+                    gesture.getThinkingPose()
+                elif interaction["interaction"] == "good":
+                    gesture.doYes()
+                elif interaction["interaction"] == "bad":
+                    gesture.doNo()
+                pepper_cmd.robot.normalPosture()
+                for robot_move in interaction["robot_moves"]:
+                    if robot_move == "Right":
+                        gesture.movetileRight()
+                    elif robot_move == "Left":
+                        gesture.movetileLeft()
+                    elif robot_move == "Up":
+                        gesture.movetileUp()
+                    elif robot_move == "Down":
+                        gesture.movetileDown()
+                    pepper_cmd.robot.normalPosture()
+                with open("./data/game_pepper_interaction.json", 'w') as f:
+                    json.dump({
+                        "win": False,
+                        "robot_moves": [],
+                        "interaction": ""
+                    }, f)
 
     return 0
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--ip", type=str, default="127.0.0.1",
-                        help="Robot's IP address. If on a robot or a local Naoqi - use '127.0.0.1' (this is the default value).")
-    parser.add_argument("--port", type=int, default=9559,
-                        help="port number, the default value is OK in most cases")
-    # parser.add_argument("--project-path", type=str, required=True,
-    #                     help="path of the project folder, for instance: /home/sveva/playground/Pepper-Interaction/project-pepper")
-   
-    # args = parser.parse_args()
-    session = pepper_cmd.robot.session
+    main(session)
+
+end()
+
+
+
 
     # project_path = args.project_path
 
@@ -294,40 +173,14 @@ if __name__ == "__main__":
     #     print ("\nCan't connect to Naoqi at IP {} (port {}).\nPlease check your script's arguments."
     #            " Run with -h option for help.\n".format(args.ip, args.port))
     #     sys.exit(1)
-   
 
-    # Gestures, Vision and Sensors
-    touch = Touch()
-    vision = Vision()
-    gesture = Gesture(True, vision)
-    
 
-    #Chat
-    chat = Dialogue() 
-    pepper_cmd.robot.normalPosture()
-    
-    # Database
-    database = Database(filename="registered_users", timeout=10)
+    #min_distance = motion.selectMinDistance(humans_positions) -> prendo la distanza minima tra quelle nel sonar (per il momento solo humans frontali)
+    #possiamo fare anche che l'umano sta in diagonale rispetto al robot, questo richiederebbe di calcolare l'angolo alpha tra il robot e l'umano 
+    #usando l'arcotangente e far poi ruotare il robot di quell'angolo alpha
+    #motion.forward(min_distance, sonar)
 
-    #Sounds
-    audio_player = session.service("ALAudioPlayer")
-    
 
-    #audio_player.playFile("/home/simone/playground/HRI-RA/HRI/sounds/rock1.wav", _async=True)
-    database.create_db()
-    database.detect_user()
-    
-
-    '''
-    loop finché non si vince
-        legge il json con informazioni sulle mosse utente e mosse robot
-        se legge che c'è empty
-            non fa nulla
-        altrimenti
-            fa il contenuto (ottime mosse, mosse peggiori ecc...)
-            prende le mosse
-            le esegue una ad una con le gesture
-    '''
     # gesture.movetileRight()
     # pepper_cmd.robot.normalPosture()
     # time.sleep(1.0)
@@ -343,7 +196,17 @@ if __name__ == "__main__":
     # gesture.doWin()
     # gesture.doRock()
    
+    # gesture.doNo()
+    # gesture.doWin()
     #gesture.getThinkingPose()
-    #main(session)
 
-end()
+
+    # parser.add_argument("--project-path", type=str, required=True,
+    #                     help="path of the project folder, for instance: /home/sveva/playground/Pepper-Interaction/project-pepper")
+   
+    # args = parser.parse_args()
+
+
+    #Sounds
+    # audio_player = session.service("ALAudioPlayer")
+    #audio_player.playFile("/home/simone/playground/HRI-RA/HRI/sounds/rock1.wav", _async=True)

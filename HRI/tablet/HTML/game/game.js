@@ -106,7 +106,7 @@ class Slide_tile {
         this.user_moves_list = [];
     }
 
-    async update_UI() {
+    async update_UI(last_move_robot) {
         var moves_record = document.getElementById('moves-game');
         moves_record.innerHTML = "Moves: " + this.moves_counter;
         for (let i = 0; i < this.rows; i++) {
@@ -131,7 +131,7 @@ class Slide_tile {
                     if (
                         (((i == this.bx - 1 || i == this.bx + 1) && j == this.by) ||
                             ((j == this.by - 1 || j == this.by + 1) && i == this.bx)) &&
-                        !this.is_goal()
+                        !this.is_goal() && !last_move_robot
                     ) {
                         if (this.user_turn) {
                             tile.classList.add("clickable-cell");
@@ -147,10 +147,31 @@ class Slide_tile {
             }
         };
 
+        if (last_move_robot) {
+            await new Promise(r => setTimeout(r, 4300));
+            this.game_box.innerHTML = '';
+            this.update_UI(false)
+        }
+
         if (!this.user_turn && !this.is_goal() && this.n_robot_moves < ROBOT_MOVES) {
-            console.log("robot turn")
             var move = this.robot_moves[this.n_robot_moves]
-            await new Promise(r => setTimeout(r, 2000));
+            var normal_pose_time = 0;
+            var move_time = 1500;
+            var interaction_time = 0;
+            if (this.n_robot_moves == 0) {
+                if (this.interaction == "good") {
+                    interaction_time = 7050;
+                }
+                else if (this.interaction == "bad") {
+                    interaction_time = 4300;
+                }
+                else if (this.interaction == "neutral") {
+                    interaction_time = 7950;
+                }
+            } else {
+                normal_pose_time = 2900;
+            }
+            await new Promise(r => setTimeout(r, move_time + normal_pose_time + interaction_time));
             var idx_i = 0;
             var idx_j = 0;
             if (move == "Left") {
@@ -169,20 +190,41 @@ class Slide_tile {
                 idx_i = this.bx - 1
                 idx_j = this.by
             }
-            console.log(idx_i, idx_j, this.bx, this.by)
             this.n_robot_moves++;
             this.update_tiles(idx_i, idx_j)
         }
         if (this.is_goal()) {
-            // setta l'ultima vittoria
-            document.getElementById("btn_continue").style.visibility = "visible"
             this.timer.stop_timer();
+
+            if (!this.user_turn || (this.user_turn && this.n_user_moves == 0)) {
+                await new Promise(r => setTimeout(r, 3500));
+            }
+
+            document.getElementById("win-overlay").style.display = "block";
+
+            const formattedSeconds = String(this.seconds).padStart(2, '0');
+            const formattedMinutes = String(this.minutes).padStart(2, '0');
+            var victory_time = formattedMinutes + ":" + formattedSeconds;
+            var dict = {
+                "difficult": this.difficult,
+                "victory_time": victory_time,
+                "victory_moves": this.moves_counter};
+            var query = [
+                ["req", PUT_WIN]
+            ];
+            await this.api_client.put("/planner", dict, query)
+                .then(data => console.log(data))
+                .catch(error => console.error(error));
+
+            await new Promise(r => setTimeout(r, 5700));
+            
+            document.getElementById("btn_continue").style.visibility = "visible"
         }
     }
 
     async update_tiles(i, j) {
         this.moves_counter++;
-        // switch 
+        var last_move_robot = false;
 
         if (this.user_turn) {
             if (i == this.bx && j == this.by + 1) {
@@ -237,8 +279,13 @@ class Slide_tile {
                 .catch(error => console.error(error));
             this.robot_moves = get_robot_moves.robot_moves
             this.plan = get_robot_moves.new_plan
-        } 
+            this.interaction = get_robot_moves.interaction
+            this.user_moves_list = []
+            console.log("Robot turn")
+        }
         if (this.n_robot_moves == ROBOT_MOVES) {
+            console.log("User turn")
+            last_move_robot = true
             this.user_turn = true
             this.n_robot_moves = 0
             this.n_user_moves = 0
@@ -247,7 +294,7 @@ class Slide_tile {
         }
         console.log(this.toString())
         this.game_box.innerHTML = '';
-        this.update_UI();
+        this.update_UI(last_move_robot);
     }
 
     is_goal() {
@@ -288,7 +335,7 @@ class Slide_tile {
             // "game_box: " + this.game_box + "\n" +
             // "title: " + this.title + "\n" +
             "user_turn: " + this.user_turn + "\n" +
-            "plan: " + this.plan + "\n" +
+            "plan: " + this.plan + " - len: " + this.plan.length + "\n" +
             "user_moves" + this.user_moves + "\n" +
             // "time_record: " + this.time_record + "\n" +
             // "moves_record: " + this.moves_record + "\n" +
@@ -304,7 +351,6 @@ class Slide_tile {
 }
 
 async function main() {
-
     const api = new ApiClient(URL_BASE);
     var slide_tile = new Slide_tile(api)
     await slide_tile.read_game_status()
@@ -314,21 +360,6 @@ async function main() {
     slide_tile.update_UI()
 
     console.log(slide_tile.toString())
-
-    // listener {
-    //     leggi il File
-    //     se è true
-    //         aggiorna variabile
-    //         update_UI
-    // }
-    // const queryParams = [
-    //     ["req", GET_JSON],
-    //     ["json_path", "./data/game_status.json"]
-    // ]
-
-    // api.get('/planner', queryParams)
-    //     .then(data => console.log(data))
-    //     .catch(error => console.error(error));
 }
 
 main()
