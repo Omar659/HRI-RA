@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slide Puzzle Game</title>
+  <link rel="stylesheet" href="./../style.css">
+
+  <script src="qaws.js"></script>
+
+</head>
+
+<body>
+  <!-- status -->
+  <!-- <div align='right' id='status'> <font color='red'>NOT CONNECTED</font> </div>-->
+
+  <br>
+
+  <div class="text-center">
+    <h1 class="title">Slide Puzzle Game</h1>
+  </div>
+
+  <!-- image
+    <p>
+    <div align='center'> <img height=300 id='image_default' src="" alt=""/> </div>
+    </p> -->
+
+  <!-- text -->
+  <br>
+  <br>
+
+  <p>
+  <div class="text-center">
+    <h1 class="subtitle-text">
+      Select the difficulty
+    </h1>
+  </div>
+  </p>
+
+  <br>
+  <br>
+
+  <!-- buttons -->
+  <br>
+  <p>
+  <div align="center" id='button_easy'>
+
+    <input type="button" id="b_easy" value="Easy" class="button-difficulty" onclick="go_to_game('easy')">
+    
+  </div>
+
+  <br>
+  
+  <div align="center" id='button_medium'>
+    <input type="button" id="b_medium" value="Medium" class="button-difficulty" onclick="go_to_game('medium')">
+  </div>
+  
+  <br>
+  
+  <div align="center" id='button_hard'>
+    <input type="button" id="b_hard" value="Hard" class="button-difficulty" onclick="go_to_game('hard')">
+  </div>
+  </p>
+
+  <!-- ****** SCRIPTS ****** -->
+
+  <script src="./../javascript_utils/api_call.js"></script>
+  <script src="./../javascript_utils/config.js"></script>
+  
+  <script>
+
+    async function go_to_game(difficulty) {
+      var api = new ApiClient(URL_BASE)
+      // scegli difficoltà
+
+      var dict = {
+        "difficult": difficulty
+      }; // difficoltà da prendere da html
+
+
+      const query = [
+        ["req", POST_GAME_STATUS]
+      ];
+
+      await api.post('/planner', dict, query)
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+      window.location.href = './../game/game.html'
+    }
+
+  </script>
+
+</body>
+
+</html>
