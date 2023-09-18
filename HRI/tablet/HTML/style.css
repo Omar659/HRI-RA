@@ -210,9 +210,7 @@ body {
 .button-tutorial{
     display: inline-block;
     justify-content: center;
-    width: auto;
-    padding-left: 30px;
-    padding-right: 30px;
+    width: 25%;
     font-family: "Holtwood One SC", serif;
     font-variant: small-caps;
     text-align: center;
@@ -224,24 +222,31 @@ body {
     cursor: pointer;
 }
 
-
-.overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Sfondo scuro traslucido */
-    z-index: 999; /* Assicura che l'overlay sia sopra il contenuto esistente */
+.button-difficulty{
+    display: inline-block;
+    justify-content: center;
+    width: 15%;
+    font-family: "Holtwood One SC", serif;
+    font-variant: small-caps;
+    text-align: center;
+    font-size: 35px;
+    letter-spacing: 2px;
+    background-color: rgb(255, 217, 0);
+    color: rgb(255, 132, 0);
+    text-shadow: rgb(0, 0, 0) 2px 2px 2px;
+    cursor: pointer;
 }
 
-.container-win {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.subtitle-text{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: "Holtwood One SC", serif;
+    font-variant: small-caps;
     text-align: center;
-    color: #fff;
-    font-family: Arial, sans-serif;
+    font-size: 30px;
+    letter-spacing: 2px;
+    color: rgb(255, 132, 0);
+    text-shadow: rgb(0, 0, 0) 2px 2px 2px;
 }
