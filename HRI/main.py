@@ -83,32 +83,32 @@ def init_values():
 
 def approach(chat, gesture, sonar, motion, database):
     pepper_cmd.robot.normalPosture()
-    chat.say("Searching for humans...")
+    # chat.say("Searching for humans...")
     
-    gesture.gestureSearching()
-    time.sleep(2)
+    # gesture.gestureSearching()
+    # time.sleep(2)
 
-    chat.say("Human Found!")
-    distances = sonar.get_distances()
-    print("Distances: ", distances)
-    min_distance, id = motion.selectMinDistance(distances) #id is the person id
-    print("Min distance: ", min_distance)
-    motion.forward(sonar, min_distance)
-    print("Robot position", sonar.robot_position)
-    sonar.robot_position = tuple(map(operator.sub, sonar.humans_positions[id], (0.5, 0)))
-    print("Robot position", sonar.robot_position)
-    pepper_cmd.robot.normalPosture()
+    # chat.say("Human Found!")
+    # distances = sonar.get_distances()
+    # print("Distances: ", distances)
+    # min_distance, id = motion.selectMinDistance(distances) #id is the person id
+    # print("Min distance: ", min_distance)
+    # motion.forward(sonar, min_distance)
+    # print("Robot position", sonar.robot_position)
+    # sonar.robot_position = tuple(map(operator.sub, sonar.humans_positions[id], (0.5, 0)))
+    # print("Robot position", sonar.robot_position)
+    # pepper_cmd.robot.normalPosture()
 
-    chat.say("Scanning human...")
-    gesture.gestureAnalyzing()
-    chat.say("Human Scanned!")
+    # chat.say("Scanning human...")
+    # gesture.gestureAnalyzing()
+    # chat.say("Human Scanned!")
 
-    chat.say("Hello! I'm Pepper.\nI'm here to play with you.")
-    gesture.doHello()
-    time.sleep(2)  
-    chat.say("You can talk with me or interact by clicking the tablet.") 
+    # chat.say("Hello! I'm Pepper.\nI'm here to play with you.")
+    # gesture.doHello()
+    # time.sleep(2)  
+    # chat.say("You can talk with me or interact by clicking the tablet.") 
 
-    chat.say("Let us know each other")
+    # chat.say("Let us know each other")
     database.create_db()
     user_name = database.detect_user()
 
@@ -181,14 +181,14 @@ def starting_page(database, user_name, chat, gesture):
             no_thread.start()
             gesture.getThinkingPose(False)
             pepper_cmd.robot.normalPosture()
-        answer = chat.say("Do you know Slide Puzzle game?", True, ["yes", "no"])
+        answer = chat.say("Have you ever played Slide Puzzle with me?", True, ["yes", "no"])
         if answer == "yes":
             launch_application("./HRI/tablet/HTML/starting_page/select_difficulty.html")
             chat.say("These are the difficulties. You can start a game at any of these, but I suggest you to start with the easy mode.")
         else:
             launch_application("./HRI/tablet/HTML/starting_page/tutorial.html")
             chat.say("The goal of the game is to sort the tiles in ascending order.")
-            chat.say("Highlighted in green are the tiles you can move.")
+            chat.say("Click on the tiles highlighted in green to move them.")
             chat.say("At the bottom there is the elapsed time and the current number of moves and their records")
             chat.say("The purpose of the tutorial is to explain the rules to you, so you act on your own. In a normal game we will alternate between four of your moves and two of mine")
     # Se ti conosce

@@ -307,6 +307,7 @@ class Slide_tile {
             this.user_turn = true
             this.n_robot_moves = 0
             this.n_user_moves = 0
+            this.robot_moves = []
             this.plan = this.plan.slice(ROBOT_MOVES)
             // update json user_turn = False
         }

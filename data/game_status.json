@@ -1,5 +1,5 @@
 {
-    "image_name": "./../images/tiles/tiles_1b.png",
+    "image_name": "./../images/tiles/tiles_1a.png",
     "difficult": "hard",
     "tiles": [
         [
@@ -9,36 +9,48 @@
             "3"
         ],
         [
-            "4",
             "5",
-            "6",
+            "9",
+            "-",
             "7"
         ],
         [
+            "13",
+            "6",
             "8",
-            "9",
-            "10",
-            "-"
+            "10"
         ],
         [
+            "4",
             "12",
-            "13",
             "14",
             "11"
         ]
     ],
-    "bx": 2,
-    "by": 3,
+    "bx": 1,
+    "by": 2,
     "user_turn": false,
     "plan": [
+        "Right",
+        "Up",
+        "Right",
+        "Up",
+        "Left",
+        "Down",
+        "Down",
+        "Right",
+        "Up",
+        "Left",
+        "Left",
+        "Left",
         "Up"
     ],
     "user_moves": [
-        "Down",
         "Up",
         "Right",
+        "Down",
         "Left"
     ],
     "record_moves": 1,
-    "record_time": "00:00"
+    "record_time": "00:01"
 }

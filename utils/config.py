@@ -13,7 +13,7 @@ GET_HTML = "get_html"
 
 GET_USER = "get_user"
 POST_SURVEY = "post_survey"
-TIMEOUT = 10
+TIMEOUT = 25
 
 ROBOT_MOVES = 2
 USER_MOVES = 4

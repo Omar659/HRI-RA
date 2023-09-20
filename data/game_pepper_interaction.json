@@ -1,5 +1,5 @@
 {
-    "win": true,
-    "interaction": "",
+    "win": false, 
+    "interaction": "", 
     "robot_moves": []
 }
