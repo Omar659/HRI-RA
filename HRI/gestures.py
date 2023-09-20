@@ -22,6 +22,7 @@ class Gesture:
         self.typeImage = typeImage
         self.favourite = favourite
         self.chat = Dialogue()
+        # Good moves sentences
         self.yes_sentence = [
             "Wow, what brilliant moves!",
             "You couldn't have done better.",
@@ -31,6 +32,7 @@ class Gesture:
             "There is nothing to say but 'perfect'.",
             "Great moves!"
         ]
+        # Bad moves sentences
         self.no_sentence = [
             "Not an optimal choice.",
             "I think you could have considered better alternatives.",
@@ -38,12 +40,14 @@ class Gesture:
             "It was not the most strategic move you could make.",
             "This move might not be your best."
         ]
+        # Neutral moves sentences
         self.neutral_sentence = [
             "Hmm...",
             "Hmm... I see.",
             "Let me think...",
             "Okay okay..."
         ]
+        # Game won sentences
         self.win_sentence = [
             "We won!",
             "A wonderful victory! We are champions!",
@@ -53,6 +57,9 @@ class Gesture:
 
 
     def doHello(self):
+        '''
+        Hello animation
+        '''
         jointNames = ["RShoulderPitch", "RShoulderRoll", "RElbowRoll", "RWristYaw", "RHand", "HipRoll", "HeadPitch"]
         angles = [-0.141, -0.46, 0.892, -0.8, 0.98, -0.07, -0.07]
         times  = [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0]
@@ -74,113 +81,103 @@ class Gesture:
         return
     
     def movetileRight(self):
+        '''
+            Move robot arm to the right to obtain a move to the right in the game.
+        '''
         isAbsolute = True
-        # move posture
+
+        # First motion
         jointNames = ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw", "RHand"]
         jointValues = [1.57, -0.33, 1.75, 1.23, -0.1, 0.70]
-        times = [0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
-        # Angoli delle articolazioni per alzare il braccio destro in alto
+        times = [0.8, 0.8, 0.8, 0.8, 0.8, 0.8]        
         self.ALMotion.angleInterpolation(jointNames, jointValues, times, isAbsolute)
-        
-        # # robot hand grasps cars
-        # self.ALMotion.angleInterpolation("RHand", 0.52, 0.3, isAbsolute)
-        
-        # # arm that slides 
-        # jointNames = ["RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw"]
+
+        # Second motion
         jointNames = ["RElbowRoll", "RElbowYaw", "RShoulderRoll", "RWristYaw"]
         jointValues = [1.38, 1.23, -0.25, -0]
         times = [0.6, 0.6, 0.6, 0.6]
         self.ALMotion.angleInterpolation(jointNames, jointValues, times, isAbsolute)
     
     def movetileLeft(self):
+        '''
+            Move robot arm to the left to obtain a move to the left in the game.
+        '''
         isAbsolute = True
-        # move posture
+
+        # First motion
         jointNames = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll", "LWristYaw", "LHand"]
         jointValues = [1.57, 0.33, -1.75, -1.23, 0.1, 0.70]
         times = [0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
-        # Angoli delle articolazioni per alzare il braccio destro in alto
         self.ALMotion.angleInterpolation(jointNames, jointValues, times, isAbsolute)
         
-        # # robot hand grasps cars
-        # self.ALMotion.angleInterpolation("RHand", 0.52, 0.3, isAbsolute)
-        
-        # # arm that slides 
-        # jointNames = ["RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw"]
+        # Second motion
         jointNames = ["LElbowRoll", "LElbowYaw", "LShoulderRoll", "LWristYaw"]
         jointValues = [-1.38, -1.23, -0.25, -0]
         times = [0.6, 0.6, 0.6, 0.6]
         self.ALMotion.angleInterpolation(jointNames, jointValues, times, isAbsolute)
         
     def movetileUp(self):
+        '''
+            Move robot arm up to get a move up in the game.
+        '''
         isAbsolute = True
-        # move posture
+        
+        # First motion
         jointNames = ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw", "RHand"]
         jointValues = [1.57, -0.20, 1.75, 1.23, -0.1, 0.70]
         times = [0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
-        # Angoli delle articolazioni per alzare il braccio destro in alto
         self.ALMotion.angleInterpolation(jointNames, jointValues, times, isAbsolute)
         
-        # # robot hand grasps cars
-        # self.ALMotion.angleInterpolation("RHand", 0.52, 0.3, isAbsolute)
-        
-        # # arm that slides 
-        # jointNames = ["RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw"]
+        # Second motion
         jointNames = ["RShoulderPitch",  "RElbowYaw", "RWristYaw"]
         jointValues = [0.2, 1.50, 1.16]
         times = [0.6, 0.6, 0.6, 0.6]
         self.ALMotion.angleInterpolation(jointNames, jointValues, times, isAbsolute)
 
     def movetileDown(self):
+        '''
+            Move robot arm down to get a move down in the game.
+        '''
         isAbsolute = True
-        # move posture
+        
+        # First motion
         jointNames = ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw", "RHand"]
         jointValues = [1.0, -0.26, 1.75, 1.23, -0.1, 0.70]
         times = [0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
         
         self.ALMotion.angleInterpolation(jointNames, jointValues, times, isAbsolute)
         
-        # # arm that slides 
-        # jointNames = ["RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw"]
+        # Second motion
         jointNames = ["RShoulderPitch", "RElbowYaw", "RWristYaw", "RElbowRoll", "RHand"]
         jointValues = [1.50, 1.50, -1.16, 0.4, 0.70]
         times = [0.6, 0.6, 0.6, 0.6, 0.6]
         self.ALMotion.angleInterpolation(jointNames, jointValues, times, isAbsolute)
 
     def gestureSearching(self):
-        pepper_cmd.robot.headPose(0.5, -0.07, 2.0)
-        
+        pepper_cmd.robot.headPose(0.5, -0.07, 2.0)        
         pepper_cmd.robot.headPose(-0.5, -0.07, 2.0)
-
         pepper_cmd.robot.headPose(0, -0.2, 2.0)
     
-    def gestureAnalyzing(self):
-     
-        pepper_cmd.robot.headPose(0, -0.5, 2.0)
-        
+    def gestureAnalyzing(self):     
+        pepper_cmd.robot.headPose(0, -0.5, 2.0)        
         pepper_cmd.robot.headPose(0, 0.5, 2.0)
-
-        #set to normal
         pepper_cmd.robot.headPose(0.0, -0.2, 2.0)
-            # jointNames = ["HeadYaw", "HeadPitch"]
-            # angles = [-0.5, -0.07]
-            # times  = [2.0, 2.0]
-            # isAbsolute = True
-            # self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
-
-        return
-
 
     def doYes(self):
+        '''
+            The robot does yes with the head. This animation is used when the user does good moves in the game
+        '''
+        # Good sentence in parallel with the animation
         yes_thread = threading.Thread(target=self.chat.say, args=(random.choice(self.yes_sentence),))
         yes_thread.start()
-        # self.chat.say(random.choice(self.yes_sentence))
         for _ in range(2):
+            # First motion
             jointNames = ["HeadPitch"]
             angles = [-0.3]
             times  = [1.0]
             isAbsolute = True
             self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
-
+            # Second motion
             jointNames = ["HeadPitch"]
             angles = [0.1]
             times  = [1.0]
@@ -190,23 +187,20 @@ class Gesture:
         return
     
     def doNo(self):
-
-        # pepper shakes his head
-        # gradi = 22.0 --> rad = 0.38
+        '''
+            The robot does no with the head. This animation is used when the user does bad moves in the game
+        '''
+        # Bad sentence in parallel with the animation
         no_thread = threading.Thread(target=self.chat.say, args=(random.choice(self.no_sentence),))
         no_thread.start()
         self.ALMotion.angleInterpolation(["HeadYaw", "HeadPitch"], [0.30, 0.08], 0.4, True)
-        
-        # gradi = -22.0 --> rad = -0.38
         self.ALMotion.angleInterpolation("HeadYaw", -0.40, 0.5, True)
-
-        # gradi = 22.0 --> rad = 0.38
         self.ALMotion.angleInterpolation("HeadYaw", 0.40, 0.5, True)
-        # pepper_cmd.robot.normalPosture()
-        return
-
 
     def doRock(self, reps = 5):
+        '''
+            Play guitar animation
+        '''
         jointNames = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw","LElbowRoll", 
                       "LWristYaw", "LHand", "RShoulderPitch", "RShoulderRoll", 
                       "RElbowYaw","RElbowRoll", "RWristYaw", "RHand", 
@@ -226,7 +220,6 @@ class Gesture:
         self.ALMotion.angleInterpolation(jointNames, angles, times, isAbsolute)
 
         loops = 0
-
         while loops!=reps:
             
             jointNames = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw","LElbowRoll", 
@@ -268,7 +261,12 @@ class Gesture:
             loops+=1
 
     def getThinkingPose(self, game=True):
+        '''
+            The robot does a thinking pose. This animation is used when the user 
+            does neutral moves in the game if the parameter game is True
+        '''
         if game:
+            # Neutral sentence in parallel with the animation
             neutral_thread = threading.Thread(target=self.chat.say, args=(random.choice(self.neutral_sentence),))
             neutral_thread.start()
         for _ in range(5):
@@ -304,6 +302,10 @@ class Gesture:
 
          
     def doWin(self):
+        '''
+            The robot does a win animation. This animation is used when the game is won
+        '''
+        # Neutral sentence in parallel with the animation
         win_thread = threading.Thread(target=self.chat.say, args=(random.choice(self.win_sentence),))
         win_thread.start()
         HeadYaw = radians(0)
@@ -332,8 +334,7 @@ class Gesture:
         jointNames = ["HeadYaw", "HeadPitch",
                     "LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll", "LWristYaw",
                     "RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw",
-                    "LHand", "RHand", "HipRoll", "HipPitch", "KneePitch"]
-            
+                    "LHand", "RHand", "HipRoll", "HipPitch", "KneePitch"]            
         self.ALMotion.angleInterpolation(jointNames, jointValues, 1.0, True)
 
         LShoulderPitch = radians(80)
@@ -355,8 +356,7 @@ class Gesture:
         jointValues = [HeadYaw, HeadPitch,
                 LShoulderPitch, LShoulderRoll, LElbowYaw, LElbowRoll, LWristYaw,
                 RShoulderPitch, RShoulderRoll, RElbowYaw, RElbowRoll, RWristYaw,
-                LHand, RHand, HipRoll, HipPitch, KneePitch]
-        
+                LHand, RHand, HipRoll, HipPitch, KneePitch]        
         self.ALMotion.angleInterpolation(jointNames, jointValues, 0.4, True)
         
         LShoulderPitch = radians(36)
@@ -374,8 +374,4 @@ class Gesture:
                 LShoulderPitch, LShoulderRoll, LElbowYaw, LElbowRoll, LWristYaw,
                 RShoulderPitch, RShoulderRoll, RElbowYaw, RElbowRoll, RWristYaw,
                 LHand, RHand, HipRoll, HipPitch, KneePitch]
-
         self.ALMotion.angleInterpolation(jointNames, jointValues, 0.4, True)
-
-        return
-    

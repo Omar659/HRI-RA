@@ -24,32 +24,29 @@ class Server_user(Resource):
 
     def post(self):
         self.name = request.args.get("name")
-        json_path = request.args.get("json_path")
         self.survey = request.json
         if self.req == POST_SURVEY:
             with open("./data/registered_users.json", 'r') as f:
                 data = json.load(f)
-            data[self.name]["Survey"] = self.survey
+            for key, value in self.survey.items():
+                data[self.name]["Survey"][key] = value
             with open("./data/registered_users.json", 'w') as f:
                 json.dump(data, f, indent=4)
             return {"message": "User preferences modified", "error": False}
         return {"message": "POST request failed", "error": True}
 
-    def get(self):
-        
+    def get(self):        
         if self.req == GET_ANS:
             print("Pepper says: ", self.sentence)
             try:
                 nome = inputimeout("Human answer: ", timeout=TIMEOUT)
             except Exception:
                 return {"message": str(Exception), "error": True}
-            return {"message": "Answer returned", "error": False, "response": nome}
-    
+            return {"message": "Answer returned", "error": False, "response": nome}    
         if self.req == GET_USER:
             with open("./data/actual_user.json", 'r') as f:
                 data = json.load(f)
-            return {"message": "User returned", "error": False, "response": data}
-        
+            return {"message": "User returned", "error": False, "response": data}        
         return {"message": "GET request failed", "error": True}
 
     def put(self):

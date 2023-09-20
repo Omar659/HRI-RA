@@ -9,13 +9,16 @@ from server_planner import Server_planner
 from server_chat import Server_chat
 from server_user import Server_user
 
+# Remove log print
 import logging
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
+# Use lacal host server
 app = Flask(__name__)
 CORS(app)
 
+# Different type of servers
 api = Api(app)
 api.add_resource(Server_planner, "/planner")
 api.add_resource(Server_chat, "/chat")

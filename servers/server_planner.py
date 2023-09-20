@@ -31,7 +31,6 @@ class Server_planner(Resource):
             image_name = random.choice(image_names)
             if difficult.lower() not in ["easy", "medium", "hard"]:
                 {"message": "Difficult not present", "error": True}
-
             with open("./data/actual_user.json", 'r') as f:
                 user = json.load(f)["user"]
             with open("./data/registered_users.json", 'r') as f:
@@ -68,7 +67,6 @@ class Server_planner(Resource):
             with open(self.json_path, 'r') as f:
                 data = json.load(f)
             return {"message": "JSON file returned", "error": False, "response": data}
-
         if self.req == GET_ROBOT_MOVES:
             with open("./data/game_status.json", 'r') as f:
                 data = json.load(f)

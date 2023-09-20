@@ -1,67 +1,32 @@
 from __future__ import division
 
-import argparse
 from re import T
 from gestures import Gesture
 from pepper_commands import *
 import os
-import qi
-import os
-import subprocess
-import sys
-
 import threading
 
+import sys
 sys.path.append("./utils")
 sys.path.append("./../utils")
-
 sys.path.append("./")
 sys.path.append("./../")
 
 from api_call import *
 from config import *
-
-import random
+from chat import *
 import operator
-from cd import *
-from chat import *  #from utils
-import webbrowser
 
-#from database import Database
-from numpy.random import choice
-tablet = "./tablet/"
-scripts = "scripts/"
-
-
-# global session
-# global index
-# global database
-# index = 1
-
-# global ALDialog
-# global topic_name
-# global topic_path
-# global doGesture
-# global name
-
-
-# doGesture = True
-# name = ""
-
+# Start Pepper
 begin()
 
 def launch_application(page):
+    '''
+        Open browser with a specific page
+    '''
     api = API_call(URL, "chat")
     api.call("get", TIMEOUT, ("req", GET_HTML), ("page", page))
     return
-
-# def connection():
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument("--ip", type=str, default="127.0.0.1",
-#                         help="Robot's IP address. If on a robot or a local Naoqi - use '127.0.0.1' (this is the default value).")
-#     parser.add_argument("--port", type=int, default=9559,
-#                         help="port number, the default value is OK in most cases")
-#     # session = pepper_cmd.robot.session
 
 def init_values():
     # Starting position
@@ -82,36 +47,37 @@ def init_values():
     return robot_position, gesture, chat, motion, sonar, database
 
 def approach(chat, gesture, sonar, motion, database):
+    # Search
     pepper_cmd.robot.normalPosture()
-    # chat.say("Searching for humans...")
-    
-    # gesture.gestureSearching()
-    # time.sleep(2)
+    chat.say("Searching for humans...")    
+    gesture.gestureSearching()
+    time.sleep(2)
 
-    # chat.say("Human Found!")
-    # distances = sonar.get_distances()
-    # print("Distances: ", distances)
-    # min_distance, id = motion.selectMinDistance(distances) #id is the person id
-    # print("Min distance: ", min_distance)
-    # motion.forward(sonar, min_distance)
-    # print("Robot position", sonar.robot_position)
-    # sonar.robot_position = tuple(map(operator.sub, sonar.humans_positions[id], (0.5, 0)))
-    # print("Robot position", sonar.robot_position)
-    # pepper_cmd.robot.normalPosture()
+    # Move towards human
+    chat.say("Human Found!")
+    distances = sonar.get_distances()
+    print("Distances: ", distances)
+    min_distance, id = motion.selectMinDistance(distances) #id is the person id
+    print("Min distance: ", min_distance)
+    motion.forward(sonar, min_distance)
+    print("Robot position", sonar.robot_position)
+    sonar.robot_position = tuple(map(operator.sub, sonar.humans_positions[id], (0.5, 0)))
+    print("Robot position", sonar.robot_position)
+    pepper_cmd.robot.normalPosture()
 
-    # chat.say("Scanning human...")
-    # gesture.gestureAnalyzing()
-    # chat.say("Human Scanned!")
+    # Scan human
+    chat.say("Scanning human...")
+    gesture.gestureAnalyzing()
+    chat.say("Human Scanned!")
+    chat.say("Hello! I'm Pepper.\nI'm here to play with you.")
+    gesture.doHello()
+    time.sleep(2)  
+    chat.say("You can talk with me or interact by clicking the tablet.") 
 
-    # chat.say("Hello! I'm Pepper.\nI'm here to play with you.")
-    # gesture.doHello()
-    # time.sleep(2)  
-    # chat.say("You can talk with me or interact by clicking the tablet.") 
-
-    # chat.say("Let us know each other")
+    # Register user
+    chat.say("Let us know each other")
     database.create_db()
     user_name = database.detect_user()
-
     answer = chat.say("Do you want to play with me?", True, ["yes", "no"])
     if answer == "yes":
         return user_name
@@ -119,7 +85,9 @@ def approach(chat, gesture, sonar, motion, database):
         return None
 
 def game(gesture):
-    # Interaction with the game
+    '''
+        Interaction with the game
+    '''
     with open("./data/end_game.json", 'w') as f:
         json.dump({"state": ""}, f, indent=4)
     while True:
@@ -158,6 +126,9 @@ def game(gesture):
 
 
 def bye(user_name, chat, gesture):
+    '''
+        If the user won't play.
+    '''
     if user_name is None:
         bye_thread = threading.Thread(target=chat.say, args=("Ok, sorry to have bothered you.",))
         bye_thread.start()
@@ -167,8 +138,10 @@ def bye(user_name, chat, gesture):
     return False
 
 def starting_page(database, user_name, chat, gesture):
-    # The rotbot through some questions, select the difficulty
-    # Se non ti conosce
+    '''
+        The rotbot through some questions, select the difficulty
+    '''
+    # New user
     if database.is_new:
         answer = chat.say("Do you like puzzle games?", True, ["yes", "no"])
         if answer == "yes":
@@ -191,7 +164,7 @@ def starting_page(database, user_name, chat, gesture):
             chat.say("Click on the tiles highlighted in green to move them.")
             chat.say("At the bottom there is the elapsed time and the current number of moves and their records")
             chat.say("The purpose of the tutorial is to explain the rules to you, so you act on your own. In a normal game we will alternate between four of your moves and two of mine")
-    # Se ti conosce
+    # User in database
     else:
         launch_application("./HRI/tablet/HTML/starting_page/select_difficulty.html")
         with open("./data/registered_users.json", 'r') as f:
@@ -208,7 +181,7 @@ def starting_page(database, user_name, chat, gesture):
 
 def main():
     # Initialize values
-    robot_position, gesture, chat, motion, sonar, database = init_values()
+    _, gesture, chat, motion, sonar, database = init_values()
    
     # The robot start moving searching for a human and ask him what is his/her name
     user_name = approach(chat, gesture, sonar, motion, database)
@@ -259,68 +232,7 @@ def main():
             gesture.doHello()
             pepper_cmd.robot.normalPosture()
             return 0
-            
-
-
-    # TASTO CONTINUA DA RISOLVERE
-
-    # Vuoi fare un altra partita?
-        # si -> pagina difficolta
-        # no -> pagina questionario (Puoi aiutarmi a capire cosa pensi di me e del gioco compilando questo breve questionario sulla tua esperienza)
- 
-    # ciao   
-
-
-
+        
 if __name__ == "__main__":
     main()
 end()
-
-
-
-
-    # project_path = args.project_path
-
-    # try:
-    #     session.connect("tcp://{}:{}".format(args.ip, args.port))
-    # except RuntimeError:
-    #     print ("\nCan't connect to Naoqi at IP {} (port {}).\nPlease check your script's arguments."
-    #            " Run with -h option for help.\n".format(args.ip, args.port))
-    #     sys.exit(1)
-
-
-    #min_distance = motion.selectMinDistance(humans_positions) -> prendo la distanza minima tra quelle nel sonar (per il momento solo humans frontali)
-    #possiamo fare anche che l'umano sta in diagonale rispetto al robot, questo richiederebbe di calcolare l'angolo alpha tra il robot e l'umano 
-    #usando l'arcotangente e far poi ruotare il robot di quell'angolo alpha
-    #motion.forward(min_distance, sonar)
-
-
-    # gesture.movetileRight()
-    # pepper_cmd.robot.normalPosture()
-    # time.sleep(1.0)
-    # gesture.movetileLeft()
-    # pepper_cmd.robot.normalPosture()
-    # time.sleep(1.0)
-    # gesture.movetileUp()
-    # pepper_cmd.robot.normalPosture()
-    # time.sleep(1.0)
-    # gesture.movetileDown()
-    # launch_application(tablet)
-    # gesture.doNo()
-    # gesture.doWin()
-    # gesture.doRock()
-   
-    # gesture.doNo()
-    # gesture.doWin()
-    #gesture.getThinkingPose()
-
-
-    # parser.add_argument("--project-path", type=str, required=True,
-    #                     help="path of the project folder, for instance: /home/sveva/playground/Pepper-Interaction/project-pepper")
-   
-    # args = parser.parse_args()
-
-
-    #Sounds
-    # audio_player = session.service("ALAudioPlayer")
-    #audio_player.playFile("/home/simone/playground/HRI-RA/HRI/sounds/rock1.wav", _async=True)

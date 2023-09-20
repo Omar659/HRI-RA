@@ -1,56 +1,50 @@
 {
-    "image_name": "./../images/tiles/tiles_1a.png",
+    "image_name": "./../images/tiles/tiles_7.png",
     "difficult": "hard",
     "tiles": [
         [
             "0",
             "1",
             "2",
-            "3"
-        ],
-        [
-            "5",
-            "9",
-            "-",
-            "7"
-        ],
-        [
-            "13",
-            "6",
-            "8",
-            "10"
+            "-"
         ],
         [
             "4",
+            "5",
+            "6",
+            "3"
+        ],
+        [
             "12",
+            "8",
+            "10",
+            "7"
+        ],
+        [
+            "9",
+            "13",
             "14",
             "11"
         ]
     ],
-    "bx": 1,
-    "by": 2,
+    "bx": 0,
+    "by": 3,
     "user_turn": false,
     "plan": [
         "Right",
-        "Up",
-        "Right",
-        "Up",
-        "Left",
-        "Down",
-        "Down",
-        "Right",
-        "Up",
-        "Left",
-        "Left",
-        "Left",
-        "Up"
-    ],
-    "user_moves": [
-        "Up",
         "Right",
         "Down",
+        "Left",
+        "Up",
+        "Left",
         "Left"
     ],
-    "record_moves": 1,
-    "record_time": "00:01"
+    "user_moves": [
+        "Left",
+        "Down",
+        "Down",
+        "Down"
+    ],
+    "record_moves": 0,
+    "record_time": "00:00"
 }

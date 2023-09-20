@@ -118,8 +118,6 @@ class Slide_tile_PDDL():
             self.slide_tile = Slide_tile(3, 4, 80)
         if self.difficult.lower() == "hard":
             self.slide_tile = Slide_tile(4, 4, 80)
-        # if self.difficult.lower() == "master":
-        #     self.slide_tile = Slide_tile(5, 5, 90)
         if self.verbose:
             print("GAME")
             print(self.slide_tile)
@@ -367,80 +365,3 @@ class Slide_tile_PDDL():
                     print()
             else:
                 print("Verbose setted to False")
-
-class Play():
-    def __init__(self, difficult, user_moves=3, robot_moves=3, optimal_plan=True, verbose=False):
-        self.user_moves = user_moves
-        self.robot_moves = robot_moves
-        self.slide_tile_pddl = Slide_tile_PDDL(difficult=difficult, optimal_plan=optimal_plan, verbose=verbose)
-        self.actions = self.slide_tile_pddl.plan.actions
-
-    def robot_move(self):
-        print("ROBOT")
-        print(self.slide_tile_pddl.slide_tile)
-        actions = self.actions if len(self.actions) <= self.robot_moves else self.actions[:self.robot_moves]
-        for action in actions:
-            move = str(action).split("(")[0].split(" ")[1]
-            if move == "Up":
-                self.slide_tile_pddl.slide_tile.move_up()
-            elif move == "Down":
-                self.slide_tile_pddl.slide_tile.move_down()
-            elif move == "Right":
-                self.slide_tile_pddl.slide_tile.move_right()
-            else:
-                self.slide_tile_pddl.slide_tile.move_left()
-            print(move)
-            print(self.slide_tile_pddl.slide_tile)
-        print("prima", len(self.actions), self.actions)
-        self.actions = self.actions[self.robot_moves:] if len(self.actions) > self.robot_moves else []
-        print("dopo", len(self.actions), self.actions)
-        print()
-        return self.actions == []
-
-    def user_move(self, moves_list):
-        print("USER")
-        for move in moves_list:
-            if move == "Up":
-                self.slide_tile_pddl.slide_tile.move_up()
-            elif move == "Down":
-                self.slide_tile_pddl.slide_tile.move_down()
-            elif move == "Right":
-                self.slide_tile_pddl.slide_tile.move_right()
-            else:
-                self.slide_tile_pddl.slide_tile.move_left()
-            print(move)
-            print(self.slide_tile_pddl.slide_tile)
-        print("prima", len(self.actions), self.actions)
-        actions = self.actions if len(self.actions) <= self.user_moves else self.actions[:self.user_moves]
-        actions = [str(action).split("(")[0].split(" ")[1] for action in actions]
-        if actions == moves_list:
-            print("Ottima mosse!")
-            self.actions = copy.deepcopy(self.actions[self.user_moves:] if len(self.actions) > self.user_moves else [])
-            len_old_plan = len(self.actions)
-            new_actions = self.__replan()
-            len_new_plan = len(new_actions)
-            if len_new_plan < len_old_plan:
-                self.actions = new_actions
-                print("Grazie alle tue mosse mi sono venute in mente nuove idee!")
-            else:
-                print("Grazie alle tue mosse mi sono venute in mente nuove idee brutte! Continuo il piano precedente!")
-        else:
-            len_old_plan = len(self.actions)
-            self.actions = self.__replan()
-            len_new_plan = len(self.actions)
-            if len_new_plan < len_old_plan:
-                if len_old_plan - len_new_plan > self.robot_moves:
-                    print("Hai fatto delle mosse migliori di quelle che pensavo io stesso!")
-                else:
-                    print("Mosse buone ma non le migliori")
-            else:
-                print("Pessime mosse")
-        print("dopo", len(self.actions), self.actions)
-        print()
-        return self.actions == []
-
-    def __replan(self):
-        self.slide_tile_pddl.create_problem()
-        self.slide_tile_pddl.solve_problem()
-        return self.slide_tile_pddl.plan.actions
-

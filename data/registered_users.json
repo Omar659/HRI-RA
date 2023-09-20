@@ -2,462 +2,462 @@
     "raffaele": {
         "Games": {
             "medium": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
+                "record_moves": "-",
+                "num_games_won": 0,
                 "record_time": "--:--"
-            }, 
+            },
             "hard": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
+                "record_moves": "-",
+                "num_games_won": 0,
                 "record_time": "--:--"
-            }, 
+            },
             "easy": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
+                "record_moves": "-",
+                "num_games_won": 0,
                 "record_time": "--:--"
-            }, 
+            },
             "last_difficulty": "easy"
         }
-    }, 
+    },
     "qq": {
         "Games": {
             "medium": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
+                "record_moves": "-",
+                "num_games_won": 0,
                 "record_time": "--:--"
-            }, 
+            },
             "hard": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
+                "record_moves": "-",
+                "num_games_won": 0,
                 "record_time": "--:--"
-            }, 
+            },
             "easy": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
+                "record_moves": "-",
+                "num_games_won": 0,
                 "record_time": "--:--"
-            }, 
+            },
             "last_difficulty": "easy"
         }
-    }, 
+    },
     "Cristiano": {
-        "Games": {
-            "medium": {
-                "record_moves": 1, 
-                "num_games_won": 4, 
-                "record_time": "00:02"
-            }, 
-            "hard": {
-                "record_moves": 1, 
-                "num_games_won": 12, 
-                "record_time": "00:00"
-            }, 
-            "easy": {
-                "record_moves": 5, 
-                "num_games_won": 1, 
-                "record_time": "00:19"
-            }, 
-            "last_difficulty": "hard"
-        }, 
         "Survey": {
-            "interaction_rating": "5", 
-            "game_rating": "4", 
-            "rob_com": "5", 
-            "difficulty": "hard", 
-            "rob_strat": "5", 
-            "exp": "5", 
-            "partner": "5", 
-            "pepper_rating": "4", 
-            "recommend_rating": "5", 
+            "interaction_rating": "5",
+            "game_rating": "4",
+            "rob_com": "5",
+            "difficulty": "hard",
+            "rob_strat": "5",
+            "exp": "5",
+            "pepper_rating": "4",
+            "partner": "5",
+            "recommend_rating": "5",
             "tutorial": "5"
+        },
+        "Games": {
+            "medium": {
+                "num_games_won": 4,
+                "record_moves": 1,
+                "record_time": "00:02"
+            },
+            "hard": {
+                "num_games_won": 12,
+                "record_moves": 1,
+                "record_time": "00:00"
+            },
+            "easy": {
+                "num_games_won": 1,
+                "record_moves": 5,
+                "record_time": "00:19"
+            },
+            "last_difficulty": "hard"
         }
-    }, 
+    },
     "crock": {
-        "Survey": {
-            "interaction_rating": "4", 
-            "game_rating": "5", 
-            "rob_com": "4", 
-            "difficulty": "medium", 
-            "rob_strat": "4", 
-            "exp": "3", 
-            "partner": "5", 
-            "pepper_rating": "5", 
-            "recommend_rating": "5", 
-            "tutorial": "4"
-        }, 
         "Games": {
             "medium": {
-                "record_moves": 1, 
-                "num_games_won": 2, 
+                "num_games_won": 2,
+                "record_moves": 1,
                 "record_time": "00:01"
-            }, 
+            },
             "hard": {
-                "record_moves": 1, 
-                "num_games_won": 2, 
-                "record_time": "00:01"
-            }, 
+                "num_games_won": 5,
+                "record_moves": 0,
+                "record_time": "00:00"
+            },
             "easy": {
-                "record_moves": 1, 
-                "num_games_won": 3, 
+                "num_games_won": 3,
+                "record_moves": 1,
                 "record_time": "00:01"
-            }, 
-            "last_difficulty": "medium"
+            },
+            "last_difficulty": "hard"
+        },
+        "Survey": {
+            "exp": "5",
+            "tutorial": "5",
+            "difficulty": "medium",
+            "interaction_rating": "2",
+            "rob_com": "2",
+            "partner": "2",
+            "rob_strat": "1",
+            "game_rating": "1",
+            "recommend_rating": "2",
+            "pepper_rating": "2"
         }
-    }, 
+    },
     "": {
+        "Survey": {
+            "interaction_rating": "1",
+            "game_rating": "5",
+            "rob_com": "1",
+            "difficulty": "easy",
+            "rob_strat": "1",
+            "exp": "3",
+            "pepper_rating": "3",
+            "partner": "1",
+            "recommend_rating": "4",
+            "tutorial": "1"
+        },
         "Games": {
             "medium": {
-                "record_moves": 1, 
-                "num_games_won": 2, 
+                "num_games_won": 2,
+                "record_moves": 1,
                 "record_time": "00:03"
-            }, 
+            },
             "hard": {
-                "record_moves": 9, 
-                "num_games_won": 1, 
+                "num_games_won": 1,
+                "record_moves": 9,
                 "record_time": "00:32"
-            }, 
+            },
             "easy": {
-                "record_moves": 5, 
-                "num_games_won": 3, 
+                "num_games_won": 3,
+                "record_moves": 5,
                 "record_time": "00:12"
-            }, 
+            },
             "last_difficulty": "medium"
-        }, 
-        "Survey": {
-            "interaction_rating": "1", 
-            "game_rating": "5", 
-            "rob_com": "1", 
-            "difficulty": "easy", 
-            "rob_strat": "1", 
-            "exp": "3", 
-            "partner": "1", 
-            "pepper_rating": "3", 
-            "recommend_rating": "4", 
-            "tutorial": "1"
         }
-    }, 
+    },
     "pollo arrosto": {
         "Games": {
             "medium": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
+                "record_moves": "-",
+                "num_games_won": 0,
                 "record_time": "--:--"
-            }, 
+            },
             "hard": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
+                "record_moves": "-",
+                "num_games_won": 0,
                 "record_time": "--:--"
-            }, 
+            },
             "easy": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
+                "record_moves": "-",
+                "num_games_won": 0,
                 "record_time": "--:--"
-            }, 
+            },
             "last_difficulty": "easy"
         }
-    }, 
-    "peppina": {
-        "Games": {
-            "medium": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "hard": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "easy": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "last_difficulty": "easy"
-        }
-    }, 
+    },
     "CCristiano": {
-        "Survey": {
-            "interaction_rating": "4", 
-            "game_rating": "3", 
-            "rob_com": "4", 
-            "difficulty": "hard", 
-            "rob_strat": "3", 
-            "exp": "4", 
-            "pepper_rating": "5", 
-            "partner": "4", 
-            "recommend_rating": "3", 
-            "tutorial": "4"
-        }, 
         "Games": {
             "medium": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
+                "record_moves": "-",
+                "num_games_won": 0,
                 "record_time": "--:--"
-            }, 
+            },
             "hard": {
-                "num_games_won": 2, 
-                "record_moves": 5, 
+                "record_moves": 5,
+                "num_games_won": 2,
                 "record_time": "00:09"
-            }, 
+            },
             "easy": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
+                "record_moves": "-",
+                "num_games_won": 0,
                 "record_time": "--:--"
-            }, 
+            },
             "last_difficulty": "hard"
-        }
-    }, 
-    "Simone": {
-        "Games": {
-            "medium": {
-                "record_moves": 1, 
-                "num_games_won": 2, 
-                "record_time": "00:06"
-            }, 
-            "hard": {
-                "record_moves": 1, 
-                "num_games_won": 1, 
-                "record_time": "00:08"
-            }, 
-            "easy": {
-                "record_moves": 1, 
-                "num_games_won": 5, 
-                "record_time": "00:01"
-            }, 
-            "last_difficulty": "medium"
-        }, 
+        },
         "Survey": {
-            "interaction_rating": "5", 
-            "game_rating": "4", 
-            "rob_com": "4", 
-            "difficulty": "hard", 
-            "rob_strat": "4", 
-            "exp": "5", 
-            "partner": "4", 
-            "pepper_rating": "4", 
-            "recommend_rating": "4", 
-            "tutorial": "5"
+            "interaction_rating": "4",
+            "game_rating": "3",
+            "rob_com": "4",
+            "difficulty": "hard",
+            "rob_strat": "3",
+            "exp": "4",
+            "partner": "4",
+            "pepper_rating": "5",
+            "recommend_rating": "3",
+            "tutorial": "4"
         }
-    }, 
-    "ggg": {
-        "Games": {
-            "medium": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "hard": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "easy": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "last_difficulty": "easy"
-        }
-    }, 
-    "tttt": {
-        "Games": {
-            "medium": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
-                "record_time": "--:--"
-            }, 
-            "hard": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
-                "record_time": "--:--"
-            }, 
-            "easy": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
-                "record_time": "--:--"
-            }, 
-            "last_difficulty": "easy"
-        }
-    }, 
-    "Omar": {
-        "Games": {
-            "medium": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
-                "record_time": "--:--"
-            }, 
-            "hard": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
-                "record_time": "--:--"
-            }, 
-            "easy": {
-                "num_games_won": 4, 
-                "record_moves": 1, 
-                "record_time": "00:02"
-            }, 
-            "last_difficulty": "easy"
-        }
-    }, 
-    "peppe": {
-        "Games": {
-            "medium": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "hard": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "easy": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "last_difficulty": "easy"
-        }
-    }, 
-    "peppino": {
-        "Games": {
-            "medium": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "hard": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "easy": {
-                "record_moves": 1, 
-                "num_games_won": 2, 
-                "record_time": "00:01"
-            }, 
-            "last_difficulty": "easy"
-        }, 
-        "Survey": {}
-    }, 
-    "cacca rosa": {
-        "Games": {
-            "medium": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "hard": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "easy": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "last_difficulty": "easy"
-        }
-    }, 
-    "audio": {
-        "Games": {
-            "medium": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "hard": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "easy": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "last_difficulty": "easy"
-        }
-    }, 
-    "\u001b[A": {
-        "Survey": {}, 
-        "Games": {
-            "medium": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
-                "record_time": "--:--"
-            }, 
-            "hard": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
-                "record_time": "--:--"
-            }, 
-            "easy": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
-                "record_time": "--:--"
-            }, 
-            "last_difficulty": "easy"
-        }
-    }, 
-    "pipo": {
-        "Games": {
-            "medium": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "hard": {
-                "record_moves": 1, 
-                "num_games_won": 1, 
-                "record_time": "00:31"
-            }, 
-            "easy": {
-                "record_moves": "-", 
-                "num_games_won": 0, 
-                "record_time": "--:--"
-            }, 
-            "last_difficulty": "hard"
-        }
-    }, 
-    "affa": {
-        "Games": {
-            "medium": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
-                "record_time": "--:--"
-            }, 
-            "hard": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
-                "record_time": "--:--"
-            }, 
-            "easy": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
-                "record_time": "--:--"
-            }, 
-            "last_difficulty": "easy"
-        }
-    }, 
+    },
     "franchino": {
         "Games": {
             "medium": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
+                "record_moves": "-",
+                "num_games_won": 0,
                 "record_time": "--:--"
-            }, 
+            },
             "hard": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
+                "record_moves": "-",
+                "num_games_won": 0,
                 "record_time": "--:--"
-            }, 
+            },
             "easy": {
-                "num_games_won": 0, 
-                "record_moves": "-", 
+                "record_moves": "-",
+                "num_games_won": 0,
                 "record_time": "--:--"
-            }, 
+            },
+            "last_difficulty": "easy"
+        }
+    },
+    "Simone": {
+        "Survey": {
+            "interaction_rating": "5",
+            "game_rating": "4",
+            "rob_com": "4",
+            "difficulty": "hard",
+            "rob_strat": "4",
+            "exp": "5",
+            "pepper_rating": "4",
+            "partner": "4",
+            "recommend_rating": "4",
+            "tutorial": "5"
+        },
+        "Games": {
+            "medium": {
+                "num_games_won": 2,
+                "record_moves": 1,
+                "record_time": "00:06"
+            },
+            "hard": {
+                "num_games_won": 1,
+                "record_moves": 1,
+                "record_time": "00:08"
+            },
+            "easy": {
+                "num_games_won": 5,
+                "record_moves": 1,
+                "record_time": "00:01"
+            },
+            "last_difficulty": "medium"
+        }
+    },
+    "ggg": {
+        "Games": {
+            "medium": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "hard": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "easy": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "last_difficulty": "easy"
+        }
+    },
+    "tttt": {
+        "Games": {
+            "medium": {
+                "record_moves": "-",
+                "num_games_won": 0,
+                "record_time": "--:--"
+            },
+            "hard": {
+                "record_moves": "-",
+                "num_games_won": 0,
+                "record_time": "--:--"
+            },
+            "easy": {
+                "record_moves": "-",
+                "num_games_won": 0,
+                "record_time": "--:--"
+            },
+            "last_difficulty": "easy"
+        }
+    },
+    "Omar": {
+        "Games": {
+            "medium": {
+                "record_moves": "-",
+                "num_games_won": 0,
+                "record_time": "--:--"
+            },
+            "hard": {
+                "record_moves": "-",
+                "num_games_won": 0,
+                "record_time": "--:--"
+            },
+            "easy": {
+                "record_moves": 1,
+                "num_games_won": 4,
+                "record_time": "00:02"
+            },
+            "last_difficulty": "easy"
+        }
+    },
+    "peppe": {
+        "Games": {
+            "medium": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "hard": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "easy": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "last_difficulty": "easy"
+        }
+    },
+    "peppino": {
+        "Survey": {},
+        "Games": {
+            "medium": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "hard": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "easy": {
+                "num_games_won": 2,
+                "record_moves": 1,
+                "record_time": "00:01"
+            },
+            "last_difficulty": "easy"
+        }
+    },
+    "peppina": {
+        "Games": {
+            "medium": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "hard": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "easy": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "last_difficulty": "easy"
+        }
+    },
+    "audio": {
+        "Games": {
+            "medium": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "hard": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "easy": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "last_difficulty": "easy"
+        }
+    },
+    "\u001b[A": {
+        "Games": {
+            "medium": {
+                "record_moves": "-",
+                "num_games_won": 0,
+                "record_time": "--:--"
+            },
+            "hard": {
+                "record_moves": "-",
+                "num_games_won": 0,
+                "record_time": "--:--"
+            },
+            "easy": {
+                "record_moves": "-",
+                "num_games_won": 0,
+                "record_time": "--:--"
+            },
+            "last_difficulty": "easy"
+        },
+        "Survey": {}
+    },
+    "cacca rosa": {
+        "Games": {
+            "medium": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "hard": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "easy": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "last_difficulty": "easy"
+        }
+    },
+    "pipo": {
+        "Games": {
+            "medium": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "hard": {
+                "num_games_won": 1,
+                "record_moves": 1,
+                "record_time": "00:31"
+            },
+            "easy": {
+                "num_games_won": 0,
+                "record_moves": "-",
+                "record_time": "--:--"
+            },
+            "last_difficulty": "hard"
+        }
+    },
+    "affa": {
+        "Games": {
+            "medium": {
+                "record_moves": "-",
+                "num_games_won": 0,
+                "record_time": "--:--"
+            },
+            "hard": {
+                "record_moves": "-",
+                "num_games_won": 0,
+                "record_time": "--:--"
+            },
+            "easy": {
+                "record_moves": "-",
+                "num_games_won": 0,
+                "record_time": "--:--"
+            },
             "last_difficulty": "easy"
         }
     }

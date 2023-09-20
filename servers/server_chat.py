@@ -27,9 +27,6 @@ class Server_chat(Resource):
         return {"message": "POST request failed", "error": True}
 
     def get(self):
-        if self.req == GET_JSON:
-            nome = input("scrivi qualcosa per prova: ")
-            return {"message": "JSON file returned", "error": False, "response": nome}
         if self.req == GET_ANS:
             print("Pepper says: ", self.sentence)
             try:
@@ -49,8 +46,7 @@ class Server_chat(Resource):
             return {"message": "Answer returned", "error": False, "response": answer}
         if self.req == GET_HTML:
             subprocess.check_output("firefox " + self.page, shell=True, universal_newlines=True)
-            return {"message": "Pepper message returned", "error": False}
-        
+            return {"message": "Pepper message returned", "error": False}        
         return {"message": "GET request failed", "error": True}
 
     def put(self):
